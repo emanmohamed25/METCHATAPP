@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".login_screen">
+    tools:context=".Login_Screen">
 
 
     <ImageView
@@ -62,7 +62,7 @@
             android:elevation="10dp"
             android:ems="10"
             android:hint="Enter your id"
-            android:inputType="number"
+
             android:paddingLeft="10dp"
             android:textColorHint="#EEEEEE" />
 
@@ -82,7 +82,7 @@
             android:elevation="10dp"
             android:ems="10"
             android:hint="Enter your password"
-            android:inputType="numberPassword"
+
             android:paddingLeft="10dp"
             android:textColorHint="#EEEEEE" />
 

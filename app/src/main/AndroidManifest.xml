@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
+
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CHATAPP"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".splash"
@@ -26,14 +28,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home_chat_screen"
+            android:name=".HomeChatScreen"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".login_screen"
+            android:name=".Login_Screen"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -48,7 +50,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".homepage"
+            android:name=".HomepageActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
