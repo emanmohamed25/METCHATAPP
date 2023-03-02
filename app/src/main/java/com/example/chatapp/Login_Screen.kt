@@ -19,8 +19,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Login_Screen : AppCompatActivity() {
     private lateinit var apiService: ApiService
     var token: String = ""
-    var BASE_URL = "http://10.0.2.2:8000/api/"
+    var BASE_URL = //"http://192.168.1.18:80/api/"
+        "http://10.0.2.2:8000/api/"
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         val user_email = findViewById<EditText>(R.id.ed_id)
         val user_password = findViewById<EditText>(R.id.ed_password)
@@ -38,10 +41,10 @@ class Login_Screen : AppCompatActivity() {
                     .addConverterFactory(GsonConverterFactory.create()).client(okhttp.build())
                     .build()
 
-                 /*val email = user_email.text.toString()
-                  val password = user_password.text.toString()*/
-                var email = "test@example.com"
-                var password = "123123"
+                 val email = user_email.text.toString()
+                  val password = user_password.text.toString()
+                /*var email = "test@example.com"
+                var password = "123123"*/
                 apiService = retrofit.create(ApiService::class.java)
                 var loginRequestAdmin = LoginRequestAdmin(email, password)
 
@@ -81,7 +84,6 @@ class Login_Screen : AppCompatActivity() {
                 } else if (KindUser.equals("student")) {
                   //  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
                   var callStudent = apiService.loginstudent(LoginRequestStudent("std1", "123123"))
-                    Log.e("e", "bbbbbbbbbbbbbbbbbbbbb")
                     callStudent.enqueue(object : Callback<ResponseStudent> {
                         override fun onResponse(
                             call: Call<ResponseStudent>,
@@ -175,6 +177,9 @@ class Login_Screen : AppCompatActivity() {
 
     }
 
+    override fun startActivity(intent: Intent?) {
+        super.startActivity(intent)
+    }
 
     private fun saveTokenToSharedPreferences(token: String?) {
         val sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE)

@@ -19,7 +19,7 @@ class splash : AppCompatActivity() {
         Handler().postDelayed({
             // This method will be executed once the timer is over
             // Start your main activity
-            startActivity(Intent(this,HomepageActivity::class.java))
+            startActivity(Intent(this,HomeChatScreen::class.java))
 
             // close this activity
             finish()

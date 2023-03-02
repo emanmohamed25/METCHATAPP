@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">CHATAPP</string>
+    <string-array name="image">
+       <item>@drawable/userphoto1</item>
+        <item>@drawable/userphoto2</item>
+    </string-array>
+    <string-array name="name">
+        <item>ahmed</item>
+        <item>ali</item>
+    </string-array>
+    <string-array name="status">
+        <item>welcome</item>
+        <item>how are you</item>
+    </string-array>
+    <string-array name="time">
+        <item>10:30am</item>
+        <item>6:13pm</item>
+    </string-array>
+
 </resources>
