@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">CHATAPP</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="items_departmnet">
+        <item>computer science</item>
+        <item>accounting</item>
+        <item>Business Administration</item>
+        <item>Management Information System</item>
+    </string-array>
+    <string-array name="items_levels">
+        <item>level 1</item>
+        <item>level 2</item>
+        <item>level 3</item>
+        <item>level 4</item>
+    </string-array>
+    <string-array name="items_sections">
+        <item>section 1</item>
+        <item>section 2</item>
+        <item>section 3</item>
+        <item>section 4</item>
+        <item>section 5</item>
+        <item>section 6</item>
+        <item>section 7</item>
+        <item>section 8</item>
+
+    </string-array>
+
 </resources>
