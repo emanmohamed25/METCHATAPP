@@ -74,7 +74,7 @@ class SendMessageActivity : AppCompatActivity() {
 
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.25:80/chatapp/public/api/")
+                .baseUrl("http://10.0.2.2:8000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val api = retrofit.create(ApiService::class.java)
@@ -84,6 +84,7 @@ class SendMessageActivity : AppCompatActivity() {
                 @SuppressLint("RestrictedApi")
                 override fun onResponse(call: Call<DataClass>, response: Response<DataClass>) {
                     // handle the response
+
                     val status = response.body()?.status.toString()
 
                     val message = response.body()?.message.toString()
