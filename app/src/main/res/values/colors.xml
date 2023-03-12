@@ -11,4 +11,7 @@
     <color name="navy">#34495e</color>
     <color name="reqinfo">#cf6679</color>
     <color name="bluegreen">#66CCDD</color>
+    <color name="primary_light">#046582</color>
+    <color name="secondary_light">#F2BE5B</color>
+    <color name="wight_background">#f9f9f9</color>
 </resources>

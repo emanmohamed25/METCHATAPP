@@ -1,6 +1,7 @@
 package com.example.chatapp
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,7 +26,7 @@ class LoginScreenActivity : AppCompatActivity() {
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
-    var BASE_URL = "http://192.168.1.25:80/chatapp/public/api/"
+    var BASE_URL = "http://192.168.1.51:80/chatapp/public/api/"
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +86,10 @@ class LoginScreenActivity : AppCompatActivity() {
                             ) {
                                 print(response.body())
                                 if (response.isSuccessful) {
+                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+                                    val editor = sharedPreferences.edit()
+                                    editor.putBoolean("adminHasLoggedIn",true)
+                                    editor.apply()
                                    // token = response.body()?.data?.access_token.toString()
                                     Toast.makeText(
                                         this@LoginScreenActivity,
@@ -147,6 +152,13 @@ class LoginScreenActivity : AppCompatActivity() {
                                     val status = response.body()?.status.toString()
                                     val message = response.body()?.message.toString()
                                     val username = response.body()?.data?.user?.username.toString()
+                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+                                    val editor = sharedPreferences.edit()
+                                    editor.putBoolean("studentHasLoggedIn",true)
+                                    editor.putString("email",
+                                        response.body()?.data?.user?.username
+                                    )
+                                    editor.apply()
                                     Toast.makeText(
                                         this@LoginScreenActivity,
                                         "status:$status\n" +

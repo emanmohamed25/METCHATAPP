@@ -74,7 +74,7 @@ class SendMessageActivity : AppCompatActivity() {
 
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.1.25:80/chatapp/public/api/")
+                .baseUrl("http://192.168.1.51:80/chatapp/public/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             val api = retrofit.create(ApiService::class.java)
