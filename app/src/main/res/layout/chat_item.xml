@@ -74,6 +74,7 @@
                 android:lineHeight="15.15px"
                 android:textColor="@color/messcolor"
                 android:textStyle="bold"></TextView>
+
         </LinearLayout>
     </LinearLayout>
 

@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.TextKeyListener.clear
 import com.example.chatapp.databinding.ActivitySplashBinding
+
 
 class splash : AppCompatActivity() {
     private lateinit var binding:ActivitySplashBinding
@@ -19,7 +21,7 @@ class splash : AppCompatActivity() {
         Handler().postDelayed({
             // This method will be executed once the timer is over
             // Start your main activity
-            startActivity(Intent(this,HomeChatScreen::class.java))
+            startActivity(Intent(this,HomepageActivity::class.java))
 
             // close this activity
             finish()
