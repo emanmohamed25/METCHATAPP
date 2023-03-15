@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/white"
 
 
     >
@@ -22,7 +22,7 @@
         android:layout_marginEnd="158dp"
         android:layout_marginRight="122dp"
         android:layout_marginBottom="257dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/logogold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginBottom="182dp"
         android:fontFamily="@font/inter_bold"
         android:text="ChatApp"
-        android:textColor="#66CCDD"
+        android:textColor="@color/gold"
         android:textSize="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

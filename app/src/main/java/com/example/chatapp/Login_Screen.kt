@@ -46,7 +46,7 @@ class Login_Screen : AppCompatActivity() {
                 /*var email = "test@example.com"
                 var password = "123123"*/
                 apiService = retrofit.create(ApiService::class.java)
-                var loginRequestAdmin = LoginRequestAdmin(email, password)
+               // var loginRequestAdmin = LoginRequestAdmin(email, password)
 
 
                 if (KindUser.equals("admin")) {
@@ -83,8 +83,7 @@ class Login_Screen : AppCompatActivity() {
                     })
                 } else if (KindUser.equals("student")) {
                   //  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
-                  var callStudent = apiService.loginstudent(LoginRequestStudent("std1", "123123"))
-
+                  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
                     callStudent.enqueue(object : Callback<ResponseStudent> {
                         override fun onResponse(
                             call: Call<ResponseStudent>,

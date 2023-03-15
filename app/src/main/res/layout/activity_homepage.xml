@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
+    android:background="@color/white"
 
     tools:context=".HomepageActivity">
 
@@ -22,7 +22,7 @@
         android:gravity="top"
         android:lineHeight="38.73dp"
         android:text="Let's Get started"
-        android:textColor="#66ccdd"
+        android:textColor="@color/gold"
         android:textFontWeight="700"
         android:textSize="32dp"
 
@@ -43,7 +43,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="13dp"
         android:layout_marginEnd="317dp"
-        android:src="@drawable/home_page_log"
+        android:src="@drawable/smalllogogold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +100,7 @@
                 android:fontFamily="@font/inter_bold"
                 android:lineHeight="24dp"
                 android:text="Admin"
-                android:textColor="@color/bluegreen"
+                android:textColor="@color/gold"
                 android:textFontWeight="500"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -146,7 +146,7 @@
                 android:fontFamily="@font/inter_bold"
                 android:lineHeight="24dp"
                 android:text="Student"
-                android:textColor="@color/bluegreen"
+                android:textColor="@color/gold"
                 android:textFontWeight="500"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
