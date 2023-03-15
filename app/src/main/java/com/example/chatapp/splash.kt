@@ -11,9 +11,26 @@ import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
 
 class splash : AppCompatActivity() {
+    var myshared : SharedPreferences?=null
+    override fun onStart() {
+        super.onStart()
+        super.onStart()
+        myshared=getSharedPreferences("myshared",0)
+        var token = myshared?.getString("token","")
+        if(token!=""){
+            val it =Intent(this@splash,SendMessageActivity::class.java)
+            startActivity(it)
+        }else if(token==""){
+            val it =Intent(this@splash,HomepageActivity::class.java)
+            startActivity(it)
+        }
+    }
+
+
+
     private lateinit var binding:ActivitySplashBinding
 
-    private val SPLASH_TIME_OUT: Long = 2500 // 3 sec
+    private val SPLASH_TIME_OUT: Long = 3500// 3 sec
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,17 +40,6 @@ class splash : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         Handler().postDelayed({
-            val sharedprefernces:SharedPreferences=getSharedPreferences("myprefsfile",0)
-            val hasLoggedIn:Boolean=sharedprefernces.getBoolean("hasLoggedIn",false)
-            if (hasLoggedIn){
-                val intent = Intent(this, SendMessageActivity::class.java)
-                startActivity(intent)
-                finish()
-            }else{
-                val intent = Intent(this, HomepageActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
 
 /*
             val sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE)

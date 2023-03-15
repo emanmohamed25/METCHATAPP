@@ -28,7 +28,10 @@ class LoginScreenActivity : AppCompatActivity() {
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
-    var BASE_URL = "http://10.0.2.2:8000/api/"
+    //var BASE_URL = "http://10.0.2.2:8000/api/"
+      var BASE_URL = "http://10.0.2.2:8000/api/"
+    var myshared : SharedPreferences?=null
+
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,13 +91,21 @@ class LoginScreenActivity : AppCompatActivity() {
                             ) {
                                 print(response.body())
                                 if (response.isSuccessful) {
+                                    myshared=getSharedPreferences("myshared",0)
+                                    var editor :SharedPreferences.Editor=myshared!!.edit()
+                                    editor.putString("token", response.body()?.data?.access_token)
+                                    editor.commit()
+
+
+
+                                    /*
                                     val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
                                     val editor = sharedPreferences.edit()
                                     editor.putBoolean("hasLoggedIn",true)
                                     //token=response.body()?.data?.access_token.toString()
                                     //editor.putString("accesstoken", token)
                                     editor.apply()
-                                   /*
+
                                   token = response.body()?.data?.access_token.toString()
                                     saveTokenToSharedPreferences(token)*/
                                     Toast.makeText(
@@ -259,9 +270,9 @@ class LoginScreenActivity : AppCompatActivity() {
                 })
             }*/
 
-    }
+    }}
 
-
+/*
    private fun saveTokenToSharedPreferences(token: String?) {
        val sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE)
        val editor = sharedPreferences.edit()
@@ -274,4 +285,4 @@ class LoginScreenActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-}
+}*/
