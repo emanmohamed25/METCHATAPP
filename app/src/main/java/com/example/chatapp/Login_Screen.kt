@@ -2,6 +2,7 @@ package com.example.chatapp
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +22,7 @@ class Login_Screen : AppCompatActivity() {
     var token: String = ""
     var BASE_URL = //"http://192.168.1.18:80/api/"
         "http://10.0.2.2:8000/api/"
+    var myshared : SharedPreferences?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -92,6 +94,11 @@ class Login_Screen : AppCompatActivity() {
                             response: Response<ResponseStudent>,
                         ) {
                             if (response.isSuccessful) {
+                                myshared=getSharedPreferences("myshared",0)
+                                var editor :SharedPreferences.Editor=myshared!!.edit()
+                                editor.putString("token", response.body()?.data?.access_token)
+                                editor.commit()
+
                                 val status = response.body()?.status.toString()
                                 val message = response.body()?.message.toString()
                                 val username = response.body()?.data?.user?.username.toString()

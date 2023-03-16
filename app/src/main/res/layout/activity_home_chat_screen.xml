@@ -4,60 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_dark_background"
+    android:background="@color/white"
     tools:context=".HomeChatScreen">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
+        android:id="@+id/actionbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/navy"
-        android:elevation="4dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        android:layout_height="56dp"
+        android:background="@color/navyy">
+        <TextView
+            android:lineHeight="19.36px"
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:fontFamily="@font/inter_bold"
+            android:id="@+id/chats_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textSize="16dp"
+            android:textColor="@color/gold"
+            android:layout_marginLeft="16dp"
+            android:layout_centerVertical="true"/>
 
-            <TextView
-                android:id="@+id/toolbar_chat_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="Chat"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
+        <!-- Star icon -->
+        <ImageView
 
 
-            <ImageView
-                android:id="@+id/toolbar_logo_image"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/userphoto1" />
+            android:id="@+id/star_icon"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/stariconn"
+            android:layout_toRightOf="@+id/chats_text"
+            android:layout_marginLeft="55dp"
+            android:layout_centerVertical="true"/>
 
-            <TextView
-                android:id="@+id/toolbar_settings_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:text="Settings"
-                android:layout_marginRight="20dp"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
+        <!-- Circle image -->
+        <ImageView
+            android:id="@+id/circle_image"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:src="@drawable/userphoto1"
+            android:layout_centerInParent="true"/>
 
-        </RelativeLayout>
+        <!-- Search icon -->
+        <ImageView
 
-    </androidx.appcompat.widget.Toolbar>
+            android:id="@+id/search_icon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/searchicon"
+            android:layout_toLeftOf="@+id/settings_text"
+            android:layout_marginRight="55dp"
+            android:layout_centerVertical="true"/>
+
+        <!-- Settings text -->
+        <TextView
+
+            android:id="@+id/settings_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+
+
+
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>
+        android:layout_below="@+id/actionbar"
+        ></androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

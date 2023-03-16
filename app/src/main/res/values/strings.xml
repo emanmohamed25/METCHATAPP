@@ -16,5 +16,10 @@
         <item>10:30am</item>
         <item>6:13pm</item>
     </string-array>
+    <string-array name="unreadmess">
+        <item>1</item>
+        <item>1</item>
+    </string-array>
+
 
 </resources>

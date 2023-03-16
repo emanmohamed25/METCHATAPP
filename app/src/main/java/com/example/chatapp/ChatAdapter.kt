@@ -25,12 +25,14 @@ holder.binditem(chatItems[position], listener )
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name=view.findViewById<TextView>(R.id.UserName)
         val status =view.findViewById<TextView>(R.id.textmess)
-        val image =view.findViewById<ImageView>(R.id.ProfilePhoto)
+        val image =view.findViewById<ImageView>(R.id.senderePhoto)
         val time = view.findViewById<TextView>(R.id.timesend)
+        val unreadmess=view.findViewById<TextView>(R.id.numunreadmess)
         fun binditem(items: ChatItem, listener:(ChatItem)->Unit ){
             name.text=items.name
             status.text=items.status
             time.text=items.time
+            unreadmess.text=items.unreadmess
             Glide.with(itemView.context).load(items.image).into(image)
             itemView.setOnClickListener{
                 listener(items)

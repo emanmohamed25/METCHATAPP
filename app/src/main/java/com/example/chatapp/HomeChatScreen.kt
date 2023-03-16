@@ -26,9 +26,10 @@ class HomeChatScreen : AppCompatActivity() {
         val name =resources.getStringArray(R.array.name)
         val status =resources.getStringArray(R.array.status)
         val time =resources.getStringArray(R.array.time)
+        val unread=resources.getStringArray(R.array.unreadmess)
         chatItems.clear()
         for (i in name.indices ){
-            chatItems.add(ChatItem(name[i],status[i],image.getResourceId(i,0),time[i]))
+            chatItems.add(ChatItem(name[i],status[i],image.getResourceId(i,0),time[i], unread[i]))
 
         }
 
