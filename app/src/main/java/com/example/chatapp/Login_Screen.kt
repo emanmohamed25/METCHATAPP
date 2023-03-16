@@ -25,9 +25,10 @@ class Login_Screen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_login_screen)
         val user_email = findViewById<EditText>(R.id.ed_id)
         val user_password = findViewById<EditText>(R.id.ed_password)
-        setContentView(R.layout.activity_login_screen)
         val KindUser = intent.getStringExtra("user")
         Toast.makeText(this@Login_Screen, KindUser.toString(), Toast.LENGTH_LONG).show()
         try {
@@ -84,6 +85,7 @@ class Login_Screen : AppCompatActivity() {
                 } else if (KindUser.equals("student")) {
                   //  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
                   var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
+
                     callStudent.enqueue(object : Callback<ResponseStudent> {
                         override fun onResponse(
                             call: Call<ResponseStudent>,
