@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.databinding.ActivityLoginScreenBinding
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
+import com.example.chatapp.doctor.newchat.createnewchate.ui.NewChatActivity
 import kotlinx.android.synthetic.main.activity_login_screen.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,7 +27,8 @@ class LoginScreenActivity : AppCompatActivity() {
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
-    var BASE_URL = "http://192.168.1.51:80/chatapp/public/api/"
+//    var BASE_URL = "http://192.168.1.53:80/chatapp/public/api/"
+    var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +101,7 @@ class LoginScreenActivity : AppCompatActivity() {
                                     if(response.body()?.message.toString().equals("Login successfully")){
                                     val intent = Intent(
                                         this@LoginScreenActivity,
-                                        SendMessageActivity::class.java
+                                        NewChatActivity::class.java
                                     )
                                     startActivity(intent)}
                                     // saveTokenToSharedPreferences(token)

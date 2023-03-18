@@ -42,8 +42,9 @@ class ChatStudentActivity : AppCompatActivity() {
                 runOnUiThread {
                    // val id ="std"+message.getString("channel_id")
                    // if (message.getString("channel_id") == email)
-                    binding.tvViewMessage.text = message.getString("content")+"\n"+
-                    message.getString("channel").get(6).toString()
+                    binding.tvViewMessage.text = message.getString("content")
+//                    +"\n"+
+//                    message.getString("channel").get(6).toString()
 //                    + message.getString("channel.id")
                 }
             }

@@ -3,36 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/new_message_navigation"
-    app:startDestination="@id/newMessageFragment">
+    app:startDestination="@id/departmentFragment">
 
     <fragment
-        android:id="@+id/newMessageFragment"
-        android:name="com.example.chatapp.doctor.newchat.ui.NewMessageFragment"
-        android:label="fragment_new_message"
-        tools:layout="@layout/fragment_new_message" >
-        <action
-            android:id="@+id/action_newMessageFragment_to_departmentFragment"
-            app:destination="@id/departmentFragment" />
-        <action
-            android:id="@+id/action_newMessageFragment_to_groupsFragment"
-            app:destination="@id/groupsFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/departmentFragment"
-        android:name="com.example.chatapp.doctor.newchat.ui.DepartmentFragment"
-        android:label="fragment_department"
-        tools:layout="@layout/fragment_department" >
+        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.DepartmentFragment"
+        android:label="fragment_department2"
+        tools:layout="@layout/fragment_department2" />
+    <fragment
+        android:id="@+id/groupeFragment"
+        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.GroupeFragment"
+        android:label="fragment_groupe"
+        tools:layout="@layout/fragment_groupe" >
         <action
-            android:id="@+id/action_departmentFragment_to_newMessageFragment"
-            app:destination="@id/newMessageFragment" />
+            android:id="@+id/action_groupeFragment_to_dataGroupFragment"
+            app:destination="@id/dataGroupFragment" />
     </fragment>
     <fragment
-        android:id="@+id/groupsFragment"
-        android:name="com.example.chatapp.doctor.newchat.ui.GroupsFragment"
-        android:label="fragment_groups"
-        tools:layout="@layout/fragment_groups" >
+        android:id="@+id/dataGroupFragment"
+        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.DataGroupFragment"
+        android:label="fragment_data_group"
+        tools:layout="@layout/fragment_data_group" >
         <action
-            android:id="@+id/action_groupsFragment_to_newMessageFragment"
-            app:destination="@id/newMessageFragment" />
+            android:id="@+id/action_dataGroupFragment_to_groupeFragment"
+            app:destination="@id/groupeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/allFragment"
+        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.AllFragment"
+        android:label="fragment_all2"
+        tools:layout="@layout/fragment_all2" />
 </navigation>

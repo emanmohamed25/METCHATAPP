@@ -15,12 +15,12 @@
         android:theme="@style/Theme.CHATAPP"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".SSSActivity"
+        <activity android:name=".doctor.newchat.createnewchate.ui.NewChatActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
         </activity>
         <activity
             android:name=".doctor.newchat.sendmessage.ChatStudentActivity"
