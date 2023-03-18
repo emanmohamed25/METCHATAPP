@@ -93,10 +93,10 @@ class LoginScreenActivity : AppCompatActivity() {
                                     editor.putBoolean("adminHasLoggedIn",true)
                                     editor.apply()
                                    // token = response.body()?.data?.access_token.toString()
-                                    myshared=getSharedPreferences("myshared",0)
-                                    var editor :SharedPreferences.Editor=myshared!!.edit()
-                                    editor.putString("token", response.body()?.data?.access_token)
-                                    editor.commit()
+//                                    myshared=getSharedPreferences("myshared",0)
+//                                    var editor :SharedPreferences.Editor=myshared!!.edit()
+//                                    editor.putString("token", response.body()?.data?.access_token)
+//                                    editor.commit()
 
 
 
