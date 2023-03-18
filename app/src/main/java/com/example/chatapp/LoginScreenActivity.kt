@@ -3,6 +3,7 @@ package com.example.chatapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -27,8 +28,7 @@ class LoginScreenActivity : AppCompatActivity() {
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
-//    var BASE_URL = "http://192.168.1.53:80/chatapp/public/api/"
-    var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
+    var BASE_URL = "http://192.168.1.25:80/chatapp/public/api/"
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +93,23 @@ class LoginScreenActivity : AppCompatActivity() {
                                     editor.putBoolean("adminHasLoggedIn",true)
                                     editor.apply()
                                    // token = response.body()?.data?.access_token.toString()
+                                    myshared=getSharedPreferences("myshared",0)
+                                    var editor :SharedPreferences.Editor=myshared!!.edit()
+                                    editor.putString("token", response.body()?.data?.access_token)
+                                    editor.commit()
+
+
+
+                                    /*
+                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+                                    val editor = sharedPreferences.edit()
+                                    editor.putBoolean("hasLoggedIn",true)
+                                    //token=response.body()?.data?.access_token.toString()
+                                    //editor.putString("accesstoken", token)
+                                    editor.apply()
+
+                                  token = response.body()?.data?.access_token.toString()
+                                    saveTokenToSharedPreferences(token)*/
                                     Toast.makeText(
                                         this@LoginScreenActivity,
                                         response.body()?.message.toString(),
@@ -101,7 +118,7 @@ class LoginScreenActivity : AppCompatActivity() {
                                     if(response.body()?.message.toString().equals("Login successfully")){
                                     val intent = Intent(
                                         this@LoginScreenActivity,
-                                        NewChatActivity::class.java
+                                        SendMessageActivity::class.java
                                     )
                                     startActivity(intent)}
                                     // saveTokenToSharedPreferences(token)

@@ -61,6 +61,5 @@ dependencies {
 
     //pusher & moshi
     implementation 'com.pusher:pusher-java-client:2.2.1'
-    implementation 'com.squareup.moshi:moshi:1.9.3'
 
 }

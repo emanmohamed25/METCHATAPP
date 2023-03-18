@@ -33,7 +33,6 @@ class ChatStudentActivity : AppCompatActivity() {
             Log.e("ggggggggggggggggggggg","hhhhhhhhhh")
             channel.bind("server.created") { event ->
                 Log.e("eeee","hhhhhhhhhh")
-
                 val jsonObject = JSONObject(event.data)
                 val message = jsonObject.getJSONObject("message")
                 Log.e("eeee","{$message}")
