@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:background="@color/navyy"
+    >
+
+    <!-- Chats text -->
+    <TextView
+        android:lineHeight="19.36px"
+
+        android:fontFamily="@font/inter_bold"
+        android:id="@+id/chats_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chats"
+        android:textSize="16dp"
+        android:textColor="@color/gold"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"/>
+    <FrameLayout
+        android:id="@+id/ss"
+
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="73dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/roundunreadmessages"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/numunreadmess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+    </FrameLayout>
+
+    <!-- Star icon -->
+    <ImageView
+
+
+        android:id="@+id/star_icon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/stariconn"
+        android:layout_toRightOf="@+id/chats_text"
+        android:layout_marginLeft="65dp"
+        android:layout_centerVertical="true"/>
+
+    <!-- Circle image -->
+    <ImageView
+        android:id="@+id/circle_image"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/userphoto1"
+        android:layout_centerInParent="true"/>
+
+    <!-- Search icon -->
+    <ImageView
+
+        android:id="@+id/search_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/searchicon"
+        android:layout_toLeftOf="@+id/settings_text"
+        android:layout_marginRight="55dp"
+        android:layout_centerVertical="true"/>
+
+    <!-- Settings text -->
+    <TextView
+
+        android:id="@+id/settings_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>
