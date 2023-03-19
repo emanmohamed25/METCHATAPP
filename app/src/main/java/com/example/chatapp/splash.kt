@@ -12,19 +12,19 @@ import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
 
 class splash : AppCompatActivity() {
     var myshared : SharedPreferences?=null
-    override fun onStart() {
-        super.onStart()
-        super.onStart()
-        myshared=getSharedPreferences("myshared",0)
-        var token = myshared?.getString("token","")
-        if(token!=""){
-            val it =Intent(this@splash,SendMessageActivity::class.java)
-            startActivity(it)
-        }else if(token==""){
-            val it =Intent(this@splash,HomepageActivity::class.java)
-            startActivity(it)
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        super.onStart()
+//        myshared=getSharedPreferences("myshared",0)
+//        var token = myshared?.getString("token","")
+//        if(token!=""){
+//            val it =Intent(this@splash,SendMessageActivity::class.java)
+//            startActivity(it)
+//        }else if(token==""){
+//            val it =Intent(this@splash,HomepageActivity::class.java)
+//            startActivity(it)
+//        }
+//    }
 
 
 
@@ -77,8 +77,8 @@ class splash : AppCompatActivity() {
 */
             // This method will be executed once the timer is over
             // Start your main activity
-            //startActivity(Intent(this,HomepageActivity::class.java))
-
+            startActivity(Intent(this,HomepageActivity::class.java))
+//
             // close this activity
             finish()
         }, SPLASH_TIME_OUT)

@@ -1,8 +1,10 @@
-package com.example.chatapp
+package com.example.chatapp.doctor.newchat.network
 
+import com.example.chatapp.LoginRequestStudent
+import com.example.chatapp.ResponseAdmin
+import com.example.chatapp.ResponseStudent
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {

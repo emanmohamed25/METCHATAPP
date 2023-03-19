@@ -23,7 +23,7 @@ class GroupeFragment : Fragment() {
 
         binding.ivNext.setOnClickListener{ view: View ->
             view.findNavController()
-                .navigate(com.example.chatapp.doctor.newchat.ui.GroupeFragmentDirections.actionGroupeFragmentToDataGroupFragment())
+                .navigate(GroupeFragmentDirections.actionGroupeFragmentToDataGroupFragment())
 
         }
         return binding.root
