@@ -11,18 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/navyy">
-        <TextView
-            android:lineHeight="19.36px"
 
-            android:fontFamily="@font/inter_bold"
+        <TextView
             android:id="@+id/chats_text"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chats"
-            android:textSize="16dp"
-            android:textColor="@color/gold"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:layout_centerVertical="true"/>
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="19.36px"
+            android:text="Chats"
+            android:textColor="@color/gold"
+            android:textSize="16dp" />
 
         <!-- Star icon -->
         <ImageView
@@ -78,7 +79,6 @@
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/actionbar"
-        ></androidx.recyclerview.widget.RecyclerView>
+        android:layout_below="@+id/actionbar" />
 
 </RelativeLayout>

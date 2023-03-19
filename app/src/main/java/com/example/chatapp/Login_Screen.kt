@@ -20,8 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Login_Screen : AppCompatActivity() {
     private lateinit var apiService: ApiService
     var token: String = ""
-    var BASE_URL = //"http://192.168.1.18:80/api/"
-        "http://10.0.2.2:8000/api/"
+    var BASE_URL = "http://chatapp.test/api/"
     var myshared : SharedPreferences?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +62,7 @@ class Login_Screen : AppCompatActivity() {
                         ) {
                             print(response.body());
                             if (response.isSuccessful) {
+                                Log.e("login*", "cccccc")
                                 token = response.body()?.data?.access_token.toString()
                                 Toast.makeText(this@Login_Screen,
                                     response.body()?.message.toString(),
@@ -73,7 +73,7 @@ class Login_Screen : AppCompatActivity() {
                                 //finish()
                             } else {
                                 Toast.makeText(this@Login_Screen,
-                                    response.message(),
+                                    response.body()?.message.toString(),
                                     Toast.LENGTH_SHORT)
                                     .show()
                             }
@@ -87,21 +87,24 @@ class Login_Screen : AppCompatActivity() {
                 } else if (KindUser.equals("student")) {
                   //  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
                   var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
-
                     callStudent.enqueue(object : Callback<ResponseStudent> {
                         override fun onResponse(
                             call: Call<ResponseStudent>,
                             response: Response<ResponseStudent>,
                         ) {
                             if (response.isSuccessful) {
-                                myshared=getSharedPreferences("myshared",0)
-                                var editor :SharedPreferences.Editor=myshared!!.edit()
-                                editor.putString("token", response.body()?.data?.access_token)
-                                editor.commit()
 
                                 val status = response.body()?.status.toString()
                                 val message = response.body()?.message.toString()
                                 val username = response.body()?.data?.user?.username.toString()
+                                var tok = response.body()?.data?.access_token.toString()
+                                myshared=getSharedPreferences("myshared",0)
+                                var editor :SharedPreferences.Editor=myshared!!.edit()
+                                editor.putString("token",tok)
+                                editor.commit()
+                                var intent1=Intent(this@Login_Screen,HomeChatScreen::class.java)
+                                intent1.putExtra("tok",tok)
+                                startActivity(intent1)
                                 Toast.makeText(this@Login_Screen,
                                     "status:$status\n" +
                                             "message:$message\n" + "username:$username\n",

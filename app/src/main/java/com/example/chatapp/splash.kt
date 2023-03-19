@@ -13,7 +13,7 @@ class  splash : AppCompatActivity() {
     private lateinit var binding:ActivitySplashBinding
 
     private val SPLASH_TIME_OUT: Long = 2500 // 3 sec
-    var myshared : SharedPreferences?=null
+    /*var myshared : SharedPreferences?=null
     override fun onStart() {
         super.onStart()
         myshared=getSharedPreferences("myshared",0)
@@ -24,7 +24,7 @@ class  splash : AppCompatActivity() {
         }else if(token==""){
             val it =Intent(this@splash,HomepageActivity::class.java)
             startActivity(it)
-        }}
+        }}*/
 
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CHATAPP</string>
     <string-array name="image">
-       <item>@drawable/userphoto1</item>
+        <item>@drawable/userphoto1</item>
         <item>@drawable/userphoto2</item>
     </string-array>
     <string-array name="name">
@@ -18,7 +18,7 @@
     </string-array>
     <string-array name="unreadmess">
         <item>1</item>
-        <item>1</item>
+        <item>1 </item>
     </string-array>
 
 
