@@ -10,7 +10,14 @@
         android:id="@+id/departmentFragment"
         android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.DepartmentFragment"
         android:label="fragment_department2"
-        tools:layout="@layout/fragment_department2" />
+        tools:layout="@layout/fragment_department2" >
+        <action
+            android:id="@+id/action_departmentFragment_to_groupeFragment"
+            app:destination="@id/groupeFragment" />
+        <action
+            android:id="@+id/action_departmentFragment_to_allFragment3"
+            app:destination="@id/allFragment" />
+    </fragment>
     <fragment
         android:id="@+id/groupeFragment"
         android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.GroupeFragment"

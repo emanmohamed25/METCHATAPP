@@ -8,6 +8,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.chatapp.R
+import androidx.fragment.app.Fragment
+
 import com.example.chatapp.databinding.ActivityNewChatBinding
 
 class NewChatActivity : AppCompatActivity() {
@@ -15,6 +17,7 @@ class NewChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityNewChatBinding.inflate(layoutInflater)
+       // binding= ActivityNewChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val navController=Navigation.findNavController(this,R.id.fragmentContainerView)
 
