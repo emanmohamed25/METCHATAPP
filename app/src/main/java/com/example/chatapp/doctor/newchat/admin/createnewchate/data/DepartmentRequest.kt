@@ -1,4 +1,4 @@
-package com.example.chatapp.doctor.newchat.createnewchate.data
+package com.example.chatapp.doctor.newchat.admin.createnewchate.data
 
 class DepartmentRequest(
     _department_id:String,

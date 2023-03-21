@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="30dp"
-    tools:context=".doctor.newchat.createnewchate.ui.GroupeFragment">
+    tools:context=".doctor.newchat.admin.createnewchate.ui.GroupeFragment">
 
     <Spinner
         android:id="@+id/spinDepartment"

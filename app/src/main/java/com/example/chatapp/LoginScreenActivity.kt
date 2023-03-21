@@ -8,11 +8,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.databinding.ActivityLoginScreenBinding
-import com.example.chatapp.doctor.newchat.createnewchate.ui.NewChatActivity
+import com.example.chatapp.doctor.newchat.admin.createnewchate.ui.NewChatActivity
+import com.example.chatapp.doctor.newchat.network.ApiService
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
-import com.example.chatapp.doctor.newchat.network.ApiService
-import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
 import kotlinx.android.synthetic.main.activity_login_screen.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,12 +23,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginScreenActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
-    var token: String = ""
 
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
     var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
+     var token: String=""
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +36,7 @@ class LoginScreenActivity : AppCompatActivity() {
         binding = ActivityLoginScreenBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
         val KindUser = intent.getStringExtra("user")
         Toast.makeText(this@LoginScreenActivity, KindUser.toString(), Toast.LENGTH_LONG).show()
         try {
@@ -53,21 +53,20 @@ class LoginScreenActivity : AppCompatActivity() {
 
                 val email = binding.edId.text.toString()
                 val password = binding.edPassword.text.toString()
-              //  RetrofitClientAdmin.
+                //  RetrofitClientAdmin.
 
                 if (KindUser.equals("admin")) {
                     if (binding.edId.text.isNullOrEmpty()
-                        ||binding.edPassword.text.isNullOrEmpty())
-                    {
+                        || binding.edPassword.text.isNullOrEmpty()
+                    ) {
                         Toast.makeText(
                             applicationContext,
                             "invalid email OR password!",
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                    }
-                    else{
-                    Toast.makeText(
+                    } else {
+                        Toast.makeText(
                             this@LoginScreenActivity,
                             KindUser.toString(),
                             Toast.LENGTH_LONG
@@ -82,16 +81,20 @@ class LoginScreenActivity : AppCompatActivity() {
                             ) {
                                 print(response.body())
                                 if (response.isSuccessful) {
-                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+
+                                    token=response.body()?.data?.access_token.toString()
+
+
+                                    val sharedPreferences =
+                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
                                     val editor = sharedPreferences.edit()
-                                    editor.putBoolean("adminHasLoggedIn",true)
+                                    editor.putBoolean("adminHasLoggedIn", true)
                                     editor.apply()
-                                   // token = response.body()?.data?.access_token.toString()
+                                    // token = response.body()?.data?.access_token.toString()
 //                                    myshared=getSharedPreferences("myshared",0)
 //                                    var editor :SharedPreferences.Editor=myshared!!.edit()
 //                                    editor.putString("token", response.body()?.data?.access_token)
 //                                    editor.commit()
-
 
 
                                     /*
@@ -109,12 +112,18 @@ class LoginScreenActivity : AppCompatActivity() {
                                         response.body()?.message.toString(),
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    if(response.body()?.message.toString().equals("Login successfully")){
-                                    val intent = Intent(
-                                        this@LoginScreenActivity,
-                                        NewChatActivity::class.java
-                                    )
-                                    startActivity(intent)}
+                                    if (response.body()?.message.toString()
+                                            .equals("Login successfully")
+                                    ) {
+//                                        token=response.body()?.data?.access_token.toString()
+                                        val intent = Intent(
+                                            this@LoginScreenActivity,
+                                            NewChatActivity::class.java
+                                        )
+//                                       getToken(response.body()?.data?.access_token.toString())
+//                                        intent.putExtra("token",response.body()?.data?.access_token.toString())
+                                        startActivity(intent)
+                                    }
                                     // saveTokenToSharedPreferences(token)
 //                                startSendMessageActivity()
                                 } else {
@@ -142,16 +151,15 @@ class LoginScreenActivity : AppCompatActivity() {
 //                                || email.equals("std2") || email.equals("std3")))
 //                    ) {
                     if (binding.edId.text.isNullOrEmpty()
-                        ||binding.edPassword.text.isNullOrEmpty())
-                    {
+                        || binding.edPassword.text.isNullOrEmpty()
+                    ) {
                         Toast.makeText(
                             applicationContext,
                             "invalid email OR password!",
                             Toast.LENGTH_SHORT
                         )
                             .show()
-                    }
-                    else{
+                    } else {
                         var callStudent =
                             apiService.loginstudent(LoginRequestStudent(email, password))
 //                  val callStudent = apiService.loginstudent(LoginRequestStudent("std1", "123123"))
@@ -165,10 +173,12 @@ class LoginScreenActivity : AppCompatActivity() {
                                     val status = response.body()?.status.toString()
                                     val message = response.body()?.message.toString()
                                     val username = response.body()?.data?.user?.username.toString()
-                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+                                    val sharedPreferences =
+                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
                                     val editor = sharedPreferences.edit()
-                                    editor.putBoolean("studentHasLoggedIn",true)
-                                    editor.putString("email",
+                                    editor.putBoolean("studentHasLoggedIn", true)
+                                    editor.putString(
+                                        "email",
                                         response.body()?.data?.user?.username
                                     )
                                     editor.apply()
@@ -288,4 +298,10 @@ class LoginScreenActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+//    @JvmName("getToken1")
+    @JvmName("getToken1")
+    public fun getToken():String{
+        return token
+    }
+
 }

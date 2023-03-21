@@ -1,6 +1,7 @@
-package com.example.chatapp.doctor.newchat.createnewchate.ui
+package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,9 +9,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.chatapp.LoginScreenActivity
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
-import com.example.chatapp.doctor.newchat.createnewchate.data.DepartmentRequest
+import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.DepartmentResponse
+import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DepartmentFragment : Fragment() {
 
@@ -19,8 +26,8 @@ class DepartmentFragment : Fragment() {
     lateinit var levelSelectedItem: String
     lateinit var departmentRequest: DepartmentRequest
     lateinit var listSection: MutableList<String>
-    var positionD: Int = 0
-    var positionL: Int = 0
+//    var positionD: Int? = null
+//    var positionL: Int? = null
     var listSectionBoolean = MutableList<Int>(4) { 0 }
     var allsectionIsCheck: Boolean = false
     var departmentIsSelected:Boolean=false
@@ -133,10 +140,9 @@ class DepartmentFragment : Fragment() {
 
         }
 
-
-//send button
-//        binding.btnSend.setOnClickListener {
-//
+        var positionD: Int? = null
+        var positionL: Int? = null
+//spinner for department&&level handling
         binding.spinDepartment.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -153,7 +159,7 @@ class DepartmentFragment : Fragment() {
                 ) {
                      departmentIsSelected = true
                      departmentSelectedItem = adapterView?.getItemAtPosition(position).toString()
-                    positionD=position
+                    positionD=position+1
                     Toast.makeText(context, "$positionD\n$departmentSelectedItem", Toast.LENGTH_LONG)
                         .show()
 
@@ -176,14 +182,19 @@ class DepartmentFragment : Fragment() {
                     ) {
                         levelIsSelected=true
                         levelSelectedItem = adapterView?.getItemAtPosition(position).toString()
-                        positionD=position
+                        positionL=position+1
                     }
 
                 }
+
+        listSection= MutableList<String>(4){""}
+
         binding.btnSend.setOnClickListener {
-            listSection= MutableList<String>(4){""}
+            listSection.clear()
+//            listSection= MutableList<String>(4){""}
 //loop to add section has checked in list
             for (i in 0..3) {
+
                 if (listSectionBoolean[i] == 1) {
                     if (i <= 1) {
                         listSection.add("" + (i + 1))
@@ -198,14 +209,42 @@ class DepartmentFragment : Fragment() {
                 Toast.makeText(context, "please enter the message !", Toast.LENGTH_LONG)
                     .show()
             } else {
-                departmentRequest= DepartmentRequest(""+positionD+1,""+positionL+1,listSection,
+                departmentRequest= DepartmentRequest(""+positionD,""+positionL,listSection,
                     binding.etEnterMessage.text.toString())
 
             }
+            Log.e("department_id",departmentRequest.department_id)
+            Log.e("level_id", departmentRequest.level_id.toString())
+            Log.e("section_id", departmentRequest.section_id.toString())
+            Log.e("message",departmentRequest.message)
+
             Toast.makeText(context, "${departmentRequest.department_id}\n " +
                     "${departmentRequest.level_id}\n${departmentRequest.section_id}\n" +
                     "${departmentRequest.message}}", Toast.LENGTH_LONG)
                 .show()
+
+
+var  token: String =LoginScreenActivity().getToken()
+            Log.e("message",token)
+
+
+            RetrofitClientAdmin.api.sendDepartmentMessage("Bearer $token",departmentRequest).enqueue(object :
+                Callback<DepartmentResponse> {
+
+                override fun onResponse(call: Call<DepartmentResponse>, response: Response<DepartmentResponse>) {
+                    if (response.isSuccessful) {
+                        val data = response.body()
+                        Toast.makeText(context,  ""+data?.status , Toast.LENGTH_LONG)
+                            .show()
+
+                    } else {
+                        // Handle the error
+                    }
+                }
+                override fun onFailure(call: Call<DepartmentResponse>, t: Throwable) {
+                    Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                        .show()                }
+            })
         }
 
 

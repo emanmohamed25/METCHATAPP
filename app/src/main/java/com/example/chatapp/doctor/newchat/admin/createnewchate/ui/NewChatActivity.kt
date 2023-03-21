@@ -1,4 +1,4 @@
-package com.example.chatapp.doctor.newchat.createnewchate.ui
+package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

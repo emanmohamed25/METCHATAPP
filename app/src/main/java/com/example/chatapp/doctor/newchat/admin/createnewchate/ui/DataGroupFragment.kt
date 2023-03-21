@@ -1,4 +1,4 @@
-package com.example.chatapp.doctor.newchat.createnewchate.ui
+package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

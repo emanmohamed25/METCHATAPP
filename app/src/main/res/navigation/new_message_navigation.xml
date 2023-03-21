@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/departmentFragment"
-        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.DepartmentFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.DepartmentFragment"
         android:label="fragment_department2"
         tools:layout="@layout/fragment_department2" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/groupeFragment"
-        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.GroupeFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.GroupeFragment"
         android:label="fragment_groupe"
         tools:layout="@layout/fragment_groupe" >
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/dataGroupFragment"
-        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.DataGroupFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.DataGroupFragment"
         android:label="fragment_data_group"
         tools:layout="@layout/fragment_data_group" >
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/allFragment"
-        android:name="com.example.chatapp.doctor.newchat.createnewchate.ui.AllFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.AllFragment"
         android:label="fragment_all2"
         tools:layout="@layout/fragment_all2" />
 </navigation>
