@@ -20,8 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Login_Screen : AppCompatActivity() {
     private lateinit var apiService: ApiService
     var token: String = ""
-    var BASE_URL = "http://chatapp.test/api/"
-    var myshared : SharedPreferences?=null
+    var BASE_URL = "http://10.0.2.2:8000/api/"
+    var myshared: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -43,12 +43,12 @@ class Login_Screen : AppCompatActivity() {
                     .addConverterFactory(GsonConverterFactory.create()).client(okhttp.build())
                     .build()
 
-                 val email = user_email.text.toString()
-                  val password = user_password.text.toString()
+                val email = user_email.text.toString()
+                val password = user_password.text.toString()
                 /*var email = "test@example.com"
                 var password = "123123"*/
                 apiService = retrofit.create(ApiService::class.java)
-               // var loginRequestAdmin = LoginRequestAdmin(email, password)
+                // var loginRequestAdmin = LoginRequestAdmin(email, password)
 
 
                 if (KindUser.equals("admin")) {
@@ -68,9 +68,9 @@ class Login_Screen : AppCompatActivity() {
                                     response.body()?.message.toString(),
                                     Toast.LENGTH_SHORT)
                                     .show()
+
                                 // saveTokenToSharedPreferences(token)
                                 //startHomeChatScreen()
-                                //finish()
                             } else {
                                 Toast.makeText(this@Login_Screen,
                                     response.body()?.message.toString(),
@@ -85,8 +85,8 @@ class Login_Screen : AppCompatActivity() {
                         }
                     })
                 } else if (KindUser.equals("student")) {
-                  //  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
-                  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
+                    //  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
+                    var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
                     callStudent.enqueue(object : Callback<ResponseStudent> {
                         override fun onResponse(
                             call: Call<ResponseStudent>,
@@ -94,24 +94,44 @@ class Login_Screen : AppCompatActivity() {
                         ) {
                             if (response.isSuccessful) {
 
+                                var authmess:String=response.body()?.message.toString()
+                                if (authmess=="Login successfully"){
+                                    Toast.makeText(this@Login_Screen,
+                                        response.body()?.message.toString(),
+                                        Toast.LENGTH_SHORT)
+                                        .show()
+                                    var tok = response.body()?.data?.access_token.toString()
+                                    myshared = getSharedPreferences("myshared", 0)
+                                    var editor: SharedPreferences.Editor = myshared!!.edit()
+                                    editor.putString("token", tok)
+                                    editor.commit()
+                                    var intent1 = Intent(this@Login_Screen, HomeChatScreen::class.java)
+                                    intent1.putExtra("tok", tok)
+                                    startActivity(intent1)
+                                    finish()
+                                }else{
+                                    Toast.makeText(this@Login_Screen,
+                                        "wrong id or password",
+                                        Toast.LENGTH_SHORT)
+                                        .show()
+
+
+
+                                }
+/*
                                 val status = response.body()?.status.toString()
-                                val message = response.body()?.message.toString()
+                                val messageE = response.body()?.message.toString()
                                 val username = response.body()?.data?.user?.username.toString()
-                                var tok = response.body()?.data?.access_token.toString()
-                                myshared=getSharedPreferences("myshared",0)
-                                var editor :SharedPreferences.Editor=myshared!!.edit()
-                                editor.putString("token",tok)
-                                editor.commit()
-                                var intent1=Intent(this@Login_Screen,HomeChatScreen::class.java)
-                                intent1.putExtra("tok",tok)
-                                startActivity(intent1)
-                                Toast.makeText(this@Login_Screen,
-                                    "status:$status\n" +
-                                            "message:$message\n" + "username:$username\n",
-                                    Toast.LENGTH_LONG).show()
+*/
+
+
+                                // Toast.makeText(this@Login_Screen,
+                                //   "status:$status\n" +
+                                //         "message:$message\n" + "username:$username\n",
+                                //Toast.LENGTH_LONG).show()
                             } else {
                                 Toast.makeText(this@Login_Screen,
-                                    response.message(),
+                                    response.body()?.message.toString(),
                                     Toast.LENGTH_SHORT)
                                     .show()
                             }
@@ -119,7 +139,7 @@ class Login_Screen : AppCompatActivity() {
                         }
 
                         override fun onFailure(call: Call<ResponseStudent>, t: Throwable) {
-                            Toast.makeText(applicationContext, "Error: $t", Toast.LENGTH_SHORT)
+                            Toast.makeText(applicationContext, "Error is: $t", Toast.LENGTH_SHORT)
                                 .show()
                         }
                     })
