@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class Login_Screen : AppCompatActivity() {
     private lateinit var apiService: ApiService
-    var token: String = ""
+    var admintoken: String = ""
     var BASE_URL = "http://10.0.2.2:8000/api/"
     var myshared: SharedPreferences? = null
 
@@ -63,7 +63,14 @@ class Login_Screen : AppCompatActivity() {
                             print(response.body());
                             if (response.isSuccessful) {
                                 Log.e("login*", "cccccc")
-                                token = response.body()?.data?.access_token.toString()
+                                admintoken = response.body()?.data?.access_token.toString()
+                                myshared = getSharedPreferences("myshared", 0)
+                                var editor: SharedPreferences.Editor = myshared!!.edit()
+                                editor.putString("admintoken",admintoken)
+                                editor.commit()
+                                val intent =Intent (this@Login_Screen, doctortest::class.java)
+                                startActivity(intent)
+                                finish()
                                 Toast.makeText(this@Login_Screen,
                                     response.body()?.message.toString(),
                                     Toast.LENGTH_SHORT)
@@ -100,13 +107,13 @@ class Login_Screen : AppCompatActivity() {
                                         response.body()?.message.toString(),
                                         Toast.LENGTH_SHORT)
                                         .show()
-                                    var tok = response.body()?.data?.access_token.toString()
+                                    var studenttoken = response.body()?.data?.access_token.toString()
                                     myshared = getSharedPreferences("myshared", 0)
                                     var editor: SharedPreferences.Editor = myshared!!.edit()
-                                    editor.putString("token", tok)
+                                    editor.putString("studenttoken", studenttoken)
                                     editor.commit()
                                     var intent1 = Intent(this@Login_Screen, HomeChatScreen::class.java)
-                                    intent1.putExtra("tok", tok)
+                                    intent1.putExtra("tok", studenttoken)
                                     startActivity(intent1)
                                     finish()
                                 }else{

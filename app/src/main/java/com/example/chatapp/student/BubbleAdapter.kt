@@ -1,4 +1,4 @@
-package com.example.chatapp
+package com.example.chatapp.student
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.ChatData
+import com.example.chatapp.R
 
 class BubbleAdapter (
     private val contex: Context,
@@ -13,12 +15,12 @@ class BubbleAdapter (
     private val listener: (ChatData) -> Unit,
 ) : RecyclerView.Adapter<BubbleAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=
-        BubbleAdapter.ViewHolder(LayoutInflater.from(contex).inflate(R.layout.container_receive_messages,parent,false))
+        ViewHolder(LayoutInflater.from(contex).inflate(R.layout.container_receive_messages,parent,false))
 
     override fun getItemCount(): Int = BubbleItem.size
 
-    override fun onBindViewHolder(holder: BubbleAdapter.ViewHolder, position: Int) {
-        val  data :bubble_chat_data=BubbleItem[position]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val  data : bubble_chat_data =BubbleItem[position]
         holder.mess.text= data.message
         holder.timemess.text=data.timemessage
 

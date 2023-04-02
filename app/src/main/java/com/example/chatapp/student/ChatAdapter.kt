@@ -1,4 +1,4 @@
-package com.example.chatapp
+package com.example.chatapp.student
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.chatapp.ChatData
+import com.example.chatapp.R
 
 class ChatAdapter(
     private val contex: Context,
@@ -23,7 +24,7 @@ class ChatAdapter(
     override fun getItemCount(): Int = chatItems.size
 
 
-    override fun onBindViewHolder(holder:  ChatAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data: ChatData = chatItems[position]
         holder.name.text = data.name
         holder.status.text = data.status
@@ -41,7 +42,7 @@ class ChatAdapter(
         init {
             itemview.setOnClickListener {
                 Toast.makeText(itemview.context, mydata?.name, Toast.LENGTH_LONG).show()
-                var my_intent=Intent(itemview.context,StudentChatActivity::class.java)
+                var my_intent=Intent(itemview.context, StudentChatActivity::class.java)
                 my_intent.putExtra("senderphoto",mydata?.image)
                 itemview.context.startActivity(my_intent)
 
