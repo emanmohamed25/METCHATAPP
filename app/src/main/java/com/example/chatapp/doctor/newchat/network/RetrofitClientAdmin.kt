@@ -8,11 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitClientAdmin {
 
-    companion object{
-        private  val retrofit by lazy {
+    companion object {
+        private val retrofit by lazy {
             val logging = HttpLoggingInterceptor()
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
-            val client=OkHttpClient.Builder()
+            val client = OkHttpClient.Builder()
                 .addInterceptor(logging).build()
             Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -23,8 +23,6 @@ class RetrofitClientAdmin {
             retrofit.create(ApiService::class.java)
         }
     }
-
-
 
 
 //    private val BASE_URL = "https://orcafood.test/api/v1/"

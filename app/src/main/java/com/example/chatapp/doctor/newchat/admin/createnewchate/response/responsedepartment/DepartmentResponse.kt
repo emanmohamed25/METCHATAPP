@@ -5,9 +5,11 @@ import com.google.gson.annotations.SerializedName
 
 data class DepartmentResponse(
     @SerializedName("data")
-    val `data`: Data,
+    val `data`: List<Data>,
     @SerializedName("message")
     val message: String,
+    @SerializedName("Sections")
+    val sections: List<Section>,
     @SerializedName("status")
     val status: String
 )

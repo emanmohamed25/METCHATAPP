@@ -3,12 +3,14 @@ package com.example.chatapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.databinding.ActivityLoginScreenBinding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.ui.NewChatActivity
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.network.ApiService
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
@@ -29,6 +31,10 @@ class LoginScreenActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginScreenBinding
     var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
      var token: String=""
+    var myshared: SharedPreferences? = null
+    var admintoken: String = ""
+
+
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,18 +91,23 @@ class LoginScreenActivity : AppCompatActivity() {
                                     token=response.body()?.data?.access_token.toString()
 
 
-                                    val sharedPreferences =
-                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
-                                    val editor = sharedPreferences.edit()
-                                    editor.putBoolean("adminHasLoggedIn", true)
-                                    editor.apply()
+//                                    val sharedPreferences =
+//                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+//                                    val editor = sharedPreferences.edit()
+//                                    editor.putBoolean("adminHasLoggedIn", true)
+//                                    editor.apply()
                                     // token = response.body()?.data?.access_token.toString()
 //                                    myshared=getSharedPreferences("myshared",0)
 //                                    var editor :SharedPreferences.Editor=myshared!!.edit()
 //                                    editor.putString("token", response.body()?.data?.access_token)
 //                                    editor.commit()
 
+                                    admintoken = response.body()?.data?.access_token.toString()
+                                    myshared = getSharedPreferences(MY_SHARED, 0)
+                                    var editor: SharedPreferences.Editor = myshared!!.edit()
+                                    editor.putString("admintoken",admintoken)
 
+                                    editor.commit()
                                     /*
                                     val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
                                     val editor = sharedPreferences.edit()
@@ -173,15 +184,24 @@ class LoginScreenActivity : AppCompatActivity() {
                                     val status = response.body()?.status.toString()
                                     val message = response.body()?.message.toString()
                                     val username = response.body()?.data?.user?.username.toString()
-                                    val sharedPreferences =
-                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
-                                    val editor = sharedPreferences.edit()
-                                    editor.putBoolean("studentHasLoggedIn", true)
-                                    editor.putString(
-                                        "email",
-                                        response.body()?.data?.user?.username
-                                    )
-                                    editor.apply()
+//                                    val sharedPreferences =
+//                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+//                                    val editor = sharedPreferences.edit()
+//                                    editor.putBoolean("studentHasLoggedIn", true)
+//                                    editor.putString(
+//                                        "email",
+//                                        response.body()?.data?.user?.username
+//                                    )
+//                                    editor.apply()
+
+
+
+
+                                    var studenttoken = response.body()?.data?.access_token.toString()
+                                    myshared = getSharedPreferences("myshared", 0)
+                                    var editor: SharedPreferences.Editor = myshared!!.edit()
+                                    editor.putString("studenttoken", studenttoken)
+                                    editor.commit()
                                     Toast.makeText(
                                         this@LoginScreenActivity,
                                         "status:$status\n" +

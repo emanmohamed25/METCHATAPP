@@ -22,5 +22,7 @@ class NewChatActivity : AppCompatActivity() {
         val navController=Navigation.findNavController(this,R.id.fragmentContainerView)
 
         NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
+
+
     }
 }

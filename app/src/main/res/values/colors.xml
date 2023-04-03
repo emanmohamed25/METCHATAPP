@@ -11,4 +11,5 @@
     <color name="primary_light">#046582</color>
     <color name="secondary_light">#F2BE5B</color>
     <color name="wight_background">#f9f9f9</color>
+    <color name="gray">#949494</color>
 </resources>

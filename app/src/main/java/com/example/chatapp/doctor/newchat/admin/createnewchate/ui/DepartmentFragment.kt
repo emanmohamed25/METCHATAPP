@@ -1,5 +1,6 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,11 +10,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.chatapp.LoginScreenActivity
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.DepartmentResponse
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,6 +33,7 @@ class DepartmentFragment : Fragment() {
     var allsectionIsCheck: Boolean = false
     var departmentIsSelected:Boolean=false
     var levelIsSelected:Boolean=false
+    var myshared: SharedPreferences? = null
 
 
     override fun onCreateView(
@@ -39,6 +41,16 @@ class DepartmentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
+
+//get token
+        myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
+        var adtoken= myshared?.getString("admintoken","")
+        Toast.makeText(context, "" + adtoken, Toast.LENGTH_LONG)
+            .show()
+
+
+
+
 
        // listSection= MutableList<String>(4){""}
         //custom spinner
@@ -188,7 +200,7 @@ class DepartmentFragment : Fragment() {
                 }
 
         listSection= MutableList<String>(4){""}
-
+//Button send Message
         binding.btnSend.setOnClickListener {
             listSection.clear()
 //            listSection= MutableList<String>(4){""}
@@ -224,17 +236,24 @@ class DepartmentFragment : Fragment() {
                 .show()
 
 
-var  token: String =LoginScreenActivity().getToken()
-            Log.e("message",token)
+//var  token: String =LoginScreenActivity().getToken()
+            if (adtoken != null) {
+                Log.e("message",adtoken)
+            }else
+                Log.e("message","token is null!")
 
 
-            RetrofitClientAdmin.api.sendDepartmentMessage("Bearer $token",departmentRequest).enqueue(object :
+
+            RetrofitClientAdmin.api.sendDepartmentMessage("Bearer $adtoken",departmentRequest).enqueue(object :
                 Callback<DepartmentResponse> {
 
                 override fun onResponse(call: Call<DepartmentResponse>, response: Response<DepartmentResponse>) {
                     if (response.isSuccessful) {
                         val data = response.body()
-                        Toast.makeText(context,  ""+data?.status , Toast.LENGTH_LONG)
+                        Toast.makeText(context,  data?.status+"\n"+data?.data?.get(0)?.channelName+"\n"
+                                +data?.data?.get(1)?.channelName+"\n"
+                                +data?.data?.get(2)?.channelName+"\n"+ (data?.data?.size
+                            ), Toast.LENGTH_LONG)
                             .show()
 
                     } else {
@@ -243,7 +262,10 @@ var  token: String =LoginScreenActivity().getToken()
                 }
                 override fun onFailure(call: Call<DepartmentResponse>, t: Throwable) {
                     Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
-                        .show()                }
+                        .show()
+                    Log.e("message","Error : $t")
+
+                }
             })
         }
 

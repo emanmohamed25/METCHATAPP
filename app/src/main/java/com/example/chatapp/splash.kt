@@ -1,17 +1,18 @@
 package com.example.chatapp
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.databinding.ActivitySplashBinding
+import com.example.chatapp.doctor.newchat.admin.createnewchate.ui.NewChatActivity
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
-import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
 
 class splash : AppCompatActivity() {
-    var myshared : SharedPreferences?=null
+    var myshared: SharedPreferences? = null
 //    override fun onStart() {
 //        super.onStart()
 //        super.onStart()
@@ -27,8 +28,7 @@ class splash : AppCompatActivity() {
 //    }
 
 
-
-    private lateinit var binding:ActivitySplashBinding
+    private lateinit var binding: ActivitySplashBinding
 
     private val SPLASH_TIME_OUT: Long = 3500// 3 sec
 
@@ -36,16 +36,68 @@ class splash : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
-        binding= ActivitySplashBinding.inflate(layoutInflater)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.hide()
+
+        myshared=getSharedPreferences(MY_SHARED,0)
+        var stdtoken = myshared?.getString("studenttoken","")
+        // myshared=getSharedPreferences("myshared",0)
+        var adtoken=myshared?.getString("admintoken","")
+        if (stdtoken!=""){
+            Toast.makeText(this@splash,
+                stdtoken.toString(),
+                Toast.LENGTH_SHORT)
+                .show()
+            supportActionBar?.hide()
+            Handler().postDelayed({
+                // This method will be executed once the timer is over
+                // Start your main activity
+                startActivity(Intent(this,HomeChatScreen::class.java))
+
+                // close this activity
+                finish()
+            }, SPLASH_TIME_OUT)
+
+        }
+        else if(adtoken!=""){
+
+            Toast.makeText(this@splash,
+                adtoken.toString(),
+                Toast.LENGTH_SHORT)
+                .show()
+            supportActionBar?.hide()
+            Handler().postDelayed({
+                // This method will be executed once the timer is over
+                // Start your main activity
+                startActivity(Intent(this, NewChatActivity::class.java))
+
+                // close this activity
+                finish()
+
+            },SPLASH_TIME_OUT)
+        }
+        else{
+
+            supportActionBar?.hide()
+            Handler().postDelayed({
+                // This method will be executed once the timer is over
+                // Start your main activity
+                startActivity(Intent(this,HomepageActivity::class.java))
+
+                // close this activity
+                finish()
+            }, SPLASH_TIME_OUT)
+
+        }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////
 //        Handler().postDelayed({
 //            val sharedprefernces: SharedPreferences = getSharedPreferences("myprefsfile", 0)
 //            val studentHasLoggedIn: Boolean = sharedprefernces.getBoolean("studentHasLoggedIn", false)
 //            val adminHasLoggedIn: Boolean = sharedprefernces.getBoolean("adminHasLoggedIn", false)
 //            val studentToken : String? =sharedprefernces.getString("email","")
 //            if (adminHasLoggedIn) {
-//                val intent = Intent(this, SendMessageActivity::class.java)
+//                val intent = Intent(this, NewChatActivity::class.java)
 //                   intent.putExtra("email",studentToken)
 //                startActivity(intent)
 //                finish()
@@ -58,29 +110,30 @@ class splash : AppCompatActivity() {
 //                finish()
 //            }
 //                              }, SPLASH_TIME_OUT)
-        Handler().postDelayed({
-
-/*
-            val sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE)
-            val accesstoken=sharedPreferences.getString("acesstoken",null)
-            if (accesstoken != null) {
-                // Access token is available, go to chat screen
-                val intent = Intent(this, ChatStudentActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                // Access token is not available, go to login screen
-                val intent = Intent(this, HomepageActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-*/
-            // This method will be executed once the timer is over
-            // Start your main activity
-            startActivity(Intent(this,HomepageActivity::class.java))
+//        Handler().postDelayed({
 //
-            // close this activity
-            finish()
-        }, SPLASH_TIME_OUT)
-        }
+///*
+//            val sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE)
+//            val accesstoken=sharedPreferences.getString("acesstoken",null)
+//            if (accesstoken != null) {
+//                // Access token is available, go to chat screen
+//                val intent = Intent(this, ChatStudentActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            } else {
+//                // Access token is not available, go to login screen
+//                val intent = Intent(this, HomepageActivity::class.java)
+//                startActivity(intent)
+//                finish()
+//            }
+//*/
+//            // This method will be executed once the timer is over
+//            // Start your main activity
+//            startActivity(Intent(this,HomepageActivity::class.java))
+////
+//            // close this activity
+//            finish()
+//        }, SPLASH_TIME_OUT)
+
+    }
 }

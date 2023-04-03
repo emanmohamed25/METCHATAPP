@@ -22,8 +22,10 @@ class GroupeFragment : Fragment() {
         binding=FragmentGroupeBinding.inflate(inflater,container,false)
 
         binding.ivNext.setOnClickListener{ view: View ->
-            view.findNavController()
-                .navigate(GroupeFragmentDirections.actionGroupeFragmentToDataGroupFragment())
+
+            view.findNavController().navigate(GroupeFragmentDirections.actionGroupeFragmentToDataGroupFragment())
+//            view.findNavController()
+//                .navigate(GroupeFragmentDirections.actionGroupeFragmentToDataGroupFragment())
 
         }
         return binding.root
