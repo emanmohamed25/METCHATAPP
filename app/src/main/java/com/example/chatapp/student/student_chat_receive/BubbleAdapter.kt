@@ -1,4 +1,4 @@
-package com.example.chatapp.student
+package com.example.chatapp.student.student_chat_receive
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.ChatData
 import com.example.chatapp.R
+import com.example.chatapp.student.bubble_chat_data
 
 class BubbleAdapter (
     private val contex: Context,

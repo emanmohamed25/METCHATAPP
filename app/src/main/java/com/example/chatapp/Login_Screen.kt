@@ -27,6 +27,7 @@ class Login_Screen : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+
         setContentView(R.layout.activity_login_screen)
         val user_email = findViewById<EditText>(R.id.ed_id)
         val user_password = findViewById<EditText>(R.id.ed_password)
@@ -113,9 +114,7 @@ class Login_Screen : AppCompatActivity() {
                                     editor.putString("studenttoken", studenttoken)
                                     editor.commit()
                                     var intent1 = Intent(this@Login_Screen, HomeChatScreen::class.java)
-                                    intent1.putExtra("tok", studenttoken)
                                     startActivity(intent1)
-                                    finish()
                                 }else{
                                     Toast.makeText(this@Login_Screen,
                                         "wrong id or password",

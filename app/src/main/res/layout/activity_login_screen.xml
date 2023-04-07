@@ -36,9 +36,10 @@
         app:layout_constraintVertical_bias="0.333" />
 
     <RelativeLayout
-        android:layout_marginTop="100px"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="120px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -47,6 +48,7 @@
         app:layout_constraintVertical_bias="0.5">
 
         <EditText
+
 
             android:id="@+id/ed_id"
             android:layout_width="320dp"
@@ -62,7 +64,6 @@
             android:elevation="10dp"
             android:ems="10"
             android:hint="Enter your id"
-
             android:paddingLeft="10dp"
             android:textColorHint="@color/navyy" />
 
@@ -88,34 +89,17 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/error_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
-        android:lineHeight="24dp"
-
-        android:textColor="@color/reqinfo"
-        android:textSize="15dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.301"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.705" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginbtn"
         android:layout_width="100dp"
         android:layout_height="70dp"
 
         android:background="@drawable/cercle_btn"
-        android:text="Login"
-        android:textSize="20dp"
-        android:textFontWeight="700"
         android:lineHeight="24.2dp"
+        android:text="Login"
         android:textColor="@color/white"
+        android:textFontWeight="700"
+        android:textSize="20dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
