@@ -1,60 +1,84 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
+import com.example.chatapp.databinding.FragmentDataGroupBinding
+import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.GroupStudentAdapter
+import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Students
+import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [DataGroupFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class DataGroupFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    lateinit var binding: FragmentDataGroupBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    //  lateinit var dataGroupViewModel: DataGroupViewModel
+    lateinit var studentList: MutableList<Students>
+    lateinit var adapter: GroupStudentAdapter
+    lateinit var _groupName: String
+    lateinit var _message: String
 
+    var _studentList: MutableList<String> = mutableListOf()
+
+    //  lateinit var dataRequest :DataGroupRequest
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_data_group, container, false)
+        binding = FragmentDataGroupBinding.inflate(inflater, container, false)
+//        dataGroupViewModel=ViewModelProviders.of(requireActivity()).get(DataGroupViewModel::class.java)
+        _groupName = binding.etGroupName.text.toString()
+        _message = binding.etMessage.text.toString()
+
+
+// dataRequest =DataGroupRequest(_groupName,_message,_studentList)
+
+
+        Students("e", R.drawable.uncheck_black_checkbox)
+        studentList = mutableListOf(
+            Students("Eman", R.drawable.uncheck_black_checkbox),
+            Students("rana", R.drawable.uncheck_black_checkbox),
+            Students("rana", R.drawable.uncheck_black_checkbox),
+            Students("abd elrahman", R.drawable.uncheck_black_checkbox),
+            Students("sheref", R.drawable.uncheck_black_checkbox)
+        )
+
+        adapter = GroupStudentAdapter(studentList, this)
+        binding.rvListOfStudents.adapter = adapter
+        binding.rvListOfStudents.layoutManager = LinearLayoutManager(requireActivity())
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DataGroupFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DataGroupFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    @SuppressLint("SuspiciousIndentation")
+    override fun onItemClick(position: Int) {
+        _studentList.add((position + 1).toString())
+
+        Toast.makeText(requireActivity(), "$position clicked", Toast.LENGTH_LONG).show()
+        val clickedItem = studentList[position]
+        if (clickedItem.imgIsChecked == R.drawable.uncheck_black_checkbox) {
+            clickedItem.imgIsChecked = R.drawable.check_black_checkbox
+            adapter.notifyItemChanged(position)
+            println(_studentList)
+        } else {
+            _studentList.removeAt(_studentList.indexOf(""+position+1)
+            )
+//            _studentList.remove((position+1).toString())
+            clickedItem.imgIsChecked = R.drawable.uncheck_black_checkbox
+            adapter.notifyItemChanged(position)
+            println(_studentList)
+
+        }
     }
+    fun getStudents(){
+       // RetrofitClientAdmin.api.sendDataGroupMessage()
+
+    }
+
 }

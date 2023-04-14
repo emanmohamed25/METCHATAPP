@@ -15,7 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_toEndOf="@+id/ivStudentImage"
         android:gravity="center_vertical"
         android:text="Mesteka"
@@ -24,12 +27,13 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/btnCheck"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_gravity="end"
-        android:background="@drawable/uncheck_black_checkbox" />
+
+        android:background="@drawable/check_black_checkbox" />
 </RelativeLayout>

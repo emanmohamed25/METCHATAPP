@@ -8,7 +8,7 @@ data class DepartmentResponse(
     val `data`: List<Data>,
     @SerializedName("message")
     val message: String,
-    @SerializedName("Sections")
+    @SerializedName("sections")
     val sections: List<Section>,
     @SerializedName("status")
     val status: String

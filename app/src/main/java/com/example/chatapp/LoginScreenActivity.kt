@@ -1,7 +1,6 @@
 package com.example.chatapp
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -9,7 +8,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.databinding.ActivityLoginScreenBinding
-import com.example.chatapp.doctor.newchat.admin.createnewchate.ui.NewChatActivity
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.network.ApiService
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
@@ -29,7 +29,7 @@ class LoginScreenActivity : AppCompatActivity() {
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
-    var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
+//    var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
      var token: String=""
     var myshared: SharedPreferences? = null
     var admintoken: String = ""
@@ -47,6 +47,9 @@ class LoginScreenActivity : AppCompatActivity() {
         Toast.makeText(this@LoginScreenActivity, KindUser.toString(), Toast.LENGTH_LONG).show()
         try {
             loginbtn.setOnClickListener {
+
+                Log.e("e", "bbbbbbbbbbbbbbbbbbbbb")
+
                 val okhttp = OkHttpClient.Builder()
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -57,20 +60,19 @@ class LoginScreenActivity : AppCompatActivity() {
                     .build()
                 apiService = retrofit.create(ApiService::class.java)
 
-                val email = binding.edId.text.toString()
-                val password = binding.edPassword.text.toString()
+                val email = binding.edId.text.toString().trim()
+                val password = binding.edPassword.text.toString().trim()
                 //  RetrofitClientAdmin.
 
                 if (KindUser.equals("admin")) {
-                    if (binding.edId.text.isNullOrEmpty()
-                        || binding.edPassword.text.isNullOrEmpty()
+                    if (email.isEmpty()
+                        || password.isEmpty()
                     ) {
                         Toast.makeText(
                             applicationContext,
                             "invalid email OR password!",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     } else {
                         Toast.makeText(
                             this@LoginScreenActivity,
@@ -140,7 +142,7 @@ class LoginScreenActivity : AppCompatActivity() {
                                 } else {
                                     Toast.makeText(
                                         this@LoginScreenActivity,
-                                        response.message(),
+                                        response.message()+"ttttttttt",
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
@@ -161,15 +163,14 @@ class LoginScreenActivity : AppCompatActivity() {
 //                        || (password.equals("123123") && (email.equals("std1")
 //                                || email.equals("std2") || email.equals("std3")))
 //                    ) {
-                    if (binding.edId.text.isNullOrEmpty()
-                        || binding.edPassword.text.isNullOrEmpty()
+                    if (email.isEmpty()
+                        || password.isEmpty()
                     ) {
                         Toast.makeText(
                             applicationContext,
                             "invalid email OR password!",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                     } else {
                         var callStudent =
                             apiService.loginstudent(LoginRequestStudent(email, password))

@@ -31,11 +31,7 @@
         android:id="@+id/dataGroupFragment"
         android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.DataGroupFragment"
         android:label="fragment_data_group"
-        tools:layout="@layout/fragment_data_group" >
-        <action
-            android:id="@+id/action_dataGroupFragment_to_groupeFragment"
-            app:destination="@id/groupeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_data_group" />
     <fragment
         android:id="@+id/allFragment"
         android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.AllFragment"

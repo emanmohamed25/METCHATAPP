@@ -7,7 +7,7 @@ import android.os.Handler
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.databinding.ActivitySplashBinding
-import com.example.chatapp.doctor.newchat.admin.createnewchate.ui.NewChatActivity
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 
@@ -52,30 +52,30 @@ class splash : AppCompatActivity() {
             Handler().postDelayed({
                 // This method will be executed once the timer is over
                 // Start your main activity
-                startActivity(Intent(this,HomeChatScreen::class.java))
+                startActivity(Intent(this,ChatStudentActivity::class.java))
 
                 // close this activity
                 finish()
             }, SPLASH_TIME_OUT)
 
         }
-        else if(adtoken!=""){
-
-            Toast.makeText(this@splash,
-                adtoken.toString(),
-                Toast.LENGTH_SHORT)
-                .show()
-            supportActionBar?.hide()
-            Handler().postDelayed({
-                // This method will be executed once the timer is over
-                // Start your main activity
-                startActivity(Intent(this, NewChatActivity::class.java))
-
-                // close this activity
-                finish()
-
-            },SPLASH_TIME_OUT)
-        }
+//        else if(!adtoken.isNullOrEmpty()){
+//
+//            Toast.makeText(this@splash,
+//                adtoken.toString(),
+//                Toast.LENGTH_SHORT)
+//                .show()
+//            supportActionBar?.hide()
+//            Handler().postDelayed({
+//                // This method will be executed once the timer is over
+//                // Start your main activity
+//                startActivity(Intent(this, NewChatActivity::class.java))
+//
+//                // close this activity
+//                finish()
+//
+//            },SPLASH_TIME_OUT)
+//        }
         else{
 
             supportActionBar?.hide()

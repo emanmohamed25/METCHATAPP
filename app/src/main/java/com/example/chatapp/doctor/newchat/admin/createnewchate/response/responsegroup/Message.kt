@@ -1,17 +1,15 @@
-package com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment
+package com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup
 
 
 import com.google.gson.annotations.SerializedName
 
-data class Data(
+data class Message(
     @SerializedName("channel_id")
     val channelId: Int,
     @SerializedName("channel_name")
     val channelName: String,
     @SerializedName("content")
     val content: String,
-    @SerializedName("created_at")
-    val createdAt: String,
     @SerializedName("id")
     val id: Int,
     @SerializedName("user_id")
