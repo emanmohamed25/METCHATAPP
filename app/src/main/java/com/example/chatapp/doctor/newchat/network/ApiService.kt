@@ -6,6 +6,7 @@ import com.example.chatapp.ResponseStudent
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DataGroupRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.DepartmentResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.DataGroupResponse
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
 import retrofit2.Call
@@ -35,4 +36,7 @@ interface ApiService {
         @Header("Authorization") authHeader: String, @Body request: DataGroupRequest
     ):Call<DataGroupResponse>
 
+//department kinds
+    @GET("departments")
+    fun getDepartment():Call<DepartmentSpinnerResponse>
 }

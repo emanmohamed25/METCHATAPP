@@ -12,8 +12,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
+import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.SectionsAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
+import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.DepartmentResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
 import retrofit2.Call
@@ -27,6 +30,10 @@ class DepartmentFragment : Fragment() {
     lateinit var levelSelectedItem: String
     lateinit var departmentRequest: DepartmentRequest
     lateinit var listSection: MutableList<String>
+    lateinit var sectionList: MutableList<Sections>
+    lateinit var adapter:SectionsAdapter
+     var customListDepartmentNames :MutableList<String> = mutableListOf()
+    var customListDepartmentIDs :MutableList<Int> = mutableListOf()
 
     //    var positionD: Int? = null
 //    var positionL: Int? = null
@@ -42,202 +49,140 @@ class DepartmentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
-
+//customListDepartment= mutableListOf()
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
         var adtoken = myshared?.getString("admintoken", "")
         Toast.makeText(context, "" + adtoken, Toast.LENGTH_LONG)
             .show()
 
+RetrofitClientAdmin.api.getDepartment().enqueue(
+    object : Callback<DepartmentSpinnerResponse>
+    {
 
+        override fun onResponse(
+            call: Call<DepartmentSpinnerResponse>,
+            response: Response<DepartmentSpinnerResponse>
+        ) {
+            if (response.isSuccessful) {
+                val data = response.body()
+                val listNames = data?.data?.filterNotNull()!!.map {
+                    it.name
+                }
+                val listIDs =data?.data?.filterNotNull()!!.map {
+                    it.id
+                }
+                customListDepartmentNames.addAll(listNames)
+                customListDepartmentIDs.addAll(listIDs)
+                Toast.makeText(
+                    context,
+                    data?.message +"\n ${customListDepartmentNames[0]}",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                // Handle the error
+            }
+        }
+
+        override fun onFailure(call: Call<DepartmentSpinnerResponse>, t: Throwable) {
+            Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                .show()
+            Log.e("department response", "Error : $t")
+
+        }
+    })
         // listSection= MutableList<String>(4){""}
         //custom spinner
-        val customListDepartment =
-            listOf<String>("Computer Science", "Information Systems", "Accounting")
+//        val customListDepartment =
+//            listOf<String>("Computer Science", "Information Systems", "Accounting")
         val customListLevel = listOf<String>("level 1", "level 2", "level 3", "level 4")
 
         val spinnerAdapterLevel =
             ArrayAdapter<String>(requireContext(), R.layout.spin_text_style, customListLevel)
         spinnerAdapterLevel.setDropDownViewResource(R.layout.spinner_item)
         val spinnerAdapterDepartment =
-            ArrayAdapter<String>(requireContext(), R.layout.spin_text_style, customListDepartment)
+            ArrayAdapter<String>(requireContext(), R.layout.spin_text_style,
+                this.customListDepartmentNames
+            )
+        spinnerAdapterDepartment.notifyDataSetChanged()
         spinnerAdapterDepartment.setDropDownViewResource(R.layout.spinner_item)
         binding.spinDepartment.adapter = spinnerAdapterDepartment
         binding.spinLevels.adapter = spinnerAdapterLevel
 
 
-        //functionality of checkBox
-        binding.btnAllCheck.setOnClickListener {
-            if (allsectionIsCheck) {
-                allsectionIsCheck = false
-                binding.btnAllCheck.setBackgroundResource(R.drawable.uncheck_wite_checkbox)
-                binding.btnSection1Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                binding.btnSection2Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                binding.btnSection3Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                binding.btnSection4Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                binding.btnSection5Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                binding.btnSection6Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                binding.btnSection7Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                binding.btnSection8Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
 
-                listSection.clear()
-
-                for (i in 0..listSectionBoolean.size) {
-                    listSectionBoolean.set(i, 0)
-                }
-            } else {
-                allsectionIsCheck = true
-                binding.btnAllCheck.setBackgroundResource(R.drawable.check_wite_checkbox)
-                binding.btnSection1Check.setBackgroundResource(R.drawable.check_black_checkbox)
-                binding.btnSection2Check.setBackgroundResource(R.drawable.check_black_checkbox)
-                binding.btnSection3Check.setBackgroundResource(R.drawable.check_black_checkbox)
-                binding.btnSection4Check.setBackgroundResource(R.drawable.check_black_checkbox)
-                binding.btnSection5Check.setBackgroundResource(R.drawable.check_black_checkbox)
-                binding.btnSection6Check.setBackgroundResource(R.drawable.check_black_checkbox)
-                binding.btnSection7Check.setBackgroundResource(R.drawable.check_black_checkbox)
-                binding.btnSection8Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                listSection.add("1")
-//                listSection.add("2")
-//                listSection.add("4")
-//                listSection.add("5")
-
-                for (i in 0..listSectionBoolean.size) {
-                    listSectionBoolean.set(i, 1)
-                }
-
-            }
-        }
-
-        binding.btnSection1Check.setOnClickListener {
-            if (listSectionBoolean[0] == 0) {
-                listSectionBoolean.set(0, 1)
-                binding.btnSection1Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection1Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(0, 0)
-
-            }
-            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-                .show()
-        }
-        binding.btnSection2Check.setOnClickListener {
-            if (listSectionBoolean[1] == 0) {
-                listSectionBoolean.set(1, 1)
-                binding.btnSection2Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection2Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(1, 0)
-
-            }
-            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-                .show()
-
-
-        }
-        binding.btnSection3Check.setOnClickListener {
-            if (listSectionBoolean[2] == 0) {
-                listSectionBoolean.set(2, 1)
-                binding.btnSection3Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection3Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(2, 0)
-
-            }
-            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-                .show()
-        }
-        binding.btnSection4Check.setOnClickListener {
-            if (listSectionBoolean[3] == 0) {
-                listSectionBoolean.set(3, 1)
-                binding.btnSection4Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection4Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(3, 0)
-
-            }
-            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-                .show()
-
-        }
-        binding.btnSection5Check.setOnClickListener {
-            if (listSectionBoolean[4] == 0) {
-                listSectionBoolean.set(4, 1)
-                binding.btnSection5Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection5Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(4, 0)
-
-            }
-
-
-        }
-        binding.btnSection6Check.setOnClickListener {
-            if (listSectionBoolean[5] == 0) {
-                listSectionBoolean.set(5, 1)
-                binding.btnSection6Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection6Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(5, 0)
-
-            }
-            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-                .show()
-        }
-        binding.btnSection7Check.setOnClickListener {
-            if (listSectionBoolean[6] == 0) {
-                listSectionBoolean.set(6, 1)
-                binding.btnSection7Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection7Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(6, 0)
-
-            }
-            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-                .show()
-        }
-        binding.btnSection8Check.setOnClickListener {
-            if (listSectionBoolean[7] == 0) {
-                listSectionBoolean.set(7, 1)
-                binding.btnSection8Check.setBackgroundResource(R.drawable.check_black_checkbox)
-            } else {
-                binding.btnSection8Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-                listSectionBoolean.set(7, 0)
-
-            }
-            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-                .show()
-        }
 
         var positionD: Int? = null
         var positionL: Int? = null
 //spinner for department&&level handling
-        binding.spinDepartment.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    Toast.makeText(context, "please choose the department!", Toast.LENGTH_LONG)
-                        .show()
+        try {
+            binding.spinDepartment.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+
+                    override fun onNothingSelected(p0: AdapterView<*>) {
+                        Toast.makeText(context, "please choose the department!", Toast.LENGTH_LONG)
+                            .show()
+
+                    }
+
+
+                    override fun onItemSelected(
+                        adapterView: AdapterView<*>,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        Log.e("department response", "onItemSelected")
+
+//                    departmentIsSelected = true
+//                    departmentSelectedItem = adapterView?.getItemAtPosition(position).toString()
+//                    positionD = position + 1
+//                    Toast.makeText(
+//                        context,
+//                        "$positionD\n$departmentSelectedItem",
+//                        Toast.LENGTH_LONG
+//                    )
+//                        .show()
+
+                    }
 
                 }
 
-                override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    departmentIsSelected = true
-                    departmentSelectedItem = adapterView?.getItemAtPosition(position).toString()
-                    positionD = position + 1
-                    Toast.makeText(
-                        context,
-                        "$positionD\n$departmentSelectedItem",
-                        Toast.LENGTH_LONG
-                    )
-                        .show()
+        }catch (e:Exception){
+            Log.e("department response", "$e")
 
-                }
-
-            }
+        }
+//        binding.spinDepartment.onItemSelectedListener =
+//            object : AdapterView.OnItemSelectedListener {
+//
+//                override fun onNothingSelected(p0: AdapterView<*>?) {
+//                    Toast.makeText(context, "please choose the department!", Toast.LENGTH_LONG)
+//                        .show()
+//
+//                }
+//
+//
+//                override fun onItemSelected(
+//                    adapterView: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    Log.e("department response", "onItemSelected")
+//
+////                    departmentIsSelected = true
+////                    departmentSelectedItem = adapterView?.getItemAtPosition(position).toString()
+////                    positionD = position + 1
+////                    Toast.makeText(
+////                        context,
+////                        "$positionD\n$departmentSelectedItem",
+////                        Toast.LENGTH_LONG
+////                    )
+////                        .show()
+//
+//                }
+//
+//            }
         binding.spinLevels.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -372,5 +317,145 @@ class DepartmentFragment : Fragment() {
 
         return binding.root
     }
-
+    //functionality of checkBox
+//        binding.btnAllCheck.setOnClickListener {
+//            if (allsectionIsCheck) {
+//                allsectionIsCheck = false
+//                binding.btnAllCheck.setBackgroundResource(R.drawable.uncheck_wite_checkbox)
+//                binding.btnSection1Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                binding.btnSection2Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                binding.btnSection3Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                binding.btnSection4Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                binding.btnSection5Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                binding.btnSection6Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                binding.btnSection7Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                binding.btnSection8Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//
+//                listSection.clear()
+//
+//                for (i in 0..listSectionBoolean.size) {
+//                    listSectionBoolean.set(i, 0)
+//                }
+//            } else {
+//                allsectionIsCheck = true
+//                binding.btnAllCheck.setBackgroundResource(R.drawable.check_wite_checkbox)
+//                binding.btnSection1Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//                binding.btnSection2Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//                binding.btnSection3Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//                binding.btnSection4Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//                binding.btnSection5Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//                binding.btnSection6Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//                binding.btnSection7Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//                binding.btnSection8Check.setBackgroundResource(R.drawable.check_black_checkbox)
+////                listSection.add("1")
+////                listSection.add("2")
+////                listSection.add("4")
+////                listSection.add("5")
+//
+//                for (i in 0..listSectionBoolean.size) {
+//                    listSectionBoolean.set(i, 1)
+//                }
+//
+//            }
+//        }
+//
+//        binding.btnSection1Check.setOnClickListener {
+//            if (listSectionBoolean[0] == 0) {
+//                listSectionBoolean.set(0, 1)
+//                binding.btnSection1Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection1Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(0, 0)
+//
+//            }
+//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
+//                .show()
+//        }
+//        binding.btnSection2Check.setOnClickListener {
+//            if (listSectionBoolean[1] == 0) {
+//                listSectionBoolean.set(1, 1)
+//                binding.btnSection2Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection2Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(1, 0)
+//
+//            }
+//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
+//                .show()
+//
+//
+//        }
+//        binding.btnSection3Check.setOnClickListener {
+//            if (listSectionBoolean[2] == 0) {
+//                listSectionBoolean.set(2, 1)
+//                binding.btnSection3Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection3Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(2, 0)
+//
+//            }
+//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
+//                .show()
+//        }
+//        binding.btnSection4Check.setOnClickListener {
+//            if (listSectionBoolean[3] == 0) {
+//                listSectionBoolean.set(3, 1)
+//                binding.btnSection4Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection4Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(3, 0)
+//
+//            }
+//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
+//                .show()
+//
+//        }
+//        binding.btnSection5Check.setOnClickListener {
+//            if (listSectionBoolean[4] == 0) {
+//                listSectionBoolean.set(4, 1)
+//                binding.btnSection5Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection5Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(4, 0)
+//
+//            }
+//
+//
+//        }
+//        binding.btnSection6Check.setOnClickListener {
+//            if (listSectionBoolean[5] == 0) {
+//                listSectionBoolean.set(5, 1)
+//                binding.btnSection6Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection6Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(5, 0)
+//
+//            }
+//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
+//                .show()
+//        }
+//        binding.btnSection7Check.setOnClickListener {
+//            if (listSectionBoolean[6] == 0) {
+//                listSectionBoolean.set(6, 1)
+//                binding.btnSection7Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection7Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(6, 0)
+//
+//            }
+//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
+//                .show()
+//        }
+//        binding.btnSection8Check.setOnClickListener {
+//            if (listSectionBoolean[7] == 0) {
+//                listSectionBoolean.set(7, 1)
+//                binding.btnSection8Check.setBackgroundResource(R.drawable.check_black_checkbox)
+//            } else {
+//                binding.btnSection8Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
+//                listSectionBoolean.set(7, 0)
+//
+//            }
+//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
+//                .show()
+//        }
 }
