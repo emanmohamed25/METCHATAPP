@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingScreen">
+
+    <RelativeLayout
+        android:id="@+id/barr1"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/navyy">
+
+        <ImageView
+            android:id="@+id/backbtnarrow"
+            android:layout_width="wrap_content"
+
+
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/arrowback" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="55dp"
+            android:layout_toRightOf="@id/backitem"
+
+
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+
+            android:text="Settings"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <ImageView
+
+
+            android:id="@+id/logoutbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/logoutlogoo" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bar2"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/barr1"
+        android:layout_marginTop="48dp"
+        android:background="@color/navyy">
+
+        <ImageView
+            android:id="@+id/namelogo"
+            android:layout_width="61dp"
+            android:layout_height="61dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/userphoto1" />
+
+        <!-- Star icon -->
+        <TextView
+            android:id="@+id/namestudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/namelogo"
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+            android:text="tayam"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bar3"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/bar2"
+        android:layout_marginTop="48dp"
+        android:background="@color/navyy">
+
+        <ImageView
+            android:id="@+id/chasticon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/chatsicon" />
+
+        <!-- Star icon -->
+        <TextView
+
+            android:textSize="16dp"
+            android:textFontWeight="500"
+            android:id="@+id/chats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/chasticon"
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+            android:text="Chats"
+            android:textColor="@color/white"></TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bar4"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/bar3"
+        android:layout_marginTop="48dp"
+        android:background="@color/navyy">
+
+        <ImageView
+            android:id="@+id/notificationicon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/ntoficationicon" />
+
+        <!-- Star icon -->
+        <TextView
+
+            android:textSize="16dp"
+            android:textFontWeight="500"
+            android:id="@+id/notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/notificationicon"
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+            android:text="Notifications"
+            android:textColor="@color/white"></TextView>
+    </RelativeLayout>
+
+    </RelativeLayout>

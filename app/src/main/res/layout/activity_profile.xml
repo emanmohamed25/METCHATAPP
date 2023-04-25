@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <RelativeLayout
+        android:id="@+id/bar1"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/navyy">
+
+        <ImageView
+            android:id="@+id/backitem"
+            android:layout_width="wrap_content"
+
+
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/arrowback" />
+
+        <!-- Star icon -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="55dp"
+            android:layout_toRightOf="@id/backitem"
+
+
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+
+            android:text="Profile"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <!-- Circle image -->
+
+        <!-- Settings text -->
+        <ImageView
+
+
+            android:id="@+id/logoutbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/logoutlogoo" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/profilephoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar1"
+        android:layout_marginTop="21dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/studenthomepagephoto"></ImageView>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bar2"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/profilephoto"
+        android:layout_marginTop="13dp"
+        android:background="@color/navyy">
+
+        <ImageView
+            android:id="@+id/namelogo"
+            android:layout_width="15dp"
+
+
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/namelogo" />
+
+        <!-- Star icon -->
+        <TextView
+            android:id="@+id/namestudent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/namelogo"
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+            android:text="tayam"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/bar3"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/bar2"
+        android:layout_marginTop="13dp"
+        android:background="@color/navyy">
+
+        <ImageView
+            android:id="@+id/yealogo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/yearlogo" />
+
+        <!-- Star icon -->
+        <TextView
+            android:id="@+id/grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/yealogo"
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+            android:text="4TH"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/bar4"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/bar3"
+        android:layout_marginTop="13dp"
+        android:background="@color/navyy">
+        <ImageView
+            android:id="@+id/departmentlogo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/yearlogo" />
+
+        <!-- Star icon -->
+        <TextView
+            android:id="@+id/department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toRightOf="@id/departmentlogo"
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24dp"
+            android:text="cs"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
