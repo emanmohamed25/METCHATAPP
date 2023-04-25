@@ -4,12 +4,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.databinding.ActivityHomeChatScreenBinding
+import com.example.chatapp.databinding.ActivityHomepageBinding
 import com.example.chatapp.student.ChatAdapter
 import kotlinx.android.synthetic.main.activity_home_chat_screen.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -22,30 +26,47 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class HomeChatScreen : AppCompatActivity() {
     lateinit var chatsrecyclerview: RecyclerView
-    lateinit var adapter: ChatAdapter
+    lateinit var list: ArrayList<Chat>
+    lateinit var myadapter: ChatAdapter
     private lateinit var chatsapi: ChatsAPI
-    private lateinit var arrayusers: List<TestClass>
+
     var myshared: SharedPreferences? = null
+    lateinit var binding: ActivityHomeChatScreenBinding
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home_chat_screen)
-        //logout part
+        binding= ActivityHomeChatScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.profilephoto.setOnClickListener(){
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+
         settings_text.setOnClickListener() {
+            val intent = Intent(this, SettingScreen::class.java)
+            startActivity(intent)
+
+            /*
             myshared = getSharedPreferences("myshared", 0)
             var editor: SharedPreferences.Editor = myshared!!.edit()
             editor.remove("studenttoken")
             editor.apply();
             val intent = Intent(this@HomeChatScreen, splash::class.java)
             startActivity(intent)
-            finish()
+            finish()*/
 
         }
+        list=ArrayList()
 
-        adapter = ChatAdapter(applicationContext, mutableListOf());
+        myadapter = ChatAdapter(applicationContext, mutableListOf());
         chatsrecyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         chatsrecyclerview.layoutManager = LinearLayoutManager(this)
-        chatsrecyclerview.adapter = adapter
+        chatsrecyclerview.adapter = myadapter
+        ///////////////////////////////////////
         myshared = getSharedPreferences("myshared", 0)
         var mytoken = myshared?.getString("studenttoken", "").toString()
 
@@ -64,50 +85,56 @@ class HomeChatScreen : AppCompatActivity() {
         })
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8000/api/")
+            .baseUrl("http://172.20.10.11/chatapp/public/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
             .build()
 
         chatsapi = retrofit.create(ChatsAPI::class.java)
         var call = chatsapi.getChats(mytoken)
-        call.enqueue(object : Callback<List<TestClass>> {
-            override fun onResponse(
-                call: Call<List<TestClass>>,
-                response: Response<List<TestClass>>
-            ) {
-                val x = response.code()
-                Log.d("cccccccccccccc",x.toString())
+        call.enqueue(object : Callback<StudentChatsResponse> {
+                override fun onResponse(
+                    call: Call<StudentChatsResponse>,
+                    response: Response<StudentChatsResponse>
+                ) {
+                    val x = response.code()
+                    Log.d("cccccccccccccc", x.toString())
 
-                if (response.isSuccessful) {
-                    Toast.makeText(this@HomeChatScreen, "sucessfetch", Toast.LENGTH_LONG)
-                        .show()
-                    var data = response.body()!!
-                   // Log.d("xxxxxxxxxxxxxxxx",data.toString())
-                    adapter = ChatAdapter(baseContext, data)
-                    chatsrecyclerview.adapter = adapter
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@HomeChatScreen, "sucessfetch", Toast.LENGTH_LONG)
+                            .show()
+                        var data = response.body()!!
+                        // Log.d("xxxxxxxxxxxxxxxx",data.toString())
+                        myadapter = ChatAdapter(baseContext, data.chats)
+                        chatsrecyclerview.adapter = myadapter
 
 
-                    //var data = response.body()!!
-                    // chatsrecyclerview.adapter = ChatAdapter(
-                    //    baseContext,
-                    //   data as ArrayList<StudentChatsRseponse>
-                    // )
-                } else {
-                    Toast.makeText(applicationContext, "Error fetching chats", Toast.LENGTH_SHORT)
-                        .show()
+
+                        //var data = response.body()!!
+                        // chatsrecyclerview.adapter = ChatAdapter(
+                        //    baseContext,
+                        //   data as ArrayList<StudentChatsRseponse>
+                        // )
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Error fetching chats",
+                            Toast.LENGTH_SHORT,
+                        )
+                            .show()
+                    }
+
                 }
 
-            }
+                override fun onFailure(call: Call<StudentChatsResponse>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Errorقققق is:$t", Toast.LENGTH_SHORT)
+                        .show()
 
-            override fun onFailure(call: Call<List<TestClass>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Errorقققق is:$t", Toast.LENGTH_SHORT)
-                    .show()
-
-            }
+                }
 
 
-        })
+            },
+        )
 /////////////////////////////////////////////////////////////////////////////
 
 

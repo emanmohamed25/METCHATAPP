@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Login_Screen : AppCompatActivity() {
     private lateinit var apiService: ApiService
     var admintoken: String = ""
-    var BASE_URL = "http://10.0.2.2:8000/api/"
+    var BASE_URL = "http://172.20.10.11/chatapp/public/api/"
     var myshared: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,12 +109,24 @@ class Login_Screen : AppCompatActivity() {
                                         Toast.LENGTH_SHORT)
                                         .show()
                                     var studenttoken = response.body()?.data?.access_token.toString()
+                                    var Name=response.body()?.data?.user?.name.toString()
+                                    var YearLevel=response.body()?.data?.user?.section?.year_level?.name.toString()
+                                    val Depatment=response.body()?.data?.user?.section?.year_level?.department?.name.toString()
+
+
                                     myshared = getSharedPreferences("myshared", 0)
                                     var editor: SharedPreferences.Editor = myshared!!.edit()
                                     editor.putString("studenttoken", studenttoken)
+                                    myshared=getSharedPreferences("myshared",0)
+                                    editor.putString("name",Name )
+                                    editor.putString("yearlevel",YearLevel )
+                                    editor.putString("department",Depatment)
                                     editor.commit()
                                     var intent1 = Intent(this@Login_Screen, HomeChatScreen::class.java)
                                     startActivity(intent1)
+
+
+
                                 }else{
                                     Toast.makeText(this@Login_Screen,
                                         "wrong id or password",

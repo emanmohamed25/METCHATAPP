@@ -6,16 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapp.Chat
 import com.example.chatapp.R
-import com.example.chatapp.StudentChatsRseponse
-import com.example.chatapp.TestClass
 import com.example.chatapp.student.student_chat_receive.StudentChatActivity
 
 class ChatAdapter(
     private val contex: Context,
-    private val chatItems: List<TestClass>,
+    private val chatItems: List<Chat>
 ) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -25,8 +23,11 @@ class ChatAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data: TestClass = chatItems[position]
+        val data  = chatItems[position]
         holder.name.text = data.name
+        holder.lastmess.text=data.last_message.content
+        holder.unseen.text=data.unseen.toString()
+        holder.time.text=data.last_message.created_at
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, StudentChatActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -42,8 +43,13 @@ class ChatAdapter(
 
     }
 
-    class ViewHolder(itemview: View, var mydata: TestClass? = null) :
+    class ViewHolder(itemview: View, /*var mydata: TestClass? = null*/) :
         RecyclerView.ViewHolder(itemview) {
+        val name = itemview.findViewById<TextView>(R.id.UserName)
+        val lastmess=itemview.findViewById<TextView>(R.id.lastmess)
+        val unseen=itemview.findViewById<TextView>(R.id.numunreadmess)
+        val  time=itemview.findViewById<TextView>(R.id.timesend)
+
         /*init {
             itemview.setOnClickListener{
                 Toast.makeText(itemview.context, mydata?.name.toString(), Toast.LENGTH_LONG).show()
@@ -59,7 +65,7 @@ class ChatAdapter(
         }*/
 
 
-        val name = itemview.findViewById<TextView>(R.id.UserName)
+
         /*val status = itemview.findViewById<TextView>(R.id.textmess)
         val image = itemview.findViewById<ImageView>(R.id.senderePhoto)
         val time = itemview.findViewById<TextView>(R.id.timesend)

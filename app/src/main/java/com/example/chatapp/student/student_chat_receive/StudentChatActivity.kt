@@ -15,7 +15,7 @@ class StudentChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student_chat)
-        val senderphoto = findViewById<ImageView>(R.id.photosender)
+        //val senderphoto = findViewById<ImageView>(R.id.profilepic)
         val backbtn = findViewById<ImageView>(R.id.back_button)
         backbtn.setOnClickListener {
             finish()

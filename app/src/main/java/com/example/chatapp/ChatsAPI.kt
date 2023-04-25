@@ -6,5 +6,5 @@ import retrofit2.http.Header
 
 interface ChatsAPI {
     @GET("student-chats")
-    fun getChats(@Header("Authorization") accessToken: String): Call<List<TestClass>>
+    fun getChats(@Header("Authorization") accessToken: String): Call<StudentChatsResponse>
 }
