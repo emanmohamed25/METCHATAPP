@@ -6,16 +6,27 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
+import com.example.chatapp.databinding.ActivityProfileBinding
+import com.example.chatapp.databinding.ActivityStudentChatBinding
 import com.example.chatapp.student.bubble_chat_data
+import kotlinx.android.synthetic.main.activity_student_chat.*
 
 class StudentChatActivity : AppCompatActivity() {
+    lateinit var binding: ActivityStudentChatBinding
     private var BubbleContentarray: MutableList<bubble_chat_data> = mutableListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_student_chat)
-        //val senderphoto = findViewById<ImageView>(R.id.profilepic)
+        binding= ActivityStudentChatBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        profilepic.setOnClickListener(){
+
+
+
+        }
+
         val backbtn = findViewById<ImageView>(R.id.back_button)
         backbtn.setOnClickListener {
             finish()

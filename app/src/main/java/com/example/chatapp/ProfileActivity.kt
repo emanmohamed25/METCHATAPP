@@ -28,7 +28,6 @@ class ProfileActivity : AppCompatActivity() {
         backitem.setOnClickListener(){
             val intent = Intent(this, HomeChatScreen::class.java)
             startActivity(intent)
-            finish()
 
         }
         logoutbutton.setOnClickListener() {

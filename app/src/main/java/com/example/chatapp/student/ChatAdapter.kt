@@ -24,7 +24,7 @@ class ChatAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data  = chatItems[position]
-        holder.name.text = data.name
+        holder.name.text = data.last_message.user_name.toString()
         holder.lastmess.text=data.last_message.content
         holder.unseen.text=data.unseen.toString()
         holder.time.text=data.last_message.created_at

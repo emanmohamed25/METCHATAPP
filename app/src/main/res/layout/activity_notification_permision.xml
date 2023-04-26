@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingScreen">
+    tools:context=".NotificationPermision">
 
     <RelativeLayout
         android:id="@+id/barr1"
@@ -38,10 +38,7 @@
             android:text="Settings"
             android:textColor="@color/white"
             android:textSize="20dp" />
-
         <ImageView
-
-
             android:id="@+id/logoutbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,10 +46,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
             android:background="@drawable/logoutlogoo" />
-
-
     </RelativeLayout>
-
     <RelativeLayout
         android:id="@+id/bar2"
         android:layout_width="match_parent"
@@ -60,7 +54,6 @@
         android:layout_below="@+id/barr1"
         android:layout_marginTop="48dp"
         android:background="@color/navyy">
-
         <ImageView
             android:id="@+id/namelogo"
             android:layout_width="61dp"
@@ -69,7 +62,6 @@
             android:layout_marginLeft="16dp"
             android:background="@drawable/userphoto1" />
 
-        <!-- Star icon -->
         <TextView
             android:id="@+id/namestudent"
             android:layout_width="wrap_content"
@@ -84,70 +76,52 @@
             android:textSize="20dp" />
     </RelativeLayout>
     <RelativeLayout
-        android:id="@+id/bar3"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="180dp"
         android:layout_below="@+id/bar2"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="50dp"
         android:background="@color/navyy">
-
         <ImageView
-            android:id="@+id/chasticon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_centerVertical="true"
+            android:id="@+id/goldchaticon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginLeft="16dp"
-            android:background="@drawable/chatsicon" />
-
-        <!-- Star icon -->
+            android:layout_marginTop="10dp"
+            android:background="@drawable/goldnotififcationicon"></ImageView>
         <TextView
-
-            android:textSize="16dp"
-            android:textFontWeight="500"
-            android:id="@+id/chats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@id/chasticon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/goldchaticon"
             android:fontFamily="@font/inter_bold"
-            android:lineHeight="24dp"
-            android:text="Chats"
-            android:textColor="@color/white"></TextView>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/bar4"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_below="@+id/bar3"
-        android:layout_marginTop="48dp"
-        android:background="@color/navyy">
-
-        <ImageView
-            android:id="@+id/notificationicon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:background="@drawable/ntoficationicon" />
-
-        <!-- Star icon -->
-        <TextView
-
-            android:id="@+id/notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:layout_toRightOf="@id/notificationicon"
-            android:fontFamily="@font/inter_bold"
-            android:lineHeight="24dp"
+            android:lineHeight="16dp"
             android:text="Notifications"
+            android:textColor="@color/gold"
+            android:textFontWeight="500"
+            ></TextView>
+        <TextView
+            android:id="@+id/textmedia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="45dp"
+            android:text="Use high priority notifications\nShow previews of notifications at the\n top ofscreen"
+            android:textSize="15dp"
             android:textColor="@color/white"
             android:textFontWeight="500"
-            android:textSize="16dp"></TextView>
-    </RelativeLayout>
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="20dp"
 
+            ></TextView>
+
+        <Switch
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="29dp"
+            android:layout_marginTop="60dp"
+            android:layout_toRightOf="@+id/textmedia"></Switch>
+    </RelativeLayout>
 
 </RelativeLayout>
