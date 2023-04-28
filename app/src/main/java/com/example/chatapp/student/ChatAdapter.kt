@@ -28,10 +28,13 @@ class ChatAdapter(
         holder.lastmess.text=data.last_message.content
         holder.unseen.text=data.unseen.toString()
         holder.time.text=data.last_message.created_at
+        var id =data.id
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, StudentChatActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("chatid",id)
             holder.itemView.context.startActivity(intent)
+
         }
         /*holder.status.text = data.status
         holder.image.setImageResource(data.image)

@@ -104,6 +104,7 @@ class HomeChatScreen : AppCompatActivity() {
                         Toast.makeText(this@HomeChatScreen, "sucessfetch", Toast.LENGTH_LONG)
                             .show()
                         var data = response.body()!!
+                       //yu9tg var x=response.body()!!.chats[0].id
                         // Log.d("xxxxxxxxxxxxxxxx",data.toString())
                         myadapter = ChatAdapter(baseContext, data.chats)
                         chatsrecyclerview.adapter = myadapter
