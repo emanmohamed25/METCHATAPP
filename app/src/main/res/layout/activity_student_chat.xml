@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".student.student_chat_receive.StudentChatActivity">
+
+    <RelativeLayout
+        android:id="@+id/actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/navyy">
+
+
+        <ImageView
+
+
+            android:id="@+id/back_button"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/backbutton" />
+
+        <!-- Circle image -->
+        <ImageView
+            android:id="@+id/profilepic"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/userphoto1" />
+
+        <ImageView
+            android:id="@+id/searchicon"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/searchicon"
+            android:text="Settings"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewbubble"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/actionbar"
+        android:layout_marginTop="-3dp"></androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/bottomactionbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/navyy">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/inter_bold"
+            android:lineHeight="24px"
+            android:text="You can't send messages ."
+            android:textColor="@color/white"
+            android:textSize="24dp"></TextView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -35,7 +35,7 @@
             android:fontFamily="@font/inter_bold"
             android:textColor="#949494"
             android:layout_marginTop="4dp"
-            android:id="@+id/textmess"
+            android:id="@+id/lastmess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Last Message"
