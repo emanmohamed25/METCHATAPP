@@ -8,6 +8,7 @@ import com.example.chatapp.R
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Students
 import kotlinx.android.synthetic.main.item_list_of_student.view.*
+import kotlinx.android.synthetic.main.item_section.view.*
 
 class SectionsAdapter(
     var sections: List<Sections>,
@@ -20,6 +21,12 @@ class SectionsAdapter(
         }
 
         override fun onClick(v: View?) {
+            println("chicked inner")
+
+            val position: Int = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
         }
     }
 
@@ -35,8 +42,8 @@ class SectionsAdapter(
 
     override fun onBindViewHolder(holder: SectionViewholder, position: Int) {
         holder.itemView.apply {
-            tvStudentName.text = sections[position].nameSection
-            btnCheck.setBackgroundResource(sections[position].imgIsChecked)
+            tvSection.text = sections[position].nameSection!!
+            btnSectionCheck.setBackgroundResource(sections[position].imgIsChecked)
         }
 
     }

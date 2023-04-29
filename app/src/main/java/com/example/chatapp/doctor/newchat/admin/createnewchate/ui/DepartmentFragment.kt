@@ -8,32 +8,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.chatapp.LoginScreenActivity
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.SectionsAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.DepartmentResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.levelspinner.LevelsResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.section.SectionsResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithdepartment.SendMsgWithDepartment
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.awaitResponse
 
-class DepartmentFragment : Fragment() {
+class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
     lateinit var binding: FragmentDepartment2Binding
     lateinit var departmentSelectedItem: String
     lateinit var levelSelectedItem: String
     lateinit var departmentRequest: DepartmentRequest
-    lateinit var listSection: MutableList<String>
-    lateinit var sectionList: MutableList<Sections>
-    lateinit var adapter:SectionsAdapter
-     var customListDepartmentNames :MutableList<String> = mutableListOf()
-    var customListDepartmentIDs :MutableList<Int> = mutableListOf()
+    lateinit var adapter: SectionsAdapter
+
+    //     var customListDepartmentNames :MutableList<String> = mutableListOf()
+    var customListDepartmentIDs: MutableList<Int> = mutableListOf()
+    var customListLevelIDs: MutableList<Int> = mutableListOf()
+    var sectionListNames: MutableList<Sections> = mutableListOf()
+    var sectionListIDs: MutableList<Int> = mutableListOf()
+    var listSelectedSectionIDs: MutableList<String> = mutableListOf()
 
     //    var positionD: Int? = null
 //    var positionL: Int? = null
@@ -43,419 +56,362 @@ class DepartmentFragment : Fragment() {
     var levelIsSelected: Boolean = false
     var myshared: SharedPreferences? = null
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.e("department response", "Error1 : ${customListDepartmentIDs.size}")
+//        GlobalScope.launch {
+            fillSpinnerDepartment(binding.spinDepartment)
+            Log.e("department response", "Error2 : ${customListDepartmentIDs.size}")
+
+//        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
-//customListDepartment= mutableListOf()
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
         var adtoken = myshared?.getString("admintoken", "")
         Toast.makeText(context, "" + adtoken, Toast.LENGTH_LONG)
             .show()
-
-RetrofitClientAdmin.api.getDepartment().enqueue(
-    object : Callback<DepartmentSpinnerResponse>
-    {
-
-        override fun onResponse(
-            call: Call<DepartmentSpinnerResponse>,
-            response: Response<DepartmentSpinnerResponse>
-        ) {
-            if (response.isSuccessful) {
-                val data = response.body()
-                val listNames = data?.data?.filterNotNull()!!.map {
-                    it.name
-                }
-                val listIDs =data?.data?.filterNotNull()!!.map {
-                    it.id
-                }
-                customListDepartmentNames.addAll(listNames)
-                customListDepartmentIDs.addAll(listIDs)
-                Toast.makeText(
-                    context,
-                    data?.message +"\n ${customListDepartmentNames[0]}",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                // Handle the error
-            }
-        }
-
-        override fun onFailure(call: Call<DepartmentSpinnerResponse>, t: Throwable) {
-            Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
-                .show()
-            Log.e("department response", "Error : $t")
-
-        }
-    })
-        // listSection= MutableList<String>(4){""}
-        //custom spinner
-//        val customListDepartment =
-//            listOf<String>("Computer Science", "Information Systems", "Accounting")
-        val customListLevel = listOf<String>("level 1", "level 2", "level 3", "level 4")
-
-        val spinnerAdapterLevel =
-            ArrayAdapter<String>(requireContext(), R.layout.spin_text_style, customListLevel)
-        spinnerAdapterLevel.setDropDownViewResource(R.layout.spinner_item)
-        val spinnerAdapterDepartment =
-            ArrayAdapter<String>(requireContext(), R.layout.spin_text_style,
-                this.customListDepartmentNames
-            )
-        spinnerAdapterDepartment.notifyDataSetChanged()
-        spinnerAdapterDepartment.setDropDownViewResource(R.layout.spinner_item)
-        binding.spinDepartment.adapter = spinnerAdapterDepartment
-        binding.spinLevels.adapter = spinnerAdapterLevel
-
-
+        Log.e("department response", "Error3 : ${customListDepartmentIDs.size}")
 
 
         var positionD: Int? = null
         var positionL: Int? = null
-//spinner for department&&level handling
-        try {
-            binding.spinDepartment.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-
-                    override fun onNothingSelected(p0: AdapterView<*>) {
-                        Toast.makeText(context, "please choose the department!", Toast.LENGTH_LONG)
-                            .show()
-
-                    }
 
 
-                    override fun onItemSelected(
-                        adapterView: AdapterView<*>,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        Log.e("department response", "onItemSelected")
-
-//                    departmentIsSelected = true
-//                    departmentSelectedItem = adapterView?.getItemAtPosition(position).toString()
-//                    positionD = position + 1
-//                    Toast.makeText(
-//                        context,
-//                        "$positionD\n$departmentSelectedItem",
-//                        Toast.LENGTH_LONG
-//                    )
-//                        .show()
-
-                    }
-
-                }
-
-        }catch (e:Exception){
-            Log.e("department response", "$e")
-
-        }
-//        binding.spinDepartment.onItemSelectedListener =
-//            object : AdapterView.OnItemSelectedListener {
-//
-//                override fun onNothingSelected(p0: AdapterView<*>?) {
-//                    Toast.makeText(context, "please choose the department!", Toast.LENGTH_LONG)
-//                        .show()
-//
-//                }
-//
-//
-//                override fun onItemSelected(
-//                    adapterView: AdapterView<*>?,
-//                    view: View?,
-//                    position: Int,
-//                    id: Long
-//                ) {
-//                    Log.e("department response", "onItemSelected")
-//
-////                    departmentIsSelected = true
-////                    departmentSelectedItem = adapterView?.getItemAtPosition(position).toString()
-////                    positionD = position + 1
-////                    Toast.makeText(
-////                        context,
-////                        "$positionD\n$departmentSelectedItem",
-////                        Toast.LENGTH_LONG
-////                    )
-////                        .show()
-//
-//                }
-//
-//            }
-        binding.spinLevels.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    Toast.makeText(context, "please choose the level !", Toast.LENGTH_LONG)
-                        .show()
-
-                }
-
-                override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    levelIsSelected = true
-                    levelSelectedItem = adapterView?.getItemAtPosition(position).toString()
-                    positionL = position + 1
-                }
-
-            }
-
-        listSection = MutableList<String>(4) { "" }
 //Button send Message
         binding.btnSend.setOnClickListener {
-            listSection.clear()
-            var _levelID:String=""
-//            listSection= MutableList<String>(4){""}
-//loop to add section has checked in list
-            for (i in 1..3) {
-                if (positionD == i) when (i) {
-                    1 -> {
-                        println("$positionD")
-                        val levelID= mutableListOf<String>("1","4","7","10")
-                        for (id in 1..4){
-                            if (positionL==id)
-                              _levelID=levelID[id-1]
-                        }
-                        println("$_levelID")
-
-                    }
-                    2 -> {
-                        val levelID= mutableListOf<String>("2","5","8","11")
-                        for (id in 1..4){
-                            if (positionL==id)
-                                _levelID=levelID[id-1]
-                        }
-                        println("$_levelID")
+            var _levelID: String = ""
+            Log.e("department response",
+                "departmentSelectedItem : ${departmentSelectedItem}\n" +
+                        "levelSelectedItem : $levelSelectedItem\n" +
+                        "listSelectedSectionIDs  : $listSelectedSectionIDs")
 
 
-                    }
-                    3 -> {
-                        println("$positionD")
-                        val levelID= mutableListOf<String>("3","6","9","12")
-                        for (id in 1..4){
-                            if (positionL==id)
-                                _levelID=levelID[id-1]
-                        }
-                        println("$_levelID")
-
-                    }
-
-            }}
-
-//            for (i in 0 until listSectionBoolean.size) {
-//
-//                if (listSectionBoolean[i] == 1) {
-//
-//                    listSection.add("" + (i + 1))
-//
-//                }
-//            }
             if (binding.etEnterMessage.text.isNullOrEmpty()) {
                 Toast.makeText(context, "please enter the message !", Toast.LENGTH_LONG)
                     .show()
             } else {
                 departmentRequest = DepartmentRequest(
-                    "" + positionD, "" + _levelID,
+                    departmentSelectedItem, levelSelectedItem,listSelectedSectionIDs,
                     binding.etEnterMessage.text.toString()
                 )
 
             }
-            Log.e("department_id", departmentRequest.department_id)
-            Log.e("level_id", departmentRequest.level_id.toString())
-           // Log.e("section_id", departmentRequest.section_id.toString())
-            Log.e("message", departmentRequest.message)
-
-            Toast.makeText(
-                context, "${departmentRequest.department_id}\n " +
-                        "${departmentRequest.level_id}\n" +
-                     //   "${departmentRequest.section_id}\n" +
-                        "${departmentRequest.message}}", Toast.LENGTH_LONG
-            ).show()
-
-
-//var  token: String =LoginScreenActivity().getToken()
             if (adtoken != null) {
                 Log.e("message", adtoken)
             } else
                 Log.e("message", "token is null!")
+            if (departmentRequest._level_id!!.isNotEmpty()
+                && departmentRequest._section_id!!.isNotEmpty() ){
+               RetrofitClientAdmin.api
+                    .sendDepartmentMessageSection("Bearer $adtoken"
+                        ,departmentRequest)
 
-
-
-            RetrofitClientAdmin.api.sendDepartmentMessage("Bearer $adtoken", departmentRequest)
-                .enqueue(object :
-                    Callback<DepartmentResponse> {
-
+                    .enqueue(object :Callback<SendMsgWithSection>{
                     override fun onResponse(
-                        call: Call<DepartmentResponse>,
-                        response: Response<DepartmentResponse>
+                        call: Call<SendMsgWithSection>,
+                        response: Response<SendMsgWithSection>
                     ) {
-                        if (response.isSuccessful) {
-                            val data = response.body()
-                            Toast.makeText(
-                                context,
-                                data?.message ,
-                                Toast.LENGTH_LONG
-                            ).show()
-                        } else {
-                            // Handle the error
-                        }
+                        Log.e("chat response", "OnResponse : ${response.body()}")
+//                        if (response.isSuccessful){
+//                            Toast.makeText(
+//                                context,
+//                                response.body()?.status,
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                        }
                     }
 
-                    override fun onFailure(call: Call<DepartmentResponse>, t: Throwable) {
-                        Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                    override fun onFailure(call: Call<SendMsgWithSection>, t: Throwable) {
+                        Toast.makeText(context, "onFailure: $t", Toast.LENGTH_SHORT)
                             .show()
-                        Log.e("chat response", "Error : $t")
-
+                        Log.e("chat response", "onFailure : $t")
                     }
-                })
+
+
+                    })
+            }
+
+
+//            RetrofitClientAdmin.api.sendDepartmentMessage("Bearer $adtoken", departmentRequest)
+//                .enqueue(object :
+//                    Callback<DepartmentResponse> {
+//
+//                    override fun onResponse(
+//                        call: Call<DepartmentResponse>,
+//                        response: Response<DepartmentResponse>
+//                    ) {
+//                        if (response.isSuccessful) {
+//                            val data = response.body()
+//                            Toast.makeText(
+//                                context,
+//                                data?.message,
+//                                Toast.LENGTH_LONG
+//                            ).show()
+//                        } else {
+//                            // Handle the error
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<DepartmentResponse>, t: Throwable) {
+//                        Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+//                            .show()
+//                        Log.e("chat response", "Error : $t")
+//
+//                    }
+//                })
         }
-
-
         return binding.root
     }
-    //functionality of checkBox
-//        binding.btnAllCheck.setOnClickListener {
-//            if (allsectionIsCheck) {
-//                allsectionIsCheck = false
-//                binding.btnAllCheck.setBackgroundResource(R.drawable.uncheck_wite_checkbox)
-//                binding.btnSection1Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                binding.btnSection2Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                binding.btnSection3Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                binding.btnSection4Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                binding.btnSection5Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                binding.btnSection6Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                binding.btnSection7Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                binding.btnSection8Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//
-//                listSection.clear()
-//
-//                for (i in 0..listSectionBoolean.size) {
-//                    listSectionBoolean.set(i, 0)
-//                }
-//            } else {
-//                allsectionIsCheck = true
-//                binding.btnAllCheck.setBackgroundResource(R.drawable.check_wite_checkbox)
-//                binding.btnSection1Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                binding.btnSection2Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                binding.btnSection3Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                binding.btnSection4Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                binding.btnSection5Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                binding.btnSection6Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                binding.btnSection7Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//                binding.btnSection8Check.setBackgroundResource(R.drawable.check_black_checkbox)
-////                listSection.add("1")
-////                listSection.add("2")
-////                listSection.add("4")
-////                listSection.add("5")
-//
-//                for (i in 0..listSectionBoolean.size) {
-//                    listSectionBoolean.set(i, 1)
-//                }
-//
-//            }
-//        }
-//
-//        binding.btnSection1Check.setOnClickListener {
-//            if (listSectionBoolean[0] == 0) {
-//                listSectionBoolean.set(0, 1)
-//                binding.btnSection1Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection1Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(0, 0)
-//
-//            }
-//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-//                .show()
-//        }
-//        binding.btnSection2Check.setOnClickListener {
-//            if (listSectionBoolean[1] == 0) {
-//                listSectionBoolean.set(1, 1)
-//                binding.btnSection2Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection2Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(1, 0)
-//
-//            }
-//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-//                .show()
-//
-//
-//        }
-//        binding.btnSection3Check.setOnClickListener {
-//            if (listSectionBoolean[2] == 0) {
-//                listSectionBoolean.set(2, 1)
-//                binding.btnSection3Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection3Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(2, 0)
-//
-//            }
-//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-//                .show()
-//        }
-//        binding.btnSection4Check.setOnClickListener {
-//            if (listSectionBoolean[3] == 0) {
-//                listSectionBoolean.set(3, 1)
-//                binding.btnSection4Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection4Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(3, 0)
-//
-//            }
-//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-//                .show()
-//
-//        }
-//        binding.btnSection5Check.setOnClickListener {
-//            if (listSectionBoolean[4] == 0) {
-//                listSectionBoolean.set(4, 1)
-//                binding.btnSection5Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection5Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(4, 0)
-//
-//            }
-//
-//
-//        }
-//        binding.btnSection6Check.setOnClickListener {
-//            if (listSectionBoolean[5] == 0) {
-//                listSectionBoolean.set(5, 1)
-//                binding.btnSection6Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection6Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(5, 0)
-//
-//            }
-//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-//                .show()
-//        }
-//        binding.btnSection7Check.setOnClickListener {
-//            if (listSectionBoolean[6] == 0) {
-//                listSectionBoolean.set(6, 1)
-//                binding.btnSection7Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection7Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(6, 0)
-//
-//            }
-//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-//                .show()
-//        }
-//        binding.btnSection8Check.setOnClickListener {
-//            if (listSectionBoolean[7] == 0) {
-//                listSectionBoolean.set(7, 1)
-//                binding.btnSection8Check.setBackgroundResource(R.drawable.check_black_checkbox)
-//            } else {
-//                binding.btnSection8Check.setBackgroundResource(R.drawable.uncheck_black_checkbox)
-//                listSectionBoolean.set(7, 0)
-//
-//            }
-//            Toast.makeText(context, "" + listSectionBoolean, Toast.LENGTH_LONG)
-//                .show()
-//        }
+
+     fun fillSpinnerDepartment(spinner: Spinner) {
+
+        var customListDepartmentNames: MutableList<String> = mutableListOf()
+
+        RetrofitClientAdmin.api.getDepartment().enqueue(
+            object : Callback<DepartmentSpinnerResponse> {
+
+                override fun onResponse(
+                    call: Call<DepartmentSpinnerResponse>,
+                    response: Response<DepartmentSpinnerResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val data = response.body()
+
+                        Log.e("department response", data?.data.toString())
+
+                        val listNames = data?.data?.map {
+                            it.name
+                        } ?: emptyList()
+                        val listIDs = data?.data?.map {
+                            it.id
+                        } ?: emptyList()
+                        customListDepartmentNames.addAll(listNames)
+                        // customListDepartmentIDs.addAll(listIDs)
+                        setList(listIDs)
+                        Log.e("department response", "Error4 : ${customListDepartmentIDs.size}")
+
+                        Toast.makeText(
+                            context,
+                            data?.message + "\n ${customListDepartmentNames[0]}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        val spinnerAdapterDepartment =
+                            ArrayAdapter<String>(
+                                spinner.context, R.layout.spin_text_style,
+                                customListDepartmentNames
+                            )
+                        spinnerAdapterDepartment.setDropDownViewResource(R.layout.spinner_item)
+                        binding.spinDepartment.adapter = spinnerAdapterDepartment
+
+                    } else {
+                        Log.e("department response", "Error !")
+
+                        // Handle the error
+                    }
+                }
+
+                override fun onFailure(call: Call<DepartmentSpinnerResponse>, t: Throwable) {
+                    Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                        .show()
+                    Log.e("department response", "Error : $t")
+
+                }
+            })
+    }
+
+    fun setList(listId: List<Int>) {
+        customListDepartmentIDs.clear()
+        customListDepartmentIDs.addAll(listId)
+        Log.e("department response", "Error5 : ${customListDepartmentIDs.size}")
+        spinDepartment()
+    }
+
+    fun spinDepartment() {
+        binding.spinDepartment.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    val selectedCountry = parent.getItemAtPosition(position) as String
+                    var id = customListDepartmentIDs.get(position)
+                    departmentSelectedItem = id.toString()
+
+                    customListLevelIDs.clear()
+                    Log.e(
+                        "department response",
+                        "departmentSelectedItem  :  $departmentSelectedItem  ;  " +
+                                "id : $id ; onItemSelected : ${customListDepartmentIDs.size}"
+                    )
+                    fillSpinnerLevel(id)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    Toast.makeText(context, "Error:no item selected ", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+    }
+
+    private fun fillSpinnerLevel(id: Int) {
+        var customListLevelsNames: MutableList<String> = mutableListOf()
+        RetrofitClientAdmin.api.getLevels(id).enqueue(object : Callback<LevelsResponse> {
+            override fun onResponse(
+                call: Call<LevelsResponse>,
+                response: Response<LevelsResponse>
+            ) {
+                if (response.isSuccessful) {
+
+                    var data = response.body()
+                    val listNames = data?.data?.map {
+                        it.name
+                    } ?: emptyList()
+                    val listIDs = data?.data?.map {
+                        it.id
+                    } ?: emptyList()
+                    sectionListNames.clear()
+
+                    customListLevelsNames.addAll(listNames)
+                    Log.e("department response", "Error : $listIDs")
+                    setLevelIDList(listIDs)
+                    //customListLevelIDs.addAll(listIDs)
+                    val spinnerAdapterLevel =
+                        ArrayAdapter<String>(
+                            requireContext(),
+                            R.layout.spin_text_style,
+                            customListLevelsNames
+                        )
+                    spinnerAdapterLevel.setDropDownViewResource(R.layout.spinner_item)
+                    binding.spinLevels.adapter = spinnerAdapterLevel
+
+                }
+            }
+
+            fun setLevelIDList(listId: List<Int>) {
+                customListLevelIDs.addAll(listId)
+                spinLevels()
+            }
+
+            override fun onFailure(call: Call<LevelsResponse>, t: Throwable) {
+                Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                    .show()
+                Log.e("department response", "Error : $t")
+            }
+        })
+    }
+
+    fun spinLevels() {
+        binding.spinLevels.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+
+                    val selectedCountry = parent.getItemAtPosition(position) as String
+                    var level_id = customListLevelIDs.get(position)
+                    levelSelectedItem=level_id.toString()
+                    Log.e("department response",
+                        "levelSelectedItem :  $levelSelectedItem  ;  " +
+                            "onItemSelected$selectedCountry")
+                    getSections(level_id)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    Toast.makeText(context, "Error:no item selected ", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+
+    }
+
+    fun getSections(id: Int) {
+//        var customListSectionsNames: MutableList<String> = mutableListOf()
+
+        RetrofitClientAdmin.api.getSections(id).enqueue(object : Callback<SectionsResponse> {
+            override fun onResponse(
+                call: Call<SectionsResponse>,
+                response: Response<SectionsResponse>
+            ) {
+                if (response.isSuccessful) {
+                    sectionListIDs.clear()
+                    var response = response.body()
+                    var listName = response?.data?.map {
+                        it.name
+                    } ?: emptyList()
+                    var lisId = response?.data?.map {
+                        it.id
+                    } ?: emptyList()
+                    Log.e("department response", "list id section  : $lisId")
+                    sectionListIDs.addAll(lisId)
+                    Log.e("department response", "list id section sectionListIDs : $sectionListIDs")
+
+                    sectionListNames.clear()
+                    Log.e("department response", "sectionList  : $sectionListNames")
+
+                    fillRecyclerView(listName)
+                } else {
+                    Toast.makeText(context, "Error!", Toast.LENGTH_SHORT)
+                        .show()
+                    Log.e("department response", "Error!")
+
+                }
+            }
+
+            override fun onFailure(call: Call<SectionsResponse>, t: Throwable) {
+                Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                    .show()
+                Log.e("department response", "Error : $t")
+            }
+
+        })
+    }
+
+    fun fillRecyclerView(listName: List<String>) {
+        sectionListNames.clear()
+        for (i in 0..listName.size - 1) {
+            sectionListNames.add(Sections(listName[i], R.drawable.uncheck_black_checkbox))
+        }
+        if (sectionListNames.isNotEmpty()) {
+            adapter = SectionsAdapter(sectionListNames, this)
+            binding.rvSections.adapter = adapter
+            binding.rvSections.layoutManager = LinearLayoutManager(requireActivity())
+
+        }
+    }
+
+    override fun onItemClick(position: Int) {
+        Log.e("department response", "sectionList  : $sectionListNames")
+        Log.e("department response", "list id section  : $sectionListIDs")
+
+        var itemClicked = sectionListNames[position]
+        if (itemClicked.imgIsChecked == R.drawable.uncheck_black_checkbox) {
+            listSelectedSectionIDs.add(sectionListIDs[position].toString())
+            Log.e("department response", "listSelectedSectionIDs  : $listSelectedSectionIDs")
+            itemClicked.imgIsChecked = R.drawable.check_black_checkbox
+            adapter.notifyItemChanged(position)
+        } else {
+            var id = sectionListIDs[position]
+            listSelectedSectionIDs.remove("$id")
+            Log.e("department response", "listSelectedSectionIDs  : $listSelectedSectionIDs")
+
+            itemClicked.imgIsChecked = R.drawable.uncheck_black_checkbox
+            adapter.notifyItemChanged(position)
+        }
+    }
+
 }
+

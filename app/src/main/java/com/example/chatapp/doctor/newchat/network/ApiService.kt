@@ -1,11 +1,17 @@
 package com.example.chatapp.doctor.newchat.network
 
+import android.media.tv.SectionResponse
 import com.example.chatapp.LoginRequestStudent
 import com.example.chatapp.ResponseAdmin
 import com.example.chatapp.ResponseStudent
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DataGroupRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.DepartmentResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.levelspinner.LevelsResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.section.SectionsResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithdepartment.SendMsgWithDepartment
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithlevel.SendMsgWithLevel
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.DataGroupResponse
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
@@ -27,10 +33,21 @@ interface ApiService {
 
     //end point for create new chat As Department
     @POST("create-chat")
-    fun sendDepartmentMessage(
+    fun sendDepartmentMessageDepart(
         @Header("Authorization") authHeader: String, @Body request: DepartmentRequest
-    ): Call<DepartmentResponse>
+    ): Call<SendMsgWithDepartment>
 
+
+    @POST("create-chat")
+    fun sendDepartmentMessageLevel(
+        @Header("Authorization") authHeader: String, @Body request: DepartmentRequest
+    ): Call<SendMsgWithLevel>
+
+
+    @POST("create-chat")
+    fun sendDepartmentMessageSection(
+        @Header("Authorization") authHeader: String, @Body request: DepartmentRequest
+    ): Call<SendMsgWithSection>
     @POST("create-group")
     fun sendDataGroupMessage(
         @Header("Authorization") authHeader: String, @Body request: DataGroupRequest
@@ -38,5 +55,11 @@ interface ApiService {
 
 //department kinds
     @GET("departments")
-    fun getDepartment():Call<DepartmentSpinnerResponse>
+     fun getDepartment():Call<DepartmentSpinnerResponse>
+
+     @GET("year-levels")
+     fun getLevels(@Query("department_id") departmentId: Int):Call<LevelsResponse>
+
+     @GET("sections")
+     fun  getSections(@Query("year_level_id") yearLevelId: Int):Call<SectionsResponse>
 }

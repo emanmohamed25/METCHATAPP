@@ -63,12 +63,16 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
         Toast.makeText(requireActivity(), "$position clicked", Toast.LENGTH_LONG).show()
         val clickedItem = studentList[position]
         if (clickedItem.imgIsChecked == R.drawable.uncheck_black_checkbox) {
+            Toast.makeText(requireActivity(), "$position uncheck clicked", Toast.LENGTH_LONG).show()
+
             clickedItem.imgIsChecked = R.drawable.check_black_checkbox
             adapter.notifyItemChanged(position)
             println(_studentList)
         } else {
-            _studentList.removeAt(_studentList.indexOf(""+position+1)
-            )
+
+            Toast.makeText(requireActivity(), "$position check clicked", Toast.LENGTH_LONG).show()
+
+//            _studentList.removeAt(_studentList.indexOf(""+position+1))
 //            _studentList.remove((position+1).toString())
             clickedItem.imgIsChecked = R.drawable.uncheck_black_checkbox
             adapter.notifyItemChanged(position)
