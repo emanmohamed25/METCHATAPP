@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.*
 import com.example.chatapp.databinding.ActivityStudentChatBinding
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
 import kotlinx.android.synthetic.main.activity_student_chat.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -55,7 +56,7 @@ class StudentChatActivity : AppCompatActivity() {
             chain.proceed(request)
         })
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://172.20.10.11/chatapp/public/api/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
             .build()

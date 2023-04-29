@@ -1,5 +1,4 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,10 +14,12 @@ import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentGroupeBinding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.levelspinner.LevelsResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.ui.GroupeFragmentDirections.ActionGroupeFragmentToDataGroupFragment
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class GroupeFragment : Fragment() {
     lateinit var binding: FragmentGroupeBinding

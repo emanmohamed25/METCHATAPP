@@ -26,24 +26,21 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
 
     lateinit var binding: FragmentDataGroupBinding
 
-    //  lateinit var dataGroupViewModel: DataGroupViewModel
-    //lateinit var studentList: MutableList<Students>
+
     lateinit var adapter: GroupStudentAdapter
     lateinit var _groupName: String
     lateinit var _message: String
     var studentListNames: MutableList<Students> = mutableListOf()
     var studentListIDs: MutableList<Int> = mutableListOf()
     var listSelectedStudentIDs: MutableList<String> = mutableListOf()
-   // var studentList: MutableList<Students> = mutableListOf()
-
-    //  lateinit var dataRequest :DataGroupRequest
+   //
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDataGroupBinding.inflate(inflater, container, false)
 //        dataGroupViewModel=ViewModelProviders.of(requireActivity()).get(DataGroupViewModel::class.java)
-//        val idS = DataGroupFragmentArgs.fromBundle(arguments)
+//        val idS = DataGroupFragmentArgs DataGroupFragmentArgs.fromBundle(arguments)
 //        var departmentId = idS.departmentId
 //        var levelId = idS.levelId
         var departmentId =1
@@ -57,7 +54,7 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
 // dataRequest =DataGroupRequest(_groupName,_message,_studentList)
 
 
-        Students("e", R.drawable.uncheck_black_checkbox)
+       // Students("e", R.drawable.uncheck_black_checkbox)
 //        studentList = mutableListOf(
 //            Students("Eman", R.drawable.uncheck_black_checkbox),
 //            Students("rana", R.drawable.uncheck_black_checkbox),
@@ -86,6 +83,10 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
                     val listIDs = data?.data?.map {
                         it.id
                     }?: emptyList()
+                    studentListIDs.addAll(listIDs)
+                    Toast.makeText(context, "onResponse : $listNames\n $listIDs", Toast.LENGTH_SHORT)
+                        .show()
+                    Log.e("department response", "onResponse : $listNames\n $listIDs")
                     fillRecyclerView(listNames)
                 }
             }
@@ -108,7 +109,8 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
             adapter = GroupStudentAdapter(studentListNames, this)
             binding.rvListOfStudents.adapter = adapter
             binding.rvListOfStudents.layoutManager = LinearLayoutManager(requireActivity())
-
+            Toast.makeText(context, "list Student added !", Toast.LENGTH_SHORT)
+                .show()
         }
         else{
             Toast.makeText(context, "no Student added !", Toast.LENGTH_SHORT)

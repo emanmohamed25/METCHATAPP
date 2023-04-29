@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
+import com.example.chatapp.doctor.newchat.network.ApiService
 import kotlinx.android.synthetic.main.activity_login_screen.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Login_Screen : AppCompatActivity() {
     private lateinit var apiService: ApiService
     var admintoken: String = ""
-    var BASE_URL = "http://172.20.10.11/chatapp/public/api/"
+    //var BASE_URL = "http://172.20.10.11/chatapp/public/api/"
     var myshared: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

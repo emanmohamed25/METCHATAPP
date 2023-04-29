@@ -19,6 +19,7 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRe
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.levelspinner.LevelsResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.section.SectionsResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithlevel.SendMsgWithLevel
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
@@ -112,10 +113,18 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                         call: Call<SendMsgWithSection>,
                         response: Response<SendMsgWithSection>
                     ) {
-                        Toast.makeText(context, "onFailure: ${response.body()?.status}", Toast.LENGTH_SHORT)
-                            .show()
-                        Log.e("chat response", "OnResponse : ${response.body()?.status}")
+                        if (response.isSuccessful) {
 
+                            val data=response.body()
+                            for (i in 0..data!!.sections.size-1){
+                            Toast.makeText(
+                                context,
+                                "message send to : ${data?.sections?.get(i)?.name}\n",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            Log.e("chat response", "message send to : ${data?.sections?.get(i)?.name}\n")
+                        }}
                     }
 
                     override fun onFailure(call: Call<SendMsgWithSection>, t: Throwable) {
@@ -126,6 +135,29 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
 
                     })
+            }else if(departmentRequest.section_id.isNullOrEmpty()){
+                RetrofitClientAdmin.api.sendDepartmentMessageLevel("Bearer $adtoken"
+                    ,departmentRequest).enqueue(object :Callback<SendMsgWithLevel>{
+                    override fun onResponse(
+                        call: Call<SendMsgWithLevel>,
+                        response: Response<SendMsgWithLevel>
+                    ) {
+                        if(response.isSuccessful){
+                        val data = response.body()
+                            Toast.makeText(context, "message send to : ${data?.yearLevel?.name}", Toast.LENGTH_SHORT)
+                                .show()
+                            Log.e("chat response", "message send to : ${data?.yearLevel?.name}")
+
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<SendMsgWithLevel>, t: Throwable) {
+                        Toast.makeText(context, "onFailure: $t", Toast.LENGTH_SHORT)
+                            .show()
+                        Log.e("chat response", "onFailure : $t")                    }
+
+                })
             }
 
 
