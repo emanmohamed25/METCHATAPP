@@ -1,7 +1,6 @@
 package com.example.chatapp
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -9,9 +8,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chatapp.databinding.ActivityLoginScreenBinding
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
+import com.example.chatapp.doctor.newchat.network.ApiService
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
-import com.example.chatapp.doctor.newchat.createnewchate.ui.NewChatActivity
 import kotlinx.android.synthetic.main.activity_login_screen.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,12 +25,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginScreenActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
-    var token: String = ""
 
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
-    var BASE_URL = "http://192.168.1.25:80/chatapp/public/api/"
+//    var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
+     var token: String=""
+    var myshared: SharedPreferences? = null
+    var admintoken: String = ""
+
+
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +42,14 @@ class LoginScreenActivity : AppCompatActivity() {
         binding = ActivityLoginScreenBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
         val KindUser = intent.getStringExtra("user")
         Toast.makeText(this@LoginScreenActivity, KindUser.toString(), Toast.LENGTH_LONG).show()
         try {
             loginbtn.setOnClickListener {
+
+                Log.e("e", "bbbbbbbbbbbbbbbbbbbbb")
+
                 val okhttp = OkHttpClient.Builder()
                 val httpLoggingInterceptor = HttpLoggingInterceptor()
                 httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -48,37 +58,28 @@ class LoginScreenActivity : AppCompatActivity() {
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create()).client(okhttp.build())
                     .build()
-
-                val email = binding.edId.text.toString()
-                val password = binding.edPassword.text.toString()
-//                var email = "test@example.com"
-//                var password = "123123"
                 apiService = retrofit.create(ApiService::class.java)
-//                var loginRequestAdmin = LoginRequestAdmin(email, password)
 
+                val email = binding.edId.text.toString().trim()
+                val password = binding.edPassword.text.toString().trim()
+                //  RetrofitClientAdmin.
 
                 if (KindUser.equals("admin")) {
-//                    if ((email.equals("tester2@met.com")
-//                        ||email.equals("tester@met.com"))
-//                        && password.equals("123123")
-//                    )
-//                    {
-                    if (binding.edId.text.isNullOrEmpty()
-                        ||binding.edPassword.text.isNullOrEmpty())
-                    {
+                    if (email.isEmpty()
+                        || password.isEmpty()
+                    ) {
                         Toast.makeText(
                             applicationContext,
                             "invalid email OR password!",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-                    else{
-                    Toast.makeText(
+                        ).show()
+                    } else {
+                        Toast.makeText(
                             this@LoginScreenActivity,
                             KindUser.toString(),
                             Toast.LENGTH_LONG
                         ).show()
+
                         val call = apiService.loginAdmin(email, password)
                         Log.e("e", "bbbbbbbbbbbbbbbbbbbbb")
                         call.enqueue(object : Callback<ResponseAdmin> {
@@ -88,18 +89,27 @@ class LoginScreenActivity : AppCompatActivity() {
                             ) {
                                 print(response.body())
                                 if (response.isSuccessful) {
-                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
-                                    val editor = sharedPreferences.edit()
-                                    editor.putBoolean("adminHasLoggedIn",true)
-                                    editor.apply()
-                                   // token = response.body()?.data?.access_token.toString()
+
+                                    token=response.body()?.data?.access_token.toString()
+
+
+//                                    val sharedPreferences =
+//                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+//                                    val editor = sharedPreferences.edit()
+//                                    editor.putBoolean("adminHasLoggedIn", true)
+//                                    editor.apply()
+                                    // token = response.body()?.data?.access_token.toString()
 //                                    myshared=getSharedPreferences("myshared",0)
 //                                    var editor :SharedPreferences.Editor=myshared!!.edit()
 //                                    editor.putString("token", response.body()?.data?.access_token)
 //                                    editor.commit()
 
+                                    admintoken = response.body()?.data?.access_token.toString()
+                                    myshared = getSharedPreferences(MY_SHARED, 0)
+                                    var editor: SharedPreferences.Editor = myshared!!.edit()
+                                    editor.putString("admintoken",admintoken)
 
-
+                                    editor.commit()
                                     /*
                                     val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
                                     val editor = sharedPreferences.edit()
@@ -115,18 +125,24 @@ class LoginScreenActivity : AppCompatActivity() {
                                         response.body()?.message.toString(),
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    if(response.body()?.message.toString().equals("Login successfully")){
-                                    val intent = Intent(
-                                        this@LoginScreenActivity,
-                                        SendMessageActivity::class.java
-                                    )
-                                    startActivity(intent)}
+                                    if (response.body()?.message.toString()
+                                            .equals("Login successfully")
+                                    ) {
+//                                        token=response.body()?.data?.access_token.toString()
+                                        val intent = Intent(
+                                            this@LoginScreenActivity,
+                                            NewChatActivity::class.java
+                                        )
+//                                       getToken(response.body()?.data?.access_token.toString())
+//                                        intent.putExtra("token",response.body()?.data?.access_token.toString())
+                                        startActivity(intent)
+                                    }
                                     // saveTokenToSharedPreferences(token)
 //                                startSendMessageActivity()
                                 } else {
                                     Toast.makeText(
                                         this@LoginScreenActivity,
-                                        response.message(),
+                                        response.message()+"ttttttttt",
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
@@ -147,17 +163,15 @@ class LoginScreenActivity : AppCompatActivity() {
 //                        || (password.equals("123123") && (email.equals("std1")
 //                                || email.equals("std2") || email.equals("std3")))
 //                    ) {
-                    if (binding.edId.text.isNullOrEmpty()
-                        ||binding.edPassword.text.isNullOrEmpty())
-                    {
+                    if (email.isEmpty()
+                        || password.isEmpty()
+                    ) {
                         Toast.makeText(
                             applicationContext,
                             "invalid email OR password!",
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-                    else{
+                        ).show()
+                    } else {
                         var callStudent =
                             apiService.loginstudent(LoginRequestStudent(email, password))
 //                  val callStudent = apiService.loginstudent(LoginRequestStudent("std1", "123123"))
@@ -171,13 +185,24 @@ class LoginScreenActivity : AppCompatActivity() {
                                     val status = response.body()?.status.toString()
                                     val message = response.body()?.message.toString()
                                     val username = response.body()?.data?.user?.username.toString()
-                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
-                                    val editor = sharedPreferences.edit()
-                                    editor.putBoolean("studentHasLoggedIn",true)
-                                    editor.putString("email",
-                                        response.body()?.data?.user?.username
-                                    )
-                                    editor.apply()
+//                                    val sharedPreferences =
+//                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
+//                                    val editor = sharedPreferences.edit()
+//                                    editor.putBoolean("studentHasLoggedIn", true)
+//                                    editor.putString(
+//                                        "email",
+//                                        response.body()?.data?.user?.username
+//                                    )
+//                                    editor.apply()
+
+
+
+
+                                    var studenttoken = response.body()?.data?.access_token.toString()
+                                    myshared = getSharedPreferences("myshared", 0)
+                                    var editor: SharedPreferences.Editor = myshared!!.edit()
+                                    editor.putString("studenttoken", studenttoken)
+                                    editor.commit()
                                     Toast.makeText(
                                         this@LoginScreenActivity,
                                         "status:$status\n" +
@@ -294,4 +319,10 @@ class LoginScreenActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+//    @JvmName("getToken1")
+    @JvmName("getToken1")
+    public fun getToken():String{
+        return token
+    }
+
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.main.ui.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_createNewChatFragment2"
+            app:destination="@id/createNewChatFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNewChatFragment2"
+        android:name="com.example.chatapp.doctor.newchat.admin.main.ui.CreateNewChatFragment"
+        android:label="fragment_create_new_chat"
+        tools:layout="@layout/fragment_create_new_chat" />
+</navigation>
