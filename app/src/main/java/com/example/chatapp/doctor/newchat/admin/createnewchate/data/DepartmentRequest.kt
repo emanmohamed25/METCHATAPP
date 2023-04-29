@@ -1,10 +1,10 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.data
 
 data class DepartmentRequest(
-    var _department_id:String,
-  var  _level_id:String?,
-  var  _section_id: MutableList<String>?,
-   var _message:String)
+    var department_id:String,
+    var  level_id:String?,
+    var  section_id: MutableList<String>?,
+    var message:String)
 //{
 //    var department_id:String=_department_id
 //    get() = field

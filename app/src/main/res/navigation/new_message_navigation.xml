@@ -31,7 +31,14 @@
         android:id="@+id/dataGroupFragment"
         android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.DataGroupFragment"
         android:label="fragment_data_group"
-        tools:layout="@layout/fragment_data_group" />
+        tools:layout="@layout/fragment_data_group" >
+        <argument
+            android:name="department_id"
+            app:argType="integer" />
+        <argument
+            android:name="level_id"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/allFragment"
         android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.AllFragment"

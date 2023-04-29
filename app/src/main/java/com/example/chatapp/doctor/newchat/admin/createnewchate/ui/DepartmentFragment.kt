@@ -12,26 +12,20 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.chatapp.LoginScreenActivity
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.SectionsAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
-import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.DepartmentResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.levelspinner.LevelsResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.section.SectionsResponse
-import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithdepartment.SendMsgWithDepartment
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.awaitResponse
 
 class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
@@ -107,8 +101,8 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                 Log.e("message", adtoken)
             } else
                 Log.e("message", "token is null!")
-            if (departmentRequest._level_id!!.isNotEmpty()
-                && departmentRequest._section_id!!.isNotEmpty() ){
+            if (departmentRequest.level_id!!.isNotEmpty()
+                && departmentRequest.section_id!!.isNotEmpty() ){
                RetrofitClientAdmin.api
                     .sendDepartmentMessageSection("Bearer $adtoken"
                         ,departmentRequest)
@@ -118,14 +112,10 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                         call: Call<SendMsgWithSection>,
                         response: Response<SendMsgWithSection>
                     ) {
-                        Log.e("chat response", "OnResponse : ${response.body()}")
-//                        if (response.isSuccessful){
-//                            Toast.makeText(
-//                                context,
-//                                response.body()?.status,
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        }
+                        Toast.makeText(context, "onFailure: ${response.body()?.status}", Toast.LENGTH_SHORT)
+                            .show()
+                        Log.e("chat response", "OnResponse : ${response.body()?.status}")
+
                     }
 
                     override fun onFailure(call: Call<SendMsgWithSection>, t: Throwable) {
@@ -297,18 +287,16 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
                 }
             }
-
-            fun setLevelIDList(listId: List<Int>) {
-                customListLevelIDs.addAll(listId)
-                spinLevels()
-            }
-
             override fun onFailure(call: Call<LevelsResponse>, t: Throwable) {
                 Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
                     .show()
                 Log.e("department response", "Error : $t")
             }
         })
+    }
+    fun setLevelIDList(listId: List<Int>) {
+        customListLevelIDs.addAll(listId)
+        spinLevels()
     }
 
     fun spinLevels() {
