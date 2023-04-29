@@ -1,4 +1,4 @@
-package com.example.chatapp
+package com.example.chatapp.student.student_chat_receive
 
 data class Message(
     val content: String,

@@ -1,4 +1,4 @@
-package com.example.chatapp
+package com.example.chatapp.student.student_chat_receive
 
 import retrofit2.Call
 import retrofit2.http.GET
