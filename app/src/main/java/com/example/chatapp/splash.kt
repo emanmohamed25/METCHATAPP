@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.text.method.TextKeyListener.clear
 import com.example.chatapp.databinding.ActivitySplashBinding
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity
@@ -34,8 +35,6 @@ class splash : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         binding= ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
