@@ -1,6 +1,7 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,10 +14,13 @@ import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDataGroupBinding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.GroupStudentAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.SectionsAdapter
+import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DataGroupRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.ListStudentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Students
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.DataGroupResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.list.student.ListStudentResponse
+import com.example.chatapp.doctor.newchat.admin.util.Constants
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
 import retrofit2.Call
 import retrofit2.Callback
@@ -25,11 +29,11 @@ import retrofit2.Response
 class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
 
     lateinit var binding: FragmentDataGroupBinding
+    var myshared: SharedPreferences? = null
 
 
+    lateinit var dataGroupRequest: DataGroupRequest
     lateinit var adapter: GroupStudentAdapter
-    lateinit var _groupName: String
-    lateinit var _message: String
     var studentListNames: MutableList<Students> = mutableListOf()
     var studentListIDs: MutableList<Int> = mutableListOf()
     var listSelectedStudentIDs: MutableList<String> = mutableListOf()
@@ -39,33 +43,54 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDataGroupBinding.inflate(inflater, container, false)
+       myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
+       var adminToken = myshared?.getString("admintoken", "")
 //        dataGroupViewModel=ViewModelProviders.of(requireActivity()).get(DataGroupViewModel::class.java)
-//        val idS = DataGroupFragmentArgs DataGroupFragmentArgs.fromBundle(arguments)
+//        val idS = DataGroupFragmentArgs.fromBundle(arguments)
+      // Toast.makeText(context,"$idS",Toast.LENGTH_LONG).show()
 //        var departmentId = idS.departmentId
 //        var levelId = idS.levelId
         var departmentId =1
         var levelId =10
+//       val args=this.arguments
+//       var departmentId =args?.get("d")
+//        var levelId =args?.get("l")
         val listStudentRequest=ListStudentRequest(departmentId.toString(),levelId.toString())
         getStudent(listStudentRequest)
-        _groupName = binding.etGroupName.text.toString()
-        _message = binding.etMessage.text.toString()
 
+       binding.btnSend.setOnClickListener{
+           if (binding.etGroupName.text.toString().isNullOrEmpty()
+               ||binding.etMessage.text.toString().isNullOrEmpty()) {
+               Toast.makeText(context,"please enter the group name and your message!",Toast.LENGTH_LONG).show()
+           }else{
+               dataGroupRequest= DataGroupRequest(binding.etGroupName.text.toString()
+                   ,binding.etMessage.text.toString(),listSelectedStudentIDs)
 
-// dataRequest =DataGroupRequest(_groupName,_message,_studentList)
+               RetrofitClientAdmin.api.sendDataGroupMessage("Bearer $adminToken",dataGroupRequest)
+                   .enqueue(object :Callback<DataGroupResponse>{
+                       override fun onResponse(
+                           call: Call<DataGroupResponse>,
+                           response: Response<DataGroupResponse>
+                       ) {
+                           if(response.isSuccessful){
+                               val data =response.body()
+                               Toast.makeText(context, "${data?.status}\n${data?.data?.group?.name}", Toast.LENGTH_SHORT)
+                                   .show()
+                               Log.e("department response", "onResponse : ${data?.data?.group}\n${data?.data?.message}")
 
+                           }
 
-       // Students("e", R.drawable.uncheck_black_checkbox)
-//        studentList = mutableListOf(
-//            Students("Eman", R.drawable.uncheck_black_checkbox),
-//            Students("rana", R.drawable.uncheck_black_checkbox),
-//            Students("rana", R.drawable.uncheck_black_checkbox),
-//            Students("abd elrahman", R.drawable.uncheck_black_checkbox),
-//            Students("sheref", R.drawable.uncheck_black_checkbox)
-//        )
+                       }
+                       override fun onFailure(call: Call<DataGroupResponse>, t: Throwable) {
+                           Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                               .show()
+                           Log.e("department response", "Error : $t")
+                       }
 
-//        adapter = GroupStudentAdapter(studentList, this)
-//        binding.rvListOfStudents.adapter = adapter
-//        binding.rvListOfStudents.layoutManager = LinearLayoutManager(requireActivity())
+                   })
+           }
+           Log.e("response","dataGroupRequest : $dataGroupRequest")
+       }
 
         return binding.root
     }
@@ -121,19 +146,22 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
 
     @SuppressLint("SuspiciousIndentation")
     override fun onItemClick(position: Int) {
-        listSelectedStudentIDs.clear()
+//        studentListNames.clear()
         Toast.makeText(requireActivity(), "$position clicked", Toast.LENGTH_LONG).show()
         val clickedItem = studentListNames[position]
         if (clickedItem.imgIsChecked == R.drawable.uncheck_black_checkbox) {
-            Toast.makeText(requireActivity(), "$position uncheck clicked", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), "$position check clicked", Toast.LENGTH_LONG).show()
             listSelectedStudentIDs.add(studentListIDs[position].toString())
+            Log.e("response","listSelectedStudentIDs : $listSelectedStudentIDs")
             clickedItem.imgIsChecked = R.drawable.check_black_checkbox
             adapter.notifyItemChanged(position)
         } else {
 
-            Toast.makeText(requireActivity(), "$position check clicked", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireActivity(), "$position uncheck clicked", Toast.LENGTH_LONG).show()
             var id = studentListIDs[position]
             listSelectedStudentIDs.remove("$id")
+            Log.e("response","listSelectedStudentIDs : $listSelectedStudentIDs")
+
             clickedItem.imgIsChecked = R.drawable.uncheck_black_checkbox
             adapter.notifyItemChanged(position)
 

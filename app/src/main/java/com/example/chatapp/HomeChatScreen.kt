@@ -109,7 +109,7 @@ class HomeChatScreen : AppCompatActivity() {
                         // Log.d("xxxxxxxxxxxxxxxx",data.toString())
                         myadapter = ChatAdapter(baseContext, data.chats)
                         chatsrecyclerview.adapter = myadapter
-
+                        myadapter.notifyDataSetChanged()
 
 
                         //var data = response.body()!!

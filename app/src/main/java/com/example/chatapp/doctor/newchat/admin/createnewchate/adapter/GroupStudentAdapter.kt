@@ -14,7 +14,7 @@ class GroupStudentAdapter(
     val listener: OnItemClickListener
 ) : RecyclerView.Adapter<GroupStudentAdapter.GroupStudentViewHOlder>() {
 
-   // var position: Int = 0
+    // var position: Int = 0
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupStudentViewHOlder {
@@ -60,13 +60,4 @@ class GroupStudentAdapter(
     }
 
 
-
-//    override fun onClick(v: View?) {
-//        println("chicked")
-//        val position: Int = adapterPosition
-//        if (position != RecyclerView.NO_POSITION) {
-//            listener.onItemClick(position)
-//        }
-//        //Long.e("cccccccccccccccc","chicked")
-//    }
 }

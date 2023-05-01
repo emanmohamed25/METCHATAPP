@@ -94,6 +94,7 @@ class StudentChatActivity : AppCompatActivity() {
             override fun onFailure(call: Call<PrivateStudentChatResponse>, t: Throwable) {
                 Toast.makeText(applicationContext, "Error cause failur is:$t", Toast.LENGTH_SHORT)
                     .show()
+                Log.e("onFailure","$t")
 
             }
 

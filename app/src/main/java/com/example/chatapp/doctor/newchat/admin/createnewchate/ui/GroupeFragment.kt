@@ -38,6 +38,11 @@ class GroupeFragment : Fragment() {
                 " click Button ",
                 "departmentSelectedItem : $departmentSelectedItem\n levelSelectedItem : $levelSelectedItem"
             )
+//            val bundle=Bundle()
+//            bundle.putString("d",departmentSelectedItem)
+//            bundle.putString("l",levelSelectedItem)
+//            val fragment=DataGroupFragment()
+//            fragment.arguments=bundle
 
             view.findNavController().navigate(
                 GroupeFragmentDirections.actionGroupeFragmentToDataGroupFragment(
