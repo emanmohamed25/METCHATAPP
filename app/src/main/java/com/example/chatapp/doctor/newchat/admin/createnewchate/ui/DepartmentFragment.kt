@@ -2,6 +2,7 @@ package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +47,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         Log.e("department response", "Error1 : ${customListDepartmentIDs.size}")
 //        GlobalScope.launch {
         fillSpinnerDepartment(binding.spinDepartment)
@@ -59,6 +61,15 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val loading =LoadingDialog(requireActivity())
+        loading.startLoading()
+        val handler=Handler()
+        handler.postDelayed(object :Runnable{
+            override fun run() {
+                loading.isDismiss()
+            }
+
+        },3500 )
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)

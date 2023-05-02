@@ -1,5 +1,6 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,18 +32,23 @@ class GroupeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val loading =LoadingDialog(requireActivity())
+        loading.startLoading()
+        val handler= Handler()
+        handler.postDelayed(object :Runnable{
+            override fun run() {
+                loading.isDismiss()
+            }
+
+        },3500 )
         binding = FragmentGroupeBinding.inflate(inflater, container, false)
+
         fillSpinnerDepartment(binding.spinDepartment)
         binding.ivNext.setOnClickListener { view: View ->
             Log.e(
                 " click Button ",
                 "departmentSelectedItem : $departmentSelectedItem\n levelSelectedItem : $levelSelectedItem"
             )
-//            val bundle=Bundle()
-//            bundle.putString("d",departmentSelectedItem)
-//            bundle.putString("l",levelSelectedItem)
-//            val fragment=DataGroupFragment()
-//            fragment.arguments=bundle
 
             view.findNavController().navigate(
                 GroupeFragmentDirections.actionGroupeFragmentToDataGroupFragment(
