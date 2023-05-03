@@ -45,7 +45,6 @@ class SectionsAdapter(
             tvSection.text = sections[position].nameSection!!
             btnSectionCheck.setBackgroundResource(sections[position].imgIsChecked)
         }
-
     }
 
     override fun getItemCount(): Int {

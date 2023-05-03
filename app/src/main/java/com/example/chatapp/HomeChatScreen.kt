@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.databinding.ActivityHomeChatScreenBinding
 import com.example.chatapp.databinding.ActivityHomepageBinding
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
 import com.example.chatapp.student.ChatAdapter
 import kotlinx.android.synthetic.main.activity_home_chat_screen.*
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -85,7 +86,7 @@ class HomeChatScreen : AppCompatActivity() {
         })
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://172.20.10.11/chatapp/public/api/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
             .build()
@@ -108,7 +109,7 @@ class HomeChatScreen : AppCompatActivity() {
                         // Log.d("xxxxxxxxxxxxxxxx",data.toString())
                         myadapter = ChatAdapter(baseContext, data.chats)
                         chatsrecyclerview.adapter = myadapter
-
+                        myadapter.notifyDataSetChanged()
 
 
                         //var data = response.body()!!
