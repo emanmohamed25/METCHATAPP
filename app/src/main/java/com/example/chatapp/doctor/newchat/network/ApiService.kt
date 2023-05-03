@@ -16,6 +16,7 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.DataGroupResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.list.student.ListStudentResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsehomechats.ListChatsResponse
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
 import retrofit2.Call
 import retrofit2.http.*
@@ -67,4 +68,7 @@ interface ApiService {
 
      @POST("student-search")
      fun getListStudents(@Body response: ListStudentRequest):Call<ListStudentResponse>
+
+     @GET("admin-chats")
+     fun getAdminChats(@Header("Authorization") authHeader: String):Call<ListChatsResponse>
 }
