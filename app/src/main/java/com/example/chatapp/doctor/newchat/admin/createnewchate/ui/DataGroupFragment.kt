@@ -53,7 +53,7 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
                loading.isDismiss()
            }
 
-       },3500 )
+       },2500 )
         binding = FragmentDataGroupBinding.inflate(inflater, container, false)
        myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
        var adminToken = myshared?.getString("admintoken", "")
@@ -72,7 +72,8 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
            if (binding.etGroupName.text.toString().isNullOrEmpty()
                ||binding.etMessage.text.toString().isNullOrEmpty()) {
                Toast.makeText(context,"please enter the group name and your message!",Toast.LENGTH_LONG).show()
-           }else{
+           }
+           else{
                dataGroupRequest= DataGroupRequest(binding.etGroupName.text.toString()
                    ,binding.etMessage.text.toString(),listSelectedStudentIDs)
 
@@ -163,7 +164,6 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
 
     @SuppressLint("SuspiciousIndentation")
     override fun onItemClick(position: Int) {
-//        studentListNames.clear()
         Toast.makeText(requireActivity(), "$position clicked", Toast.LENGTH_LONG).show()
         val clickedItem = studentListNames[position]
         if (clickedItem.imgIsChecked == R.drawable.uncheck_black_checkbox) {

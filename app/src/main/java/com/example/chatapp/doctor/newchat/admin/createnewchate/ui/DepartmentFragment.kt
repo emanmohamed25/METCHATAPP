@@ -25,6 +25,7 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
+import kotlinx.android.synthetic.main.fragment_department2.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +37,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
     lateinit var levelSelectedItem: String
     lateinit var departmentRequest: DepartmentRequest
     lateinit var adapter: SectionsAdapter
+    var allSectionIsCheck: Boolean = false
 
     //     var customListDepartmentNames :MutableList<String> = mutableListOf()
     var customListDepartmentIDs: MutableList<Int> = mutableListOf()
@@ -61,15 +63,15 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val loading =LoadingDialog(requireActivity())
+        val loading = LoadingDialog(requireActivity())
         loading.startLoading()
-        val handler=Handler()
-        handler.postDelayed(object :Runnable{
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
             override fun run() {
                 loading.isDismiss()
             }
 
-        },3500 )
+        }, 2500)
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
@@ -82,7 +84,29 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         var positionD: Int? = null
         var positionL: Int? = null
 
+//Button check all section
+        binding.btnAllCheck.setOnClickListener {
+            if (allSectionIsCheck) {
+                allSectionIsCheck = false
+                btnAllCheck.setBackgroundResource(R.drawable.uncheck_wite_checkbox)
+                for (i in 0..sectionListNames.size - 1) {
+                    sectionListNames[i].imgIsChecked = R.drawable.uncheck_black_checkbox
+                    adapter.notifyItemChanged(i)
+                }
+                listSelectedSectionIDs.clear()
 
+            } else {
+                btnAllCheck.setBackgroundResource(R.drawable.check_wite_checkbox)
+
+                allSectionIsCheck = true
+                for (i in 0..sectionListNames.size-1){
+                    sectionListNames[i].imgIsChecked=R.drawable.check_black_checkbox
+                    adapter.notifyItemChanged(i)
+                    listSelectedSectionIDs.add(sectionListIDs[i].toString())
+                }
+
+            }
+        }
 //Button send Message
         binding.btnSend.setOnClickListener {
             var _levelID: String = ""
