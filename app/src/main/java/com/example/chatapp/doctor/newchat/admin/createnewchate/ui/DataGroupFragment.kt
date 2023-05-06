@@ -33,7 +33,7 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
     lateinit var binding: FragmentDataGroupBinding
     var myshared: SharedPreferences? = null
 
-    val args :DataGroupFragmentArgs by navArgs()
+    private val args :DataGroupFragmentArgs by navArgs()
 
     lateinit var dataGroupRequest: DataGroupRequest
     lateinit var adapter: GroupStudentAdapter
@@ -72,8 +72,7 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
            if (binding.etGroupName.text.toString().isNullOrEmpty()
                ||binding.etMessage.text.toString().isNullOrEmpty()) {
                Toast.makeText(context,"please enter the group name and your message!",Toast.LENGTH_LONG).show()
-           }
-           else{
+           }else{
                dataGroupRequest= DataGroupRequest(binding.etGroupName.text.toString()
                    ,binding.etMessage.text.toString(),listSelectedStudentIDs)
 

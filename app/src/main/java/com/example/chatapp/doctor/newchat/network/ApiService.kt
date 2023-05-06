@@ -16,6 +16,7 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.DataGroupResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.list.student.ListStudentResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsehomechats.ListChatsResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responselistmessage.ListMessageResponse
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
 import retrofit2.Call
 import retrofit2.http.*
@@ -81,4 +82,10 @@ interface ApiService {
         @Query("student_id") student_id: String,
         @Query("message") message: String
     ): Call<SingleStudentResponse>
+
+    @GET("channel-messages")
+    fun getMessages(
+        @Header("Authorization") authHeader: String,
+        @Query("channel_id") channel_id: Int
+    ): Call<ListMessageResponse>
 }

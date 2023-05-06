@@ -28,6 +28,7 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
     var myshared: SharedPreferences? = null
     lateinit var adapter: HomeAdapter
     var listChats: MutableList<Chat> = mutableListOf()
+    var listChannelIDs: MutableList<Int> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,8 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
         var admintoken = myshared?.getString("admintoken", "")
         getChats(admintoken.toString())
+
+
 
 
         //button for create new chat
@@ -61,14 +64,18 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
                         val data = response.body()
                         val listNames = data?.chats?.map {
                             it.name
-                        }?: emptyList()
+                        } ?: emptyList()
                         val listMessages = data?.chats?.map {
                             it.lastMessage.content
-                        }?: emptyList()
+                        } ?: emptyList()
                         val listTime = data?.chats?.map {
                             it.lastMessage.createdAt
-                        }?: emptyList()
-                        fillRecyclerView(listNames,listMessages,listTime)
+                        } ?: emptyList()
+                        val listChannelId = data?.chats?.map {
+                            it.id
+                        } ?: emptyList()
+                        listChannelIDs.addAll(listChannelId)
+                        fillRecyclerView(listNames, listMessages, listTime)
                     }
                 }
 
@@ -101,7 +108,12 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-
+        view?.findNavController()
+            ?.navigate(
+                HomeFragmentDirections.actionHomeFragmentToViewChatFragment(
+                    listChannelIDs[position],
+                    listChats[position].Name
+                )
+            )
     }
-
 }
