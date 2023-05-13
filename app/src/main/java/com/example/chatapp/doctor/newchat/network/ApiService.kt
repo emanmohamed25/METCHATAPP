@@ -18,6 +18,7 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsehomechats.ListChatsResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responselistmessage.ListMessageResponse
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -35,18 +36,18 @@ interface ApiService {
     fun storePost(@Body post: DataClass): Call<DataClass>
 
     //end point for create new chat As Department
-    @POST("create-chat")
-    fun sendDepartmentMessageDepart(
-        @Header("Authorization") authHeader: String, @Body request: DepartmentRequest
-    ): Call<SendMsgWithDepartment>
+//    @POST("create-chat")
+//    fun sendDepartmentMessageDepart(
+//        @Header("Authorization") authHeader: String, @Body request: DepartmentRequest
+//    ): Call<SendMsgWithDepartment>
 
-
+    @Multipart
     @POST("create-chat")
     fun sendDepartmentMessageLevel(
-        @Header("Authorization") authHeader: String, @Body request: DepartmentRequest
+        @Header("Authorization") authHeader: String, @Body request: DepartmentRequest,
     ): Call<SendMsgWithLevel>
 
-
+    @Multipart
     @POST("create-chat")
     fun sendDepartmentMessageSection(
         @Header("Authorization") authHeader: String, @Body request: DepartmentRequest

@@ -30,12 +30,17 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/ivImageMessage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="8dp" />
+
                 <LinearLayout
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/spinner_shape"
-                    >
+                    android:orientation="vertical">
 
                     <Spinner
                         android:id="@+id/spinDepartment"
@@ -51,26 +56,29 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                android:background="@drawable/spinner_shape"
 
-                android:orientation="vertical">
-                <Spinner
-                    android:id="@+id/spinLevels"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:background="@drawable/spinner_shape"
 
-                    android:dropDownVerticalOffset="20dp"
-                    android:entries="@array/items_levels"
-                    android:padding="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/spinDepartment" />
-            </LinearLayout>
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/spinLevels"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:dropDownVerticalOffset="20dp"
+                        android:entries="@array/items_levels"
+                        android:padding="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/spinDepartment" />
+                </LinearLayout>
+
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
                     android:layout_width="match_parent"
