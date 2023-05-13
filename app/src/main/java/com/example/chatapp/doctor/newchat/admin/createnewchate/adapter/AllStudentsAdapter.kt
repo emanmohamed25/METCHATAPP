@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
-import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Students
 import kotlinx.android.synthetic.main.item_list_of_student.view.*
 
@@ -42,7 +41,7 @@ class AllStudentsAdapter(
 
     override fun onBindViewHolder(holder: AllStudentViewHolder, position: Int) {
     holder.itemView.apply {
-        tvStudentName.text = listStudents[position].nameStudent
+        tvName.text = listStudents[position].nameStudent
         btnCheck.setBackgroundResource(listStudents[position].imgIsChecked)
     }}
 

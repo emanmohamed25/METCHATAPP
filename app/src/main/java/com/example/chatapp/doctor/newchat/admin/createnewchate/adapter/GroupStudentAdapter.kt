@@ -42,7 +42,7 @@ class GroupStudentAdapter(
 
     override fun onBindViewHolder(holder: GroupStudentViewHOlder, position: Int) {
         holder.itemView.apply {
-            tvStudentName.text = students[position].nameStudent
+            tvName.text = students[position].nameStudent
             btnCheck.setBackgroundResource(students[position].imgIsChecked)
         }
     }

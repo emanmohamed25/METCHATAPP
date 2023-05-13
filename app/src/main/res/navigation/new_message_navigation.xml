@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_departmentFragment_to_allFragment3"
             app:destination="@id/allFragment" />
+        <action
+            android:id="@+id/action_departmentFragment_to_stuffFragment2"
+            app:destination="@id/stuffFragment" />
     </fragment>
     <fragment
         android:id="@+id/groupeFragment"
@@ -44,4 +47,9 @@
         android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.AllFragment"
         android:label="fragment_all2"
         tools:layout="@layout/fragment_all2" />
+    <fragment
+        android:id="@+id/stuffFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.StuffFragment"
+        android:label="fragment_stuff"
+        tools:layout="@layout/fragment_stuff" />
 </navigation>

@@ -13,6 +13,10 @@
         android:id="@+id/allFragment"
         android:title="All"
         android:icon="@drawable/ic_all_wite"/>
+    <item
+        android:id="@+id/stuffFragment"
+        android:title="Staff"
+        android:icon="@drawable/ic_developer"/>
 
 
 </menu>

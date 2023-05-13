@@ -12,8 +12,8 @@ data class Data(
     val content: String,
     @SerializedName("created_at")
     val createdAt: String,
-    @SerializedName("file")
-    val `file`: String?,
+//    @SerializedName("file")
+//    val `file`: String?,
     @SerializedName("id")
     val id: Int,
     @SerializedName("type")
