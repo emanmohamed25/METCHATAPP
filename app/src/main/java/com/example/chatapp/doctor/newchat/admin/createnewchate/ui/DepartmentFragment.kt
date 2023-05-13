@@ -1,6 +1,10 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
+import android.app.Activity
+import android.content.ContentResolver
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -11,6 +15,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.core.content.contentValuesOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
@@ -24,7 +29,9 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
+import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.REQUEST_CODE_PICKER
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
+import kotlinx.android.synthetic.main.fragment_department2.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -36,6 +43,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
     lateinit var levelSelectedItem: String
     lateinit var departmentRequest: DepartmentRequest
     lateinit var adapter: SectionsAdapter
+    var allSectionIsCheck: Boolean = false
 
     //     var customListDepartmentNames :MutableList<String> = mutableListOf()
     var customListDepartmentIDs: MutableList<Int> = mutableListOf()
@@ -44,6 +52,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
     var sectionListIDs: MutableList<Int> = mutableListOf()
     var listSelectedSectionIDs: MutableList<String> = mutableListOf()
     var myshared: SharedPreferences? = null
+    private var selectedImageURI: Uri? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,15 +70,15 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val loading =LoadingDialog(requireActivity())
+        val loading = LoadingDialog(requireActivity())
         loading.startLoading()
-        val handler=Handler()
-        handler.postDelayed(object :Runnable{
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
             override fun run() {
                 loading.isDismiss()
             }
 
-        },3500 )
+        }, 2500)
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
@@ -78,11 +87,36 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             .show()
         Log.e("department response", "Error3 : ${customListDepartmentIDs.size}")
 
-
         var positionD: Int? = null
         var positionL: Int? = null
+//Button select file
+        binding.btnCamera.setOnClickListener {
+            onImageChosser()
+        }
 
+//Button check all section
+        binding.btnAllCheck.setOnClickListener {
+            if (allSectionIsCheck) {
+                allSectionIsCheck = false
+                btnAllCheck.setBackgroundResource(R.drawable.uncheck_wite_checkbox)
+                for (i in 0..sectionListNames.size - 1) {
+                    sectionListNames[i].imgIsChecked = R.drawable.uncheck_black_checkbox
+                    adapter.notifyItemChanged(i)
+                }
+                listSelectedSectionIDs.clear()
 
+            } else {
+                btnAllCheck.setBackgroundResource(R.drawable.check_wite_checkbox)
+
+                allSectionIsCheck = true
+                for (i in 0..sectionListNames.size - 1) {
+                    sectionListNames[i].imgIsChecked = R.drawable.check_black_checkbox
+                    adapter.notifyItemChanged(i)
+                    listSelectedSectionIDs.add(sectionListIDs[i].toString())
+                }
+
+            }
+        }
 //Button send Message
         binding.btnSend.setOnClickListener {
             var _levelID: String = ""
@@ -92,8 +126,6 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                         "levelSelectedItem : $levelSelectedItem\n" +
                         "listSelectedSectionIDs  : $listSelectedSectionIDs"
             )
-
-
             if (binding.etEnterMessage.text.isNullOrEmpty()) {
                 Toast.makeText(context, "please enter the message !", Toast.LENGTH_LONG)
                     .show()
@@ -177,6 +209,30 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             }
         }
         return binding.root
+    }
+
+    fun onImageChosser() {
+        Intent(Intent.ACTION_PICK).also {
+            it.type = "image/*"
+            val mimeType = arrayOf("image/jpeg", "image/png")
+            it.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+            startActivityForResult(it, REQUEST_CODE_PICKER)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_CODE_PICKER -> {
+
+                    selectedImageURI = data?.data
+                    binding.ivImageMessage.setImageURI(selectedImageURI)
+                    binding.ivImageMessage.drawableHotspotChanged(80F, 80F)
+
+                }
+            }
+        }
     }
 
     fun fillSpinnerDepartment(spinner: Spinner) {
@@ -402,6 +458,9 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             binding.rvSections.layoutManager = LinearLayoutManager(requireActivity())
 
         }
+//val contentResolver=ContentResolver(/* context = */ context?)
+//        contentResolver.openFileDescriptor(selectedImageURI!!,"r",null)
+
     }
 
     override fun onItemClick(position: Int) {

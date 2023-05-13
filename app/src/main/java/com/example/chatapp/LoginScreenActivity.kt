@@ -29,11 +29,11 @@ class LoginScreenActivity : AppCompatActivity() {
     // var user:Int=0
     //var BASE_URL = "http://10.0.2.2:8000/api/"
     lateinit var binding: ActivityLoginScreenBinding
-//    var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
-     var token: String=""
+
+    //    var BASE_URL = "http://192.168.1.60:80/chatapp/public/api/"
+    var token: String = ""
     var myshared: SharedPreferences? = null
     var admintoken: String = ""
-
 
 
     @SuppressLint("SuspiciousIndentation")
@@ -90,36 +90,13 @@ class LoginScreenActivity : AppCompatActivity() {
                                 print(response.body())
                                 if (response.isSuccessful) {
 
-                                    token=response.body()?.data?.access_token.toString()
-
-
-//                                    val sharedPreferences =
-//                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
-//                                    val editor = sharedPreferences.edit()
-//                                    editor.putBoolean("adminHasLoggedIn", true)
-//                                    editor.apply()
-                                    // token = response.body()?.data?.access_token.toString()
-//                                    myshared=getSharedPreferences("myshared",0)
-//                                    var editor :SharedPreferences.Editor=myshared!!.edit()
-//                                    editor.putString("token", response.body()?.data?.access_token)
-//                                    editor.commit()
-
+                                    token = response.body()?.data?.access_token.toString()
                                     admintoken = response.body()?.data?.access_token.toString()
                                     myshared = getSharedPreferences(MY_SHARED, 0)
                                     var editor: SharedPreferences.Editor = myshared!!.edit()
-                                    editor.putString("admintoken",admintoken)
-
+                                    editor.putString("admintoken", admintoken)
                                     editor.commit()
-                                    /*
-                                    val sharedPreferences = getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
-                                    val editor = sharedPreferences.edit()
-                                    editor.putBoolean("hasLoggedIn",true)
-                                    //token=response.body()?.data?.access_token.toString()
-                                    //editor.putString("accesstoken", token)
-                                    editor.apply()
 
-                                  token = response.body()?.data?.access_token.toString()
-                                    saveTokenToSharedPreferences(token)*/
                                     Toast.makeText(
                                         this@LoginScreenActivity,
                                         response.body()?.message.toString(),
@@ -128,21 +105,16 @@ class LoginScreenActivity : AppCompatActivity() {
                                     if (response.body()?.message.toString()
                                             .equals("Login successfully")
                                     ) {
-//                                        token=response.body()?.data?.access_token.toString()
                                         val intent = Intent(
                                             this@LoginScreenActivity,
                                             NewChatActivity::class.java
                                         )
-//                                       getToken(response.body()?.data?.access_token.toString())
-//                                        intent.putExtra("token",response.body()?.data?.access_token.toString())
                                         startActivity(intent)
                                     }
-                                    // saveTokenToSharedPreferences(token)
-//                                startSendMessageActivity()
                                 } else {
                                     Toast.makeText(
                                         this@LoginScreenActivity,
-                                        response.message()+"ttttttttt",
+                                        response.message() + "ttttttttt",
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
@@ -150,7 +122,7 @@ class LoginScreenActivity : AppCompatActivity() {
                             }
 
                             override fun onFailure(call: Call<ResponseAdmin>, t: Throwable) {
-                                Toast.makeText(applicationContext, "Error: $t", Toast.LENGTH_SHORT)
+                                Toast.makeText(applicationContext, "Error!!!!!!!!: $t", Toast.LENGTH_SHORT)
                                     .show()
                             }
                         })
@@ -159,10 +131,6 @@ class LoginScreenActivity : AppCompatActivity() {
 
 
                 } else if (KindUser.equals("student")) {
-//                    if ((password.equals("eman") && (email.equals("eman")))
-//                        || (password.equals("123123") && (email.equals("std1")
-//                                || email.equals("std2") || email.equals("std3")))
-//                    ) {
                     if (email.isEmpty()
                         || password.isEmpty()
                     ) {
@@ -174,8 +142,6 @@ class LoginScreenActivity : AppCompatActivity() {
                     } else {
                         var callStudent =
                             apiService.loginstudent(LoginRequestStudent(email, password))
-//                  val callStudent = apiService.loginstudent(LoginRequestStudent("std1", "123123"))
-                        //Log.e("e", "bbbbbbbbbbbbbbbbbbbbb")
                         callStudent.enqueue(object : Callback<ResponseStudent> {
                             override fun onResponse(
                                 call: Call<ResponseStudent>,
@@ -185,20 +151,8 @@ class LoginScreenActivity : AppCompatActivity() {
                                     val status = response.body()?.status.toString()
                                     val message = response.body()?.message.toString()
                                     val username = response.body()?.data?.user?.username.toString()
-//                                    val sharedPreferences =
-//                                        getSharedPreferences("myprefsfile", Context.MODE_PRIVATE)
-//                                    val editor = sharedPreferences.edit()
-//                                    editor.putBoolean("studentHasLoggedIn", true)
-//                                    editor.putString(
-//                                        "email",
-//                                        response.body()?.data?.user?.username
-//                                    )
-//                                    editor.apply()
-
-
-
-
-                                    var studenttoken = response.body()?.data?.access_token.toString()
+                                    var studenttoken =
+                                        response.body()?.data?.access_token.toString()
                                     myshared = getSharedPreferences("myshared", 0)
                                     var editor: SharedPreferences.Editor = myshared!!.edit()
                                     editor.putString("studenttoken", studenttoken)
@@ -319,9 +273,10 @@ class LoginScreenActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-//    @JvmName("getToken1")
+
+    //    @JvmName("getToken1")
     @JvmName("getToken1")
-    public fun getToken():String{
+    public fun getToken(): String {
         return token
     }
 

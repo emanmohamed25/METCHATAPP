@@ -1,10 +1,13 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.data
 
+import retrofit2.http.Multipart
+
 data class DepartmentRequest(
-    var department_id:String,
-    var  level_id:String?,
-    var  section_id: MutableList<String>?,
-    var message:String)
+    var department_id: String,
+    var level_id: String?,
+    var section_id: MutableList<String>?,
+    var message: String
+)
 //{
 //    var department_id:String=_department_id
 //    get() = field

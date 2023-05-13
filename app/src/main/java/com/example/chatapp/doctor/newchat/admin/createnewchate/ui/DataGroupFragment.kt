@@ -33,7 +33,7 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
     lateinit var binding: FragmentDataGroupBinding
     var myshared: SharedPreferences? = null
 
-    val args :DataGroupFragmentArgs by navArgs()
+    private val args :DataGroupFragmentArgs by navArgs()
 
     lateinit var dataGroupRequest: DataGroupRequest
     lateinit var adapter: GroupStudentAdapter
@@ -53,7 +53,7 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
                loading.isDismiss()
            }
 
-       },3500 )
+       },2500 )
         binding = FragmentDataGroupBinding.inflate(inflater, container, false)
        myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
        var adminToken = myshared?.getString("admintoken", "")
@@ -163,7 +163,6 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
 
     @SuppressLint("SuspiciousIndentation")
     override fun onItemClick(position: Int) {
-//        studentListNames.clear()
         Toast.makeText(requireActivity(), "$position clicked", Toast.LENGTH_LONG).show()
         val clickedItem = studentListNames[position]
         if (clickedItem.imgIsChecked == R.drawable.uncheck_black_checkbox) {

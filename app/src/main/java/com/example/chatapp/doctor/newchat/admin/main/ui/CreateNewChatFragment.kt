@@ -27,40 +27,6 @@ lateinit var binding:FragmentCreateNewChatBinding
         savedInstanceState: Bundle?
     ): View? {
         binding= FragmentCreateNewChatBinding.inflate(inflater,container,false)
-
-//        val navController= Navigation.findNavController(requireActivity(),R.id.fragmentContainerViewNewChat)
-//
-//        NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
-//       binding.fragmentContainerViewNewChat.nasupportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//            bottomNavigationView = findViewById(R.id.bottom_nav)
-//            NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)
-//        }
-//        val navView: BottomNavigationView = binding.bottomNavigationView
-//        //view.findViewById(R.id.bottomNavigationView)
-//        navController = findNavController()
-//        navView.setupWithNavController(navController)
-//        binding.bottomNavigationView.setOnNavigationItemSelectedListener {   menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.departmentFragment -> {
-//                    Toast.makeText(context, "departmentFragment", Toast.LENGTH_LONG)
-//                        .show()
-//                   binding.fragmentContainerViewNewChat.findNavController().navigate(R.id.departmentFragment)
-//                    true
-//                }
-//                R.id.groupeFragment -> {
-//                    Toast.makeText(context, "groupeFragment", Toast.LENGTH_LONG)
-//                        .show()
-//                    binding.fragmentContainerViewNewChat.findNavController().navigate(R.id.groupeFragment)
-//                    true
-//                }R.id.allFragment -> {
-//                Toast.makeText(context, "allFragment", Toast.LENGTH_LONG)
-//                    .show()
-//                findNavController().navigate(R.id.allFragment)
-//                true
-//            }
-//                else -> false
-//            }
-//        }
         return binding.root
     }
 
@@ -88,6 +54,11 @@ lateinit var binding:FragmentCreateNewChatBinding
                 Toast.makeText(context, "allFragment", Toast.LENGTH_LONG)
                     .show()
                 binding.fragmentContainerViewNewChat.findNavController().navigate(R.id.allFragment)
+                true
+            }R.id.stuffFragment -> {
+                Toast.makeText(context, "stuffFragment", Toast.LENGTH_LONG)
+                    .show()
+                binding.fragmentContainerViewNewChat.findNavController().navigate(R.id.stuffFragment)
                 true
             }
                 else -> false

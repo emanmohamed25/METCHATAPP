@@ -13,10 +13,32 @@
         <action
             android:id="@+id/action_homeFragment_to_createNewChatFragment2"
             app:destination="@id/createNewChatFragment2" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewChatFragment"
+            app:destination="@id/viewChatFragment" />
     </fragment>
     <fragment
         android:id="@+id/createNewChatFragment2"
         android:name="com.example.chatapp.doctor.newchat.admin.main.ui.CreateNewChatFragment"
         android:label="fragment_create_new_chat"
-        tools:layout="@layout/fragment_create_new_chat" />
+        tools:layout="@layout/fragment_create_new_chat" >
+        <action
+            android:id="@+id/action_createNewChatFragment2_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewChatFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.main.ui.ViewChatFragment"
+        android:label="fragment_view_chat"
+        tools:layout="@layout/fragment_view_chat" >
+        <action
+            android:id="@+id/action_viewChatFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="channel_id"
+            app:argType="integer" />
+        <argument
+            android:name="channel_name"
+            app:argType="string" />
+    </fragment>
 </navigation>

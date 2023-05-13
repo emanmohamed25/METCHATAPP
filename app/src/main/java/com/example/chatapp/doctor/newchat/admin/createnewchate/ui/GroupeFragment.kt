@@ -40,7 +40,7 @@ class GroupeFragment : Fragment() {
                 loading.isDismiss()
             }
 
-        },3500 )
+        },2500 )
         binding = FragmentGroupeBinding.inflate(inflater, container, false)
 
         fillSpinnerDepartment(binding.spinDepartment)
