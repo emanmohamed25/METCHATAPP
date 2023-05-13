@@ -14,7 +14,24 @@ class GroupStudentAdapter(
     val listener: OnItemClickListener
 ) : RecyclerView.Adapter<GroupStudentAdapter.GroupStudentViewHOlder>() {
 
-   // var position: Int = 0
+    inner class GroupStudentViewHOlder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+        init {
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(v: View?) {
+            println("chicked inner")
+
+            val position: Int = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+
+    }
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
+    }
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupStudentViewHOlder {
@@ -33,40 +50,4 @@ class GroupStudentAdapter(
     override fun getItemCount(): Int {
         return students.size
     }
-
-    inner class GroupStudentViewHOlder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnClickListener {
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-//        override fun onClick(v: View?) {
-//            TODO("Not yet implemented")
-//        }
-
-        override fun onClick(v: View?) {
-            println("chicked inner")
-
-            val position: Int = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
-            }
-        }
-
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(position: Int)
-    }
-
-
-
-//    override fun onClick(v: View?) {
-//        println("chicked")
-//        val position: Int = adapterPosition
-//        if (position != RecyclerView.NO_POSITION) {
-//            listener.onItemClick(position)
-//        }
-//        //Long.e("cccccccccccccccc","chicked")
-//    }
 }

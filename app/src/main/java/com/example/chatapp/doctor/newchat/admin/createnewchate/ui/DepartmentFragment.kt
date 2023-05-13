@@ -2,6 +2,7 @@ package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,21 +43,15 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
     var sectionListNames: MutableList<Sections> = mutableListOf()
     var sectionListIDs: MutableList<Int> = mutableListOf()
     var listSelectedSectionIDs: MutableList<String> = mutableListOf()
-
-    //    var positionD: Int? = null
-//    var positionL: Int? = null
-    var listSectionBoolean = MutableList<Int>(8) { 0 }
-    var allsectionIsCheck: Boolean = false
-    var departmentIsSelected: Boolean = false
-    var levelIsSelected: Boolean = false
     var myshared: SharedPreferences? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         Log.e("department response", "Error1 : ${customListDepartmentIDs.size}")
 //        GlobalScope.launch {
-            fillSpinnerDepartment(binding.spinDepartment)
-            Log.e("department response", "Error2 : ${customListDepartmentIDs.size}")
+        fillSpinnerDepartment(binding.spinDepartment)
+        Log.e("department response", "Error2 : ${customListDepartmentIDs.size}")
 
 //        }
 
@@ -66,6 +61,15 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val loading =LoadingDialog(requireActivity())
+        loading.startLoading()
+        val handler=Handler()
+        handler.postDelayed(object :Runnable{
+            override fun run() {
+                loading.isDismiss()
+            }
+
+        },3500 )
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
@@ -82,10 +86,12 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 //Button send Message
         binding.btnSend.setOnClickListener {
             var _levelID: String = ""
-            Log.e("department response",
+            Log.e(
+                "department response",
                 "departmentSelectedItem : ${departmentSelectedItem}\n" +
                         "levelSelectedItem : $levelSelectedItem\n" +
-                        "listSelectedSectionIDs  : $listSelectedSectionIDs")
+                        "listSelectedSectionIDs  : $listSelectedSectionIDs"
+            )
 
 
             if (binding.etEnterMessage.text.isNullOrEmpty()) {
@@ -93,7 +99,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                     .show()
             } else {
                 departmentRequest = DepartmentRequest(
-                    departmentSelectedItem, levelSelectedItem,listSelectedSectionIDs,
+                    departmentSelectedItem, levelSelectedItem, listSelectedSectionIDs,
                     binding.etEnterMessage.text.toString()
                 )
 
@@ -103,48 +109,57 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             } else
                 Log.e("message", "token is null!")
             if (departmentRequest.level_id!!.isNotEmpty()
-                && departmentRequest.section_id!!.isNotEmpty() ){
-               RetrofitClientAdmin.api
-                    .sendDepartmentMessageSection("Bearer $adtoken"
-                        ,departmentRequest)
+                && departmentRequest.section_id!!.isNotEmpty()
+            ) {
+                RetrofitClientAdmin.api
+                    .sendDepartmentMessageSection(
+                        "Bearer $adtoken", departmentRequest
+                    )
 
-                    .enqueue(object :Callback<SendMsgWithSection>{
-                    override fun onResponse(
-                        call: Call<SendMsgWithSection>,
-                        response: Response<SendMsgWithSection>
-                    ) {
-                        if (response.isSuccessful) {
+                    .enqueue(object : Callback<SendMsgWithSection> {
+                        override fun onResponse(
+                            call: Call<SendMsgWithSection>,
+                            response: Response<SendMsgWithSection>
+                        ) {
+                            if (response.isSuccessful) {
 
-                            val data=response.body()
-                            for (i in 0..data!!.sections.size-1){
-                            Toast.makeText(
-                                context,
-                                "message send to : ${data?.sections?.get(i)?.name}\n",
-                                Toast.LENGTH_SHORT
-                            )
+                                val data = response.body()
+                                for (i in 0..data!!.sections.size - 1) {
+                                    Toast.makeText(
+                                        context,
+                                        "message send to : ${data?.sections?.get(i)?.name}\n",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                    Log.e(
+                                        "chat response",
+                                        "message send to : ${data?.sections?.get(i)?.name}\n"
+                                    )
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<SendMsgWithSection>, t: Throwable) {
+                            Toast.makeText(context, "onFailure: $t", Toast.LENGTH_SHORT)
                                 .show()
-                            Log.e("chat response", "message send to : ${data?.sections?.get(i)?.name}\n")
-                        }}
-                    }
-
-                    override fun onFailure(call: Call<SendMsgWithSection>, t: Throwable) {
-                        Toast.makeText(context, "onFailure: $t", Toast.LENGTH_SHORT)
-                            .show()
-                        Log.e("chat response", "onFailure : $t")
-                    }
-
-
+                            Log.e("chat response", "onFailure : $t")
+                        }
                     })
-            }else if(departmentRequest.section_id.isNullOrEmpty()){
-                RetrofitClientAdmin.api.sendDepartmentMessageLevel("Bearer $adtoken"
-                    ,departmentRequest).enqueue(object :Callback<SendMsgWithLevel>{
+            } else if (departmentRequest.section_id.isNullOrEmpty()) {
+                RetrofitClientAdmin.api.sendDepartmentMessageLevel(
+                    "Bearer $adtoken", departmentRequest
+                ).enqueue(object : Callback<SendMsgWithLevel> {
                     override fun onResponse(
                         call: Call<SendMsgWithLevel>,
                         response: Response<SendMsgWithLevel>
                     ) {
-                        if(response.isSuccessful){
-                        val data = response.body()
-                            Toast.makeText(context, "message send to : ${data?.yearLevel?.name}", Toast.LENGTH_SHORT)
+                        if (response.isSuccessful) {
+                            val data = response.body()
+                            Toast.makeText(
+                                context,
+                                "message send to : ${data?.yearLevel?.name}",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                             Log.e("chat response", "message send to : ${data?.yearLevel?.name}")
 
@@ -155,44 +170,16 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                     override fun onFailure(call: Call<SendMsgWithLevel>, t: Throwable) {
                         Toast.makeText(context, "onFailure: $t", Toast.LENGTH_SHORT)
                             .show()
-                        Log.e("chat response", "onFailure : $t")                    }
+                        Log.e("chat response", "onFailure : $t")
+                    }
 
                 })
             }
-
-
-//            RetrofitClientAdmin.api.sendDepartmentMessage("Bearer $adtoken", departmentRequest)
-//                .enqueue(object :
-//                    Callback<DepartmentResponse> {
-//
-//                    override fun onResponse(
-//                        call: Call<DepartmentResponse>,
-//                        response: Response<DepartmentResponse>
-//                    ) {
-//                        if (response.isSuccessful) {
-//                            val data = response.body()
-//                            Toast.makeText(
-//                                context,
-//                                data?.message,
-//                                Toast.LENGTH_LONG
-//                            ).show()
-//                        } else {
-//                            // Handle the error
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<DepartmentResponse>, t: Throwable) {
-//                        Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
-//                            .show()
-//                        Log.e("chat response", "Error : $t")
-//
-//                    }
-//                })
         }
         return binding.root
     }
 
-     fun fillSpinnerDepartment(spinner: Spinner) {
+    fun fillSpinnerDepartment(spinner: Spinner) {
 
         var customListDepartmentNames: MutableList<String> = mutableListOf()
 
@@ -319,6 +306,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
                 }
             }
+
             override fun onFailure(call: Call<LevelsResponse>, t: Throwable) {
                 Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
                     .show()
@@ -326,6 +314,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             }
         })
     }
+
     fun setLevelIDList(listId: List<Int>) {
         customListLevelIDs.addAll(listId)
         spinLevels()
@@ -343,10 +332,12 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
                     val selectedCountry = parent.getItemAtPosition(position) as String
                     var level_id = customListLevelIDs.get(position)
-                    levelSelectedItem=level_id.toString()
-                    Log.e("department response",
+                    levelSelectedItem = level_id.toString()
+                    Log.e(
+                        "department response",
                         "levelSelectedItem :  $levelSelectedItem  ;  " +
-                            "onItemSelected$selectedCountry")
+                                "onItemSelected$selectedCountry"
+                    )
                     getSections(level_id)
                 }
 
