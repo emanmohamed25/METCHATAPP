@@ -126,6 +126,7 @@ class Login_Screen : AppCompatActivity() {
                                     editor.commit()
                                     var intent1 = Intent(this@Login_Screen, HomeChatScreen::class.java)
                                     startActivity(intent1)
+                                    finish()
 
 
 

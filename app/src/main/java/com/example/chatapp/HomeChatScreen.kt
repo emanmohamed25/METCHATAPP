@@ -4,8 +4,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.SearchView
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,19 +18,32 @@ import com.example.chatapp.databinding.ActivityHomeChatScreenBinding
 import com.example.chatapp.databinding.ActivityHomepageBinding
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
 import com.example.chatapp.student.ChatAdapter
+import com.google.gson.Gson
+import com.pusher.client.Pusher
+import com.pusher.client.PusherOptions
 import kotlinx.android.synthetic.main.activity_home_chat_screen.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.log
 
 
 class HomeChatScreen : AppCompatActivity() {
+    private var datalist: MutableList<Chat> = mutableListOf()
+    private lateinit var searchView: SearchView
+    var searchlist: MutableList<Chat> = mutableListOf()
+    private lateinit var x: RelativeLayout
+    private val pusherAppKey = "PUSHER_APP_KEY"
+    private val pusherAppCluster = "PUSHER_APP_CLUSTER"
     lateinit var chatsrecyclerview: RecyclerView
     lateinit var list: ArrayList<Chat>
     lateinit var myadapter: ChatAdapter
@@ -35,13 +53,12 @@ class HomeChatScreen : AppCompatActivity() {
     lateinit var binding: ActivityHomeChatScreenBinding
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityHomeChatScreenBinding.inflate(layoutInflater)
+
+        binding = ActivityHomeChatScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.profilephoto.setOnClickListener(){
+        binding.profilephoto.setOnClickListener() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
@@ -51,29 +68,33 @@ class HomeChatScreen : AppCompatActivity() {
             val intent = Intent(this, SettingScreen::class.java)
             startActivity(intent)
 
-            /*
-            myshared = getSharedPreferences("myshared", 0)
-            var editor: SharedPreferences.Editor = myshared!!.edit()
-            editor.remove("studenttoken")
-            editor.apply();
-            val intent = Intent(this@HomeChatScreen, splash::class.java)
-            startActivity(intent)
-            finish()*/
 
         }
-        list=ArrayList()
+        setupusher()
+        list = ArrayList()
 
         myadapter = ChatAdapter(applicationContext, mutableListOf());
         chatsrecyclerview = findViewById<RecyclerView>(R.id.recyclerview)
-        chatsrecyclerview.layoutManager = LinearLayoutManager(this)
+        //chatsrecyclerview.layoutManager = LinearLayoutManager(this)
         chatsrecyclerview.adapter = myadapter
         ///////////////////////////////////////
         myshared = getSharedPreferences("myshared", 0)
         var mytoken = myshared?.getString("studenttoken", "").toString()
 
-        Log.d("aaaaaaaaaaaaaaaaaaaaaa",mytoken)
+        Log.d("aaaaaaaaaaaaaaaaaaaaaa", mytoken)
+
+        getChat(mytoken.toString())
+
+        //      x=findViewById(R.id.actionbar1)
+        //    this.setSupportActionBar(x)
+//        Log.d("qqqqqqqqq", "out:"+datalist.toString())
+
+        searchView = findViewById(R.id.searchvieww)
 
 
+    }
+
+    fun getChat(mytoken: String) {
         val httpClient = OkHttpClient.Builder()
 
         httpClient.addInterceptor(Interceptor { chain ->
@@ -93,10 +114,11 @@ class HomeChatScreen : AppCompatActivity() {
 
         chatsapi = retrofit.create(ChatsAPI::class.java)
         var call = chatsapi.getChats(mytoken)
-        call.enqueue(object : Callback<StudentChatsResponse> {
+        call.enqueue(
+            object : Callback<StudentChatsResponse> {
                 override fun onResponse(
                     call: Call<StudentChatsResponse>,
-                    response: Response<StudentChatsResponse>
+                    response: Response<StudentChatsResponse>,
                 ) {
                     val x = response.code()
                     Log.d("cccccccccccccc", x.toString())
@@ -105,18 +127,17 @@ class HomeChatScreen : AppCompatActivity() {
                         Toast.makeText(this@HomeChatScreen, "sucessfetch", Toast.LENGTH_LONG)
                             .show()
                         var data = response.body()!!
-                       //yu9tg var x=response.body()!!.chats[0].id
-                        // Log.d("xxxxxxxxxxxxxxxx",data.toString())
-                        myadapter = ChatAdapter(baseContext, data.chats)
+                        datalist = data.chats as ArrayList<Chat>
+                        searchlist.addAll(datalist)
+                        myadapter = ChatAdapter(baseContext, datalist)
                         chatsrecyclerview.adapter = myadapter
-                        myadapter.notifyDataSetChanged()
+                        chatsrecyclerview.layoutManager = LinearLayoutManager(this@HomeChatScreen)
 
 
-                        //var data = response.body()!!
-                        // chatsrecyclerview.adapter = ChatAdapter(
-                        //    baseContext,
-                        //   data as ArrayList<StudentChatsRseponse>
-                        // )
+                        search()
+                        Log.d("qqqqqqqqq", datalist.toString())
+
+
                     } else {
                         Toast.makeText(
                             applicationContext,
@@ -137,52 +158,87 @@ class HomeChatScreen : AppCompatActivity() {
 
             },
         )
-/////////////////////////////////////////////////////////////////////////////
-
-
-        // chatItems.add(ChatData("","", R.drawable.home_page_log,"21""33"))
-        /*arrayusers.add(StudentChatsRseponse())
-        arrayusers.add(ChatData("ali","how are you",R.drawable.userprofilephoto,"12:am","22"))
-        arrayusers.add(ChatData("ss","how are you",R.drawable.userprofilephoto,"14:am","22"))
-        arrayusers.add(ChatData("abdelrahamn","how are you",R.drawable.userprofilephoto,"12:am","22"))
-        arrayusers.add(ChatData("sayed","how are you",R.drawable.userprofilephoto,"14:am","22"))
-        arrayusers.add(ChatData("leen","how are you",R.drawable.userprofilephoto,"15am","22"))
-        arrayusers.add(ChatData("mona","how are you",R.drawable.userprofilephoto,"4:am","22"))
-        arrayusers.add(ChatData("ebrahim","how are you",R.drawable.userprofilephoto,"16:am","22"))
-        arrayusers.add(ChatData("Ahmed","how are you",R.drawable.userprofilephoto,"12:am","22"))
-        arrayusers.add(ChatData("mona","how are you",R.drawable.adminhomepagephoto,"4:am","22"))
-        arrayusers.add(ChatData("ebrahim","how are you",R.drawable.userprofilephoto,"16:am","22"))
-        arrayusers.add(ChatData("Ahmed","how are you",R.drawable.userprofilephoto,"12:am","22"))
-*/
-
-
-        // var chatsrecyclerview = findViewById<RecyclerView>(R.id.recyclerview)
-        // inidata()
-        //chatsrecyclerview.layoutManager = LinearLayoutManager(this)
-
-        //chatsrecyclerview.adapter = ChatAdapter(this, arrayusers) {
-        //val toast = Toast.makeText(applicationContext, it.name, Toast.LENGTH_SHORT)
-        //toast.show()
     }
 
+    fun fillList(list: List<Chat>) {
+
+    }
+
+    fun search() {
+
+        searchView.clearFocus()
+
+
+
+
+        (object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchView.clearFocus()
+                Log.d("qqqqqqqqq", "onQueryTextSubmit :" + datalist.toString())
+
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchlist.clear()
+                val searchtext = newText!!.toLowerCase(Locale.getDefault())
+                if (searchtext.isEmpty()) {
+                    datalist.forEach {
+                        if (it.name.lowercase(Locale.getDefault()).contains(searchtext)) {
+
+                            searchlist.add(it)
+                        }
+                    }
+                    recyclerview.adapter!!.notifyDataSetChanged()
+
+
+                } else {
+                    searchlist.clear()
+                    searchlist.addAll(datalist)
+                    recyclerview.adapter!!.notifyDataSetChanged()
+
+                }
+                return false
+                TODO("Not yet implemented")
+            }
+        })
+
+    }
+
+    private fun setupusher() {
+        val options = PusherOptions()
+        options.setCluster("eu")
+
+        val pusher = Pusher("ccdf3591e58ad169e24d", options)
+        Log.e("s", "success")
+        val channel = pusher.subscribe("new-message")
+        Log.e("ggggggggggggggggggggg", "hhhhhhhhhh")
+        channel.bind("server.created") { event ->
+            Log.e("eeee", "hhhhhhhhhh")
+            // val jsonObject = JSONObject(event.data)
+            // val message = jsonObject.getJSONObject("message")
+            // Log.e("eeee","{$message}")
+
+
+            runOnUiThread {
+                // val id ="std"+message.getString("channel_id")
+                // if (message.getString("channel_id") == email)
+                //binding.tvViewMessage.text = message.getString("content")
+//                    +"\n"+
+//                    message.getString("channel").get(6).toString()
+//                    + message.getString("channel.id")
+            }
+        }
+
+        pusher.connect()
+
+
+    }
 
 }
 
-/*private fun inidata() {
-    val image = resources.obtainTypedArray(R.array.image)
-    val name = resources.getStringArray(R.array.name)
-    val status = resources.getStringArray(R.array.status)
-    val time = resources.getStringArray(R.array.time)
-    val unread = resources.getStringArray(R.array.unreadmess)
-    arrayusers.clear()
-    for (i in name.indices) {
-        arrayusers.add(ChatData(name[i],
-            status[i],
-            image.getResourceId(i, 0),
-            time[i],
-            unread[i]))
 
-    }
-}*/
+
+
 
 

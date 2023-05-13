@@ -41,7 +41,7 @@ class splash : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        myshared=getSharedPreferences(MY_SHARED,0)
+        myshared=getSharedPreferences("myshared",0)
         var stdtoken = myshared?.getString("studenttoken","")
         // myshared=getSharedPreferences("myshared",0)
         var adtoken=myshared?.getString("admintoken","")
@@ -55,9 +55,8 @@ class splash : AppCompatActivity() {
                 // This method will be executed once the timer is over
                 // Start your main activity
                 startActivity(Intent(this,HomeChatScreen::class.java))
-
-                // close this activity
                 finish()
+                // close this activity
             }, SPLASH_TIME_OUT)
 
         }

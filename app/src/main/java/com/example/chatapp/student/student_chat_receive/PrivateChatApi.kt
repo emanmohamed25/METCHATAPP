@@ -7,6 +7,6 @@ import retrofit2.http.Query
 
 interface PrivateChatApi {
     @GET("channel-messages")
-    fun getmessages(@Header("Authorization") accessToken: String,@Query("channel_id") id:Int):Call<PrivateStudentChatResponse>
+    fun getmessages(@Header("Authorization") accessToken: String,@Query("channel_id") id:Int):Call<PrivateStudentChatRes>
 
 }
