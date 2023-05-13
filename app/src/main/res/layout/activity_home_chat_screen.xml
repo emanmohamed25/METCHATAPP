@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".HomeChatScreen">
+
     <RelativeLayout
         android:id="@+id/actionbar"
         android:layout_width="match_parent"
@@ -32,10 +33,10 @@
             android:id="@+id/star_icon"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:src="@drawable/stariconn"
-            android:layout_toRightOf="@+id/chats_text"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="55dp"
-            android:layout_centerVertical="true"/>
+            android:layout_toRightOf="@+id/chats_text"
+            android:src="@drawable/stariconn" />
 
         <!-- Circle image -->
         <ImageView
@@ -46,42 +47,63 @@
             android:src="@drawable/userphoto1" />
 
         <!-- Search icon -->
-        <ImageView
-
+        <SearchView
             android:id="@+id/search_icon"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@drawable/searchicon"
-            android:layout_toLeftOf="@+id/settings_text"
+            android:layout_centerVertical="true"
             android:layout_marginRight="55dp"
-            android:layout_centerVertical="true"/>
+            android:layout_toLeftOf="@+id/settings_text"
+            android:background="@drawable/searchicon"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search Here ..." />
 
         <!-- Settings text -->
         <TextView
-
             android:id="@+id/settings_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_marginRight="16dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
-
-
-
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:text="Settings"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rrrr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/actionbar"
+        android:layout_marginTop="12dp">
+
+        <SearchView
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:id="@+id/searchvieww"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/searchrectangle"
+            android:focusable="false"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search Here..."
+            android:queryBackground="@android:color/transparent"
+            android:closeIcon="@drawable/clear"
+            ></SearchView>
+
+    </RelativeLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/actionbar"
-        android:scrollbars="vertical"
+        android:layout_below="@+id/rrrr"
+        android:layout_marginTop="12dp"
         android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
-        />
+        android:scrollbars="vertical" />
 
 </RelativeLayout>

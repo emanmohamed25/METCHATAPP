@@ -2,9 +2,13 @@ package com.example.chatapp.student
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filterable
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.Chat
@@ -24,18 +28,61 @@ class ChatAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data  = chatItems[position]
+        var x =data.last_message.user_name.toString()
+        val sharedPref = holder.itemView.context.getSharedPreferences(
+            "MyPrefs",
+            Context.MODE_PRIVATE
+        )
+        val editor = sharedPref.edit()
+        editor.putString("drname", x)
+        editor.commit()
+        Log.d("bbbbbbbb",x)
+
+        if (holder.lastmess.text==""){
+            holder.lastmess.text="image"
+
+        }
+
         holder.name.text = data.last_message.user_name.toString()
         holder.lastmess.text=data.last_message.content
         holder.unseen.text=data.unseen.toString()
         holder.time.text=data.last_message.created_at
+
         var id =data.id
+        if (holder.unseen.getText().toString().equals("0")){
+            holder.goldcirc.setVisibility(View.GONE);
+            holder.time.setVisibility(View.GONE)
+        }else{
+            holder.goldcirc.setVisibility(View.VISIBLE )
+
+
+        }
+        if (holder.lastmess.text==""){
+            holder.lastmess.text="image"
+
+        }
+
         holder.itemView.setOnClickListener {
+           //holder.unseen.text="0"
+            holder.goldcirc.setVisibility(View.GONE);
             val intent = Intent(holder.itemView.context, StudentChatActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("chatid",id)
             holder.itemView.context.startActivity(intent)
 
+
+
+
+
         }
+        /*if (holder.unseen.getText().toString().equals("0")){
+            holder.goldcirc.setVisibility(View.GONE);
+        }
+        else{
+            holder.goldcirc.setVisibility(View.VISIBLE);
+
+        }*/
+
         /*holder.status.text = data.status
         holder.image.setImageResource(data.image)
         holder.time.text = data.time
@@ -52,6 +99,14 @@ class ChatAdapter(
         val lastmess=itemview.findViewById<TextView>(R.id.lastmess)
         val unseen=itemview.findViewById<TextView>(R.id.numunreadmess)
         val  time=itemview.findViewById<TextView>(R.id.timesend)
+        val goldcirc=itemview.findViewById<FrameLayout>(R.id.cirunreed)
+
+
+
+
+
+
+
 
         /*init {
             itemview.setOnClickListener{
@@ -83,6 +138,7 @@ class ChatAdapter(
 
 
         }*/
+
     }
 
 }

@@ -5,55 +5,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".student.student_chat_receive.StudentChatActivity">
-
     <RelativeLayout
-        android:id="@+id/actionbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/navyy">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fakee">
+        <RelativeLayout
+
+            android:id="@+id/re1"
+
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/navyy"
+            android:visibility="invisible">
+            <SearchView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/searchviewst"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="120dp"
+                android:closeIcon="@null"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search Here ..." ></SearchView>
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/clear"
+                android:textSize="18sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/re2"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/navyy"
+            android:visibility="visible">
 
 
-        <ImageView
+            <ImageView
 
 
-            android:id="@+id/back_button"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/backbutton" />
+                android:id="@+id/back_button"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/backbutton" />
 
-        <!-- Circle image -->
-        <ImageView
-            android:id="@+id/profilepic"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/userphoto1" />
+            <!-- Circle image -->
+            <ImageView
+                android:id="@+id/doc"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/userphoto1" />
 
-        <ImageView
-            android:id="@+id/searchicon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/searchicon"
-            android:text="Settings"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/searchicon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/searchicon"
+                android:text="Settings"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
+<RelativeLayout
+    android:id="@+id/rr"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/fakee"
+    android:layout_above="@+id/bottomactionbar">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewbubble"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/actionbar"
-        android:layout_marginTop="-3dp"></androidx.recyclerview.widget.RecyclerView>
+        ></androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>
 
     <RelativeLayout
+
         android:id="@+id/bottomactionbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -70,7 +113,7 @@
             android:fontFamily="@font/inter_bold"
             android:lineHeight="24px"
             android:text="You can't send messages ."
-            android:textColor="@color/white"
+            android:textColor="@color/whiteee"
             android:textSize="24dp"></TextView>
 
     </RelativeLayout>

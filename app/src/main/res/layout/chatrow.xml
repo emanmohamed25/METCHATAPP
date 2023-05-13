@@ -38,6 +38,7 @@
             android:id="@+id/lastmess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="25dp"
             android:text="Last Message"
             android:textSize="15dp" />
 
@@ -60,6 +61,7 @@
             android:textColor="@color/gold" />
 
         <FrameLayout
+            android:id="@+id/cirunreed"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="8dp"
