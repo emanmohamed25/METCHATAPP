@@ -2,6 +2,7 @@ package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,12 @@ import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentStuffBinding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.StuffAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Stuff
+import com.example.chatapp.doctor.newchat.admin.createnewchate.data.StuffRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsestuff.GetStuffResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsestuff.createchatresponse.CreateGroupStuffResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
+import kotlinx.android.synthetic.main.fragment_department2.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,16 +31,89 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
     var stuffListIDs: MutableList<Int> = mutableListOf()
     var listSelectedStuffIDs: MutableList<String> = mutableListOf()
     var myshared: SharedPreferences? = null
+    var allStuffIsCheck: Boolean = false
+    lateinit var stuffRequest: StuffRequest
+
     lateinit var adapter: StuffAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val loading = LoadingDialog(requireActivity())
+        loading.startLoading()
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                loading.isDismiss()
+            }
+
+        }, 2500)
         binding = FragmentStuffBinding.inflate(inflater, container, false)
         myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
         var adtoken = myshared?.getString("admintoken", "")
         getStuff()
+        binding.btnSend.setOnClickListener {
+            if (binding.etGroupName.text.toString().isNullOrEmpty()
+                || binding.etEnterMessage.text.toString().isNullOrEmpty()
+            ) {
+                Toast.makeText(
+                    context,
+                    "please enter the group name and your message!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            else {
+                stuffRequest =
+                    StuffRequest(
+                        binding.etGroupName.text.toString(),
+                        listSelectedStuffIDs,
+                        binding.etEnterMessage.text.toString()
+                    )
+                RetrofitClientAdmin.api.createStuffGroup("Bearer $adtoken", stuffRequest)
+                    .enqueue(object : Callback<CreateGroupStuffResponse> {
+                        override fun onResponse(
+                            call: Call<CreateGroupStuffResponse>,
+                            response: Response<CreateGroupStuffResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                val data = response.body()
+                                Toast.makeText(context, ":onResponse :${data?.status}", Toast.LENGTH_SHORT)
+                                    .show()
+                                Log.e("department response", "onResponse : ${data?.status}")
+                            }
+                        }
 
+                        override fun onFailure(call: Call<CreateGroupStuffResponse>, t: Throwable) {
+                            Toast.makeText(context, "Error: $t", Toast.LENGTH_SHORT)
+                                .show()
+                            Log.e("department response", "Error : $t")
+                        }
+
+                    })
+
+            }
+        }
+        binding.btnAllCheck.setOnClickListener {
+            if (allStuffIsCheck) {
+                allStuffIsCheck = false
+                btnAllCheck.setBackgroundResource(R.drawable.uncheck_wite_checkbox)
+                for (i in 0..stuffListNames.size - 1) {
+                    stuffListNames[i].imgIsChecked = R.drawable.uncheck_black_checkbox
+                    adapter.notifyItemChanged(i)
+                }
+                listSelectedStuffIDs.clear()
+            } else {
+                btnAllCheck.setBackgroundResource(R.drawable.check_wite_checkbox)
+                allStuffIsCheck = true
+                for (i in 0..stuffListNames.size - 1) {
+                    stuffListNames[i].imgIsChecked = R.drawable.check_black_checkbox
+                    adapter.notifyItemChanged(i)
+                    listSelectedStuffIDs.add(stuffListIDs[i].toString())
+                }
+
+            }
+
+        }
         return binding.root
     }
 
@@ -94,31 +171,16 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
 
     }
 
-    //    var itemClicked = sectionListNames[position]
-//    if (itemClicked.imgIsChecked == R.drawable.uncheck_black_checkbox) {
-//        listSelectedSectionIDs.add(sectionListIDs[position].toString())
-//        Log.e("department response", "listSelectedSectionIDs  : $listSelectedSectionIDs")
-//        itemClicked.imgIsChecked = R.drawable.check_black_checkbox
-//        adapter.notifyItemChanged(position)
-//    } else {
-//        var id = sectionListIDs[position]
-//        listSelectedSectionIDs.remove("$id")
-//        Log.e("department response", "listSelectedSectionIDs  : $listSelectedSectionIDs")
-//
-//        itemClicked.imgIsChecked = R.drawable.uncheck_black_checkbox
-//        adapter.notifyItemChanged(position)
-//    }
-//}
     override fun onItemClick(position: Int) {
         var itemClicked = stuffListNames[position]
         if (itemClicked.imgIsChecked == R.drawable.uncheck_black_checkbox) {
             listSelectedStuffIDs.add(stuffListIDs[position].toString())
             itemClicked.imgIsChecked = R.drawable.check_black_checkbox
             adapter.notifyItemChanged(position)
-        }else{
+        } else {
             var id = stuffListIDs[position]
             listSelectedStuffIDs.remove("$id")
-            itemClicked.imgIsChecked= R.drawable.uncheck_black_checkbox
+            itemClicked.imgIsChecked = R.drawable.uncheck_black_checkbox
             adapter.notifyItemChanged(position)
         }
 

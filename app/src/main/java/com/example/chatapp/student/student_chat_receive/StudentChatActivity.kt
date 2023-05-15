@@ -28,122 +28,122 @@ import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.math.log
 
-class StudentChatActivity : AppCompatActivity() {
-    lateinit var list: MutableList<MessageX>
-    lateinit var chatsrecyclerview: RecyclerView
-    lateinit var messadapter: BubbleAdapter
-    private lateinit var private_chat_api: PrivateChatApi
-    lateinit var binding: ActivityStudentChatBinding
-
-    //private var BubbleContentarray: MutableList<bubble_chat_data> = mutableListOf()
-    var myshared: SharedPreferences? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        super.onCreate(savedInstanceState)
-        binding = ActivityStudentChatBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        list = ArrayList()
-        messadapter = BubbleAdapter(applicationContext, mutableListOf())
-        chatsrecyclerview = findViewById(R.id.recyclerviewbubble)
-        chatsrecyclerview.layoutManager = LinearLayoutManager(this)
-        chatsrecyclerview.adapter = messadapter
-        searchicon.setOnClickListener() {
-            re1.setVisibility(View.VISIBLE)
-            re2.setVisibility(View.GONE)
-            close.setOnClickListener() {
-                re1.setVisibility(View.GONE)
-                re2.setVisibility(View.VISIBLE)
+//class StudentChatActivity : AppCompatActivity() {
+////    lateinit var list: MutableList<MessageX>
+//    lateinit var chatsrecyclerview: RecyclerView
+//    lateinit var messadapter: BubbleAdapter
+//    private lateinit var private_chat_api: PrivateChatApi
+//    lateinit var binding: ActivityStudentChatBinding
+//
+//    //private var BubbleContentarray: MutableList<bubble_chat_data> = mutableListOf()
+//    var myshared: SharedPreferences? = null
 
 
-            }
-        }
-
-        var chat_id = intent.getIntExtra("chatid", 0)
-
-
-        myshared = getSharedPreferences("myshared", 0)
-        var mytoken = myshared?.getString("studenttoken", "").toString()
-        Log.d("jjjjjjjjjjj", mytoken)
-        Log.d("zzzzzzzz", chat_id.toString())
-        val httpClient = OkHttpClient.Builder()
-
-        httpClient.addInterceptor(Interceptor { chain ->
-            val request: Request =
-                chain.request().newBuilder()
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Authorization", "Bearer $mytoken")
-                    .build()
-            chain.proceed(request)
-        })
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient.build())
-            .build()
-        private_chat_api = retrofit.create(PrivateChatApi::class.java)
-        val call = private_chat_api.getmessages(mytoken, chat_id)
-        call.enqueue(
-            object : Callback<PrivateStudentChatRes> {
-                override fun onResponse(
-                    call: Call<PrivateStudentChatRes>,
-                    response: Response<PrivateStudentChatRes>,
-                ) {
-                    val x = response.code()
-                    Log.d("cccccccccccccc", x.toString())
-
-                    if (response.isSuccessful) {
-                        Toast.makeText(applicationContext, "connected", Toast.LENGTH_SHORT)
-                            .show()
-                        val f = response.code().toString()
-                        Log.d("wwwwwwwwwwww", f)
-                        val x = response.body()!!
-
-                        messadapter = BubbleAdapter(baseContext, x.messages)
-                        chatsrecyclerview.adapter = messadapter
-
-                        /* var messdata=response.body()!!
-                         messadapter= BubbleAdapter(baseContext,messdata)
-                         chatsrecyclerview.adapter=messadapter*/
-
-
-                    } else {
-                        Toast.makeText(
-                            applicationContext,
-                            "Error fetching private chats",
-                            Toast.LENGTH_SHORT,
-                        )
-                            .show()
-                    }
-
-                }
-
-                override fun onFailure(call: Call<PrivateStudentChatRes>, t: Throwable) {
-                    Toast.makeText(applicationContext,
-                        "Error cause failur is:$t",
-                        Toast.LENGTH_SHORT)
-                        .show()
-
-                }
-
-
-            },
-        )
-        doc.setOnClickListener() {
-            val intent = Intent(this, AdminProfile::class.java)
-            startActivity(intent)
-
-        }
-
-        val backbtn = findViewById<ImageView>(R.id.back_button)
-        backbtn.setOnClickListener {
-        }
-        setPusher()
-
-
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//
+//        super.onCreate(savedInstanceState)
+//        binding = ActivityStudentChatBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//
+//        list = ArrayList()
+//        messadapter = BubbleAdapter(applicationContext, mutableListOf())
+//        chatsrecyclerview = findViewById(R.id.recyclerviewbubble)
+//        chatsrecyclerview.layoutManager = LinearLayoutManager(this)
+//        chatsrecyclerview.adapter = messadapter
+//        searchicon.setOnClickListener() {
+//            re1.setVisibility(View.VISIBLE)
+//            re2.setVisibility(View.GONE)
+//            close.setOnClickListener() {
+//                re1.setVisibility(View.GONE)
+//                re2.setVisibility(View.VISIBLE)
+//
+//
+//            }
+//        }
+//
+//        var chat_id = intent.getIntExtra("chatid", 0)
+//
+//
+//        myshared = getSharedPreferences("myshared", 0)
+//        var mytoken = myshared?.getString("studenttoken", "").toString()
+//        Log.d("jjjjjjjjjjj", mytoken)
+//        Log.d("zzzzzzzz", chat_id.toString())
+//        val httpClient = OkHttpClient.Builder()
+//
+//        httpClient.addInterceptor(Interceptor { chain ->
+//            val request: Request =
+//                chain.request().newBuilder()
+//                    .addHeader("Accept", "application/json")
+//                    .addHeader("Authorization", "Bearer $mytoken")
+//                    .build()
+//            chain.proceed(request)
+//        })
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(httpClient.build())
+//            .build()
+//        private_chat_api = retrofit.create(PrivateChatApi::class.java)
+//        val call = private_chat_api.getmessages(mytoken, chat_id)
+//        call.enqueue(
+//            object : Callback<PrivateStudentChatRes> {
+//                override fun onResponse(
+//                    call: Call<PrivateStudentChatRes>,
+//                    response: Response<PrivateStudentChatRes>,
+//                ) {
+//                    val x = response.code()
+//                    Log.d("cccccccccccccc", x.toString())
+//
+//                    if (response.isSuccessful) {
+//                        Toast.makeText(applicationContext, "connected", Toast.LENGTH_SHORT)
+//                            .show()
+//                        val f = response.code().toString()
+//                        Log.d("wwwwwwwwwwww", f)
+//                        val x = response.body()!!
+//
+//                        messadapter = BubbleAdapter(baseContext, x.messages)
+//                        chatsrecyclerview.adapter = messadapter
+//
+//                        /* var messdata=response.body()!!
+//                         messadapter= BubbleAdapter(baseContext,messdata)
+//                         chatsrecyclerview.adapter=messadapter*/
+//
+//
+//                    } else {
+//                        Toast.makeText(
+//                            applicationContext,
+//                            "Error fetching private chats",
+//                            Toast.LENGTH_SHORT,
+//                        )
+//                            .show()
+//                    }
+//
+//                }
+//
+//                override fun onFailure(call: Call<PrivateStudentChatRes>, t: Throwable) {
+//                    Toast.makeText(applicationContext,
+//                        "Error cause failur is:$t",
+//                        Toast.LENGTH_SHORT)
+//                        .show()
+//
+//                }
+//
+//
+//            },
+//        )
+//        doc.setOnClickListener() {
+//            val intent = Intent(this, AdminProfile::class.java)
+//            startActivity(intent)
+//
+//        }
+//
+//        val backbtn = findViewById<ImageView>(R.id.back_button)
+//        backbtn.setOnClickListener {
+//        }
+//        setPusher()
+//
+//
+//    }
 
     private fun setPusher() {
         val channelName = "new-message"
@@ -187,22 +187,22 @@ class StudentChatActivity : AppCompatActivity() {
             var costModel : ResponseCost?= null*/
 
 
-            insertLocalMessage(MessageX(
-                content = message
-               ))
+//            insertLocalMessage(MessageX(
+//                content = message
+//               ))
 
         }
     }
 
-    private fun insertLocalMessage(modelLocal: MessageX) {
-        messadapter.addDataItem(modelLocal)
-        // scroll the RecyclerView to the last added element
+//    private fun insertLocalMessage(modelLocal: MessageX) {
+//        messadapter.addDataItem(modelLocal)
+//        // scroll the RecyclerView to the last added element
+//
+//
+//
+//    }
 
 
-
-    }
-
-
-}
+//}
 
 

@@ -35,8 +35,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/clear"
                 android:textSize="18sp" />
+<!--            android:src="@drawable/clear"-->
+
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/re2"

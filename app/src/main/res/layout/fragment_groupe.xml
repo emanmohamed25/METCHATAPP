@@ -4,61 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="30dp"
     tools:context=".doctor.newchat.admin.createnewchate.ui.GroupeFragment">
-<LinearLayout
-    android:id="@+id/linD"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="90dp"
-    android:background="@drawable/spinner_shape"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    >
-    <Spinner
-        android:id="@+id/spinDepartment"
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/CustomToolbarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dropDownWidth="wrap_content"
-        android:dropDownVerticalOffset="20dp"
-        android:entries="@array/items_departmnet"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:textAlignment="viewEnd"
+        android:textDirection="ltr"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        android:padding="23dp"
-         />
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/ivBack"
+                android:gravity="center_vertical"
+                android:text="Create new chat "
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/linD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/spinner_shape"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Spinner
+            android:id="@+id/spinDepartment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="wrap_content"
+            android:dropDownVerticalOffset="20dp"
+            android:entries="@array/items_departmnet"
+
+            android:padding="23dp" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="90dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/spinner_shape"
-
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linD"
         tools:ignore="MissingConstraints">
-    <Spinner
-        android:id="@+id/spinLevels"
-        android:layout_width="match_parent"
 
-        android:layout_height="wrap_content"
-        android:dropDownVerticalOffset="20dp"
-        android:entries="@array/items_levels"
-        android:padding="25dp"
-        />
+        <Spinner
+            android:id="@+id/spinLevels"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:dropDownVerticalOffset="20dp"
+            android:entries="@array/items_levels"
+            android:padding="25dp" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/ivNext"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="66dp"
         android:background="@drawable/backgroung_go_btn_ellipse"
         android:padding="10dp"
         android:src="@drawable/ic_go"
+        android:layout_marginStart="30dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

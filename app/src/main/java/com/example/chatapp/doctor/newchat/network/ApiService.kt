@@ -6,10 +6,10 @@ import com.example.chatapp.ResponseStudent
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DataGroupRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.ListStudentRequest
+import com.example.chatapp.doctor.newchat.admin.createnewchate.data.StuffRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responseallstudent.SingleStudentResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.levelspinner.LevelsResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.section.SectionsResponse
-import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithdepartment.SendMsgWithDepartment
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithlevel.SendMsgWithLevel
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
@@ -18,9 +18,10 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsehomechats.ListChatsResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responselistmessage.ListMessageResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsestuff.GetStuffResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsestuff.createchatresponse.CreateGroupStuffResponse
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
-import okhttp3.MultipartBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 
 interface ApiService {
@@ -74,7 +75,13 @@ interface ApiService {
     fun getAllStudents(): Call<ListStudentResponse>
 
     @GET("staff")
-    fun getAllStuff():Call<GetStuffResponse>
+    fun getAllStuff(): Call<GetStuffResponse>
+
+    @POST("create-staff")
+    fun createStuffGroup(
+        @Header("Authorization") authHeader: String,
+        @Body response: StuffRequest
+    ): Call<CreateGroupStuffResponse>
 
     @GET("admin-chats")
     fun getAdminChats(@Header("Authorization") authHeader: String): Call<ListChatsResponse>

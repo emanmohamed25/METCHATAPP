@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.Chat
 import com.example.chatapp.R
-import com.example.chatapp.student.student_chat_receive.StudentChatActivity
+//import com.example.chatapp.student.student_chat_receive.StudentChatActivity
 
 class ChatAdapter(
     private val contex: Context,
@@ -62,19 +62,19 @@ class ChatAdapter(
 
         }
 
-        holder.itemView.setOnClickListener {
-           //holder.unseen.text="0"
-            holder.goldcirc.setVisibility(View.GONE);
-            val intent = Intent(holder.itemView.context, StudentChatActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("chatid",id)
-            holder.itemView.context.startActivity(intent)
-
-
-
-
-
-        }
+//        holder.itemView.setOnClickListener {
+//           //holder.unseen.text="0"
+//            holder.goldcirc.setVisibility(View.GONE);
+//            val intent = Intent(holder.itemView.context, StudentChatActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.putExtra("chatid",id)
+//            holder.itemView.context.startActivity(intent)
+//
+//
+//
+//
+//
+//        }
         /*if (holder.unseen.getText().toString().equals("0")){
             holder.goldcirc.setVisibility(View.GONE);
         }

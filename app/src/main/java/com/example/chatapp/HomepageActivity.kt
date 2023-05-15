@@ -14,13 +14,10 @@ class HomepageActivity : AppCompatActivity() {
         binding.linAdm.setOnClickListener(){
 // FirstActivity.kt
 
-            val intent = Intent(this, Login_Screen::class.java)
+            val intent = Intent(this, LoginScreenActivity::class.java)
             intent.putExtra("user", "admin")
             startActivity(intent)
             finish()
-
-
-
         }
         binding.linStd.setOnClickListener(){
             val intent = Intent(this, Login_Screen::class.java)

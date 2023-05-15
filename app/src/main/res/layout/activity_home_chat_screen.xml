@@ -86,13 +86,13 @@
             android:id="@+id/searchvieww"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/searchrectangle"
             android:focusable="false"
             android:iconifiedByDefault="false"
             android:queryHint="Search Here..."
             android:queryBackground="@android:color/transparent"
-            android:closeIcon="@drawable/clear"
             ></SearchView>
+<!--        android:closeIcon="@drawable/clear"-->
+<!--        android:background="@drawable/searchrectangle"-->
 
     </RelativeLayout>
 
