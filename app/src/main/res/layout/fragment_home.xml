@@ -5,6 +5,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".doctor.newchat.admin.main.ui.HomeFragment">
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/actionbar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="56dp"-->
+    <!--        android:background="@color/navyy">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/chats_text"-->
+
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_centerVertical="true"-->
+    <!--            android:layout_marginLeft="16dp"-->
+    <!--            android:fontFamily="@font/inter_bold"-->
+    <!--            android:lineHeight="19.36px"-->
+    <!--            android:text="Chats"-->
+    <!--            android:textColor="@color/gold"-->
+    <!--            android:textSize="16dp" />-->
+
+    <!--        &lt;!&ndash; Star icon &ndash;&gt;-->
+    <!--        <ImageView-->
+
+
+    <!--            android:id="@+id/star_icon"-->
+    <!--            android:layout_width="15dp"-->
+    <!--            android:layout_height="15dp"-->
+    <!--            android:layout_centerVertical="true"-->
+    <!--            android:layout_marginLeft="55dp"-->
+    <!--            android:layout_toRightOf="@+id/chats_text"-->
+    <!--            android:src="@drawable/stariconn" />-->
+
+    <!--        &lt;!&ndash; Circle image &ndash;&gt;-->
+<!--            <ImageView-->
+<!--                android:id="@+id/profilephoto"-->
+<!--                android:layout_width="55dp"-->
+<!--                android:layout_height="55dp"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:src="@drawable/userphoto1" />-->
+
+    <!--        &lt;!&ndash; Search icon &ndash;&gt;-->
+<!--            <SearchView-->
+<!--                android:id="@+id/search_icon"-->
+<!--                android:layout_width="16dp"-->
+<!--                android:layout_height="16dp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginRight="55dp"-->
+<!--                android:layout_toLeftOf="@+id/settings_text"-->
+<!--                android:background="@drawable/searchicon"-->
+<!--                android:iconifiedByDefault="false"-->
+<!--                android:queryHint="Search Here ..." />-->
+
+    <!--        &lt;!&ndash; Settings text &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/settings_text"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginRight="16dp"-->
+<!--                android:text="Settings"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="18sp" />-->
+
+
+    <!--    </RelativeLayout>-->
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -25,28 +90,60 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/ivBack"
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:padding="10dp"
-                android:src="@drawable/ic_back" />
-
             <TextView
+                android:id="@+id/chats_text"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toEndOf="@+id/ivBack"
-                android:gravity="center_vertical"
-                android:text="Create new chat "
+                android:layout_marginLeft="16dp"
+
+                android:text="Chats"
+                android:textColor="@color/gold"
+                android:textSize="16dp" />
+
+            <ImageView
+
+
+                android:id="@+id/star_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="45dp"
+                android:layout_toRightOf="@+id/chats_text"
+                android:src="@drawable/star_ic" />
+
+            <ImageView
+                android:id="@+id/profilephoto"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:src="@drawable/userphoto1" />
+            <SearchView
+                android:id="@+id/search_icon"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="45dp"
+                android:layout_toStartOf="@+id/settings_text"
+                android:background="@drawable/searchicon"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search Here ..." />
+
+            <TextView
+                android:id="@+id/settings_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
+                android:text="Settings"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
+
+
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>

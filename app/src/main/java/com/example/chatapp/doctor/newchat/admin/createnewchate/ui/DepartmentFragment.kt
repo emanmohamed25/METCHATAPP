@@ -220,21 +220,6 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_CODE_PICKER -> {
-
-                    selectedImageURI = data?.data
-                    binding.ivImageMessage.setImageURI(selectedImageURI)
-                    binding.ivImageMessage.drawableHotspotChanged(80F, 80F)
-
-                }
-            }
-        }
-    }
-
     fun fillSpinnerDepartment(spinner: Spinner) {
 
         var customListDepartmentNames: MutableList<String> = mutableListOf()
