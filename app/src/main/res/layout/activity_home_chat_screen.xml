@@ -53,14 +53,14 @@
             android:layout_height="16dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="55dp"
-            android:layout_toLeftOf="@+id/settings_text"
+            android:layout_toLeftOf="@+id/tvSettings"
             android:background="@drawable/searchicon"
             android:iconifiedByDefault="false"
             android:queryHint="Search Here ..." />
 
         <!-- Settings text -->
         <TextView
-            android:id="@+id/settings_text"
+            android:id="@+id/tvSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

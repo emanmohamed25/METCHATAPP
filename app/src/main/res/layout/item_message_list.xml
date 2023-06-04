@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/message_background_shape"
+    android:layout_marginStart="100dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingEnd="15dp"
+    android:paddingStart="15dp"
+    android:layout_marginBottom="6dp"
+   >
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="errrrrrrrrrrrrrrrrrrrrrrrrrrr"
+        android:textSize="20sp"
+        android:gravity="center_vertical"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        android:layout_marginEnd="10dp"/>
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="45dp"
+        android:layout_height="18dp"
+        android:textColor="@color/white"
+        tools:text="12:53 pm 05/15/2023"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ivSeen" />
+
+    <ImageView
+        android:id="@+id/ivSeen"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_seen_wite"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

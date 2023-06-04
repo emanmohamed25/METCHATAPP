@@ -40,10 +40,16 @@ class GroupeFragment : Fragment() {
                 loading.isDismiss()
             }
 
-        },2500 )
+        },2000 )
         binding = FragmentGroupeBinding.inflate(inflater, container, false)
 
         fillSpinnerDepartment(binding.spinDepartment)
+//backButton
+        binding.ivBack.setOnClickListener{view:View->
+            val manager = requireActivity().supportFragmentManager
+            manager.popBackStack()
+
+        }
         binding.ivNext.setOnClickListener { view: View ->
             Log.e(
                 " click Button ",

@@ -39,14 +39,17 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         var admintoken = myshared?.getString("admintoken", "")
         getChats(admintoken.toString())
 
-
-
-
         //button for create new chat
         binding.btnCreateNewChat.setOnClickListener { view: View ->
             view.findNavController()
                 .navigate(HomeFragmentDirections.actionHomeFragmentToCreateNewChatFragment2())
         }
+
+        binding.tvSettings.setOnClickListener{view:View->
+            view.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSittingFragment())
+
+        }
+
         return binding.root
     }
 
@@ -59,7 +62,6 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
                 ) {
                     if (response.isSuccessful) {
                         listChats.clear()
-
                         Log.e("response", response.body()!!.status)
                         val data = response.body()
                         val listNames = data?.chats?.map {

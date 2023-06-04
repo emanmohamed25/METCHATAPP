@@ -1,7 +1,6 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
-import android.app.Activity
-import android.content.ContentResolver
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -15,8 +14,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.core.content.contentValuesOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
@@ -28,6 +27,7 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithlevel.SendMsgWithLevel
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
+import com.example.chatapp.doctor.newchat.admin.main.ui.CreateNewChatFragmentDirections
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.REQUEST_CODE_PICKER
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
@@ -66,6 +66,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,7 +79,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                 loading.isDismiss()
             }
 
-        }, 2500)
+        }, 2000)
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
@@ -90,10 +91,16 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         var positionD: Int? = null
         var positionL: Int? = null
 //Button select file
-        binding.btnCamera.setOnClickListener {
-            onImageChosser()
-        }
+//        binding.btnCamera.setOnClickListener {
+//            onImageChosser()
+//        }
 
+        // BackButton
+        binding.ivBack.setOnClickListener {
+            val manager = activity!!.supportFragmentManager
+            manager.popBackStack()
+
+        }
 //Button check all section
         binding.btnAllCheck.setOnClickListener {
             if (allSectionIsCheck) {
@@ -168,6 +175,8 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                                         "message send to : ${data?.sections?.get(i)?.name}\n"
                                     )
                                 }
+                                val manager = activity!!.supportFragmentManager
+                                manager.popBackStack()
                             }
                         }
 
@@ -208,8 +217,10 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                 })
             }
         }
+
         return binding.root
     }
+
 
     fun onImageChosser() {
         Intent(Intent.ACTION_PICK).also {
@@ -443,9 +454,6 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             binding.rvSections.layoutManager = LinearLayoutManager(requireActivity())
 
         }
-//val contentResolver=ContentResolver(/* context = */ context?)
-//        contentResolver.openFileDescriptor(selectedImageURI!!,"r",null)
-
     }
 
     override fun onItemClick(position: Int) {

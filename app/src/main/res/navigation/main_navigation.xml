@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_viewChatFragment"
             app:destination="@id/viewChatFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_sittingFragment"
+            app:destination="@id/sittingFragment" />
     </fragment>
     <fragment
         android:id="@+id/createNewChatFragment2"
@@ -40,5 +43,14 @@
         <argument
             android:name="channel_name"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/sittingFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.main.ui.SittingFragment"
+        android:label="fragment_sitting"
+        tools:layout="@layout/fragment_sitting" >
+        <action
+            android:id="@+id/action_sittingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

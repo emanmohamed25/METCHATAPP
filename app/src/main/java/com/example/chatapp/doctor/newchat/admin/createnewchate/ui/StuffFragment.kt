@@ -1,5 +1,6 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentStuffBinding
@@ -35,6 +37,7 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
     lateinit var stuffRequest: StuffRequest
 
     lateinit var adapter: StuffAdapter
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,11 +50,18 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
                 loading.isDismiss()
             }
 
-        }, 2500)
+        }, 2000)
         binding = FragmentStuffBinding.inflate(inflater, container, false)
         myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
         var adtoken = myshared?.getString("admintoken", "")
         getStuff()
+//backButton
+        binding.ivBack.setOnClickListener { view: View ->
+            val manager = activity!!.supportFragmentManager
+            manager.popBackStack()
+
+        }
+
         binding.btnSend.setOnClickListener {
             if (binding.etGroupName.text.toString().isNullOrEmpty()
                 || binding.etEnterMessage.text.toString().isNullOrEmpty()
@@ -61,8 +71,7 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
                     "please enter the group name and your message!",
                     Toast.LENGTH_LONG
                 ).show()
-            }
-            else {
+            } else {
                 stuffRequest =
                     StuffRequest(
                         binding.etGroupName.text.toString(),
@@ -77,7 +86,11 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
                         ) {
                             if (response.isSuccessful) {
                                 val data = response.body()
-                                Toast.makeText(context, ":onResponse :${data?.status}", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    context,
+                                    ":onResponse :${data?.status}",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                                 Log.e("department response", "onResponse : ${data?.status}")
                             }

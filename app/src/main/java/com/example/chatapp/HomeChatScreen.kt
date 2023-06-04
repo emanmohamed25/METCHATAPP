@@ -4,29 +4,21 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.SearchView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.databinding.ActivityHomeChatScreenBinding
-import com.example.chatapp.databinding.ActivityHomepageBinding
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
 import com.example.chatapp.student.ChatAdapter
-import com.google.gson.Gson
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
 import kotlinx.android.synthetic.main.activity_home_chat_screen.*
-import kotlinx.android.synthetic.main.activity_profile.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,7 +26,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.log
 
 
 class HomeChatScreen : AppCompatActivity() {
@@ -64,7 +55,7 @@ class HomeChatScreen : AppCompatActivity() {
         }
 
 
-        settings_text.setOnClickListener() {
+        tvSettings.setOnClickListener() {
             val intent = Intent(this, SettingScreen::class.java)
             startActivity(intent)
 

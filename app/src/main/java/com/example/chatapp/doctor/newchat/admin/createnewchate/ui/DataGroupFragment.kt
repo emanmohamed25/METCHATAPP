@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
@@ -52,11 +53,10 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
                 loading.isDismiss()
             }
 
-        }, 2500)
+        }, 2000)
         binding = FragmentDataGroupBinding.inflate(inflater, container, false)
         myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
         var adminToken = myshared?.getString("admintoken", "")
-//
         var departmentId = args.departmentId
         var levelId = args.levelId
         Toast.makeText(
@@ -64,7 +64,12 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
             "departmentId : $departmentId\n levelId : $levelId",
             Toast.LENGTH_LONG
         ).show()
+// backButton
+        binding.ivBack.setOnClickListener{view:View->
+            val manager = requireActivity().supportFragmentManager
+            manager.popBackStack()
 
+        }
 //        var departmentId =2
 //        var levelId =2
 //
