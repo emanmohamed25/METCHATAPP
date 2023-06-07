@@ -1,87 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bubblee"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".HomeChatScreen">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/actionbar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@color/navyy">
+    android:layout_height="wrap_content"
+    android:background="@color/gray"
+    android:layout_below="@+id/bubble"
+
+
+    >
+    <LinearLayout
+        android:id="@+id/bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/background_received_messages"
+        android:orientation="horizontal">
+        <ImageView
+
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:id="@+id/imagemessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ImageView>
+
 
         <TextView
-            android:id="@+id/chats_text"
 
+            android:id="@+id/bubble_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
             android:fontFamily="@font/inter_bold"
-            android:lineHeight="19.36px"
-            android:text="Chats"
-            android:textColor="@color/gold"
-            android:textSize="16dp" />
+            android:lineHeight="20dp"
+            android:maxWidth="300dp"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
 
-        <!-- Star icon -->
-        <ImageView
-
-
-            android:id="@+id/star_icon"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/stariconn"
-            android:layout_toRightOf="@+id/chats_text"
-            android:layout_marginLeft="55dp"
-            android:layout_centerVertical="true"/>
-
-        <!-- Circle image -->
-        <ImageView
-            android:id="@+id/profilephoto"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/userphoto1" />
-
-        <!-- Search icon -->
-        <SearchView
-            android:background="@drawable/searchicon"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search Here ..."
-            android:id="@+id/search_icon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_toLeftOf="@+id/settings_text"
-            android:layout_marginRight="55dp"
-            android:layout_centerVertical="true"/>
-
-        <!-- Settings text -->
         <TextView
-            android:id="@+id/settings_text"
+
+            android:id="@+id/bubble_time_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
-            android:textSize="18sp"
+            android:layout_gravity="end|bottom"
+            android:lineHeight="15dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
             android:textColor="@color/white"
-            android:layout_marginRight="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"/>
+            android:textSize="13dp" />
+
+    </LinearLayout>
 
 
 
-
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/actionbar"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
-        />
 
 </RelativeLayout>

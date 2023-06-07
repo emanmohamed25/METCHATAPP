@@ -4,36 +4,48 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.*
 import com.example.chatapp.databinding.ActivityStudentChatBinding
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
+import com.example.chatapp.student.pusher.PusherEventBus
+import com.example.chatapp.student.pusher.PusherEventListener
+import com.example.chatapp.student.pusher.ResponsePusher
+import com.google.gson.Gson
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
-import com.pusher.client.channel.ChannelEventListener
-import com.pusher.client.channel.PusherEvent
-import com.pusher.client.connection.ConnectionEventListener
-import com.pusher.client.connection.ConnectionStateChange
+import com.pusher.client.channel.SubscriptionEventListener
+import kotlinx.android.synthetic.main.activity_home_chat_screen.*
 import kotlinx.android.synthetic.main.activity_student_chat.*
+import kotlinx.coroutines.launch
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.json.JSONObject
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.log
+import java.util.*
+import kotlin.collections.ArrayList
 
-class StudentChatActivity : AppCompatActivity() {
+class StudentChatActivity : AppCompatActivity(), PusherEventListener {
+    lateinit var sendmessstar: poststarmessageapi
+    lateinit var pusher: Pusher
     lateinit var list: MutableList<MessageX>
     lateinit var chatsrecyclerview: RecyclerView
     lateinit var messadapter: BubbleAdapter
     private lateinit var private_chat_api: PrivateChatApi
     lateinit var binding: ActivityStudentChatBinding
+    lateinit var messageArrarRespons: ArrayList<MessageX>
 
     //private var BubbleContentarray: MutableList<bubble_chat_data> = mutableListOf()
     var myshared: SharedPreferences? = null
@@ -45,18 +57,20 @@ class StudentChatActivity : AppCompatActivity() {
         binding = ActivityStudentChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        messageArrarRespons = ArrayList()
         list = ArrayList()
         messadapter = BubbleAdapter(applicationContext, mutableListOf())
         chatsrecyclerview = findViewById(R.id.recyclerviewbubble)
         chatsrecyclerview.layoutManager = LinearLayoutManager(this)
         chatsrecyclerview.adapter = messadapter
         searchicon.setOnClickListener() {
-            re1.setVisibility(View.VISIBLE)
-            re2.setVisibility(View.GONE)
+            resv.setVisibility(View.VISIBLE)
+            redefault.setVisibility(View.GONE)
             close.setOnClickListener() {
-                re1.setVisibility(View.GONE)
-                re2.setVisibility(View.VISIBLE)
-
+                resv.setVisibility(View.GONE)
+                redefault.setVisibility(View.VISIBLE)
+                messadapter.differ.submitList(messageArrarRespons)
+                messadapter.notifyDataSetChanged()
 
             }
         }
@@ -100,9 +114,10 @@ class StudentChatActivity : AppCompatActivity() {
                         val f = response.code().toString()
                         Log.d("wwwwwwwwwwww", f)
                         val x = response.body()!!
-
-                        messadapter = BubbleAdapter(baseContext, x.messages)
-                        chatsrecyclerview.adapter = messadapter
+                        messageArrarRespons.addAll(x.messages)
+                        messadapter.differ.submitList(messageArrarRespons)
+                        messadapter.notifyDataSetChanged()
+                        // chatsrecyclerview.adapter = messadapter
 
                         /* var messdata=response.body()!!
                          messadapter= BubbleAdapter(baseContext,messdata)
@@ -121,9 +136,11 @@ class StudentChatActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<PrivateStudentChatRes>, t: Throwable) {
-                    Toast.makeText(applicationContext,
+                    Toast.makeText(
+                        applicationContext,
                         "Error cause failur is:$t",
-                        Toast.LENGTH_SHORT)
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
 
                 }
@@ -139,70 +156,235 @@ class StudentChatActivity : AppCompatActivity() {
 
         val backbtn = findViewById<ImageView>(R.id.back_button)
         backbtn.setOnClickListener {
+            finish()
         }
-        setPusher()
-
-
-    }
-
-    private fun setPusher() {
-        val channelName = "new-message"
-        val eventName = "server.created"
-
         val options = PusherOptions().apply {
             isUseTLS = true
             setCluster("eu")
         }
 
-        val pusher = Pusher("ccdf3591e58ad169e24d", options)
+        pusher = Pusher("ccdf3591e58ad169e24d", options)
 
-        // connect to Pusher
-        pusher.connect(object : ConnectionEventListener {
-            override fun onConnectionStateChange(change: ConnectionStateChange?) {}
+        // Subscribe to the desired channel
+        val channel = pusher.subscribe("new-message")
 
-            override fun onError(message: String?, code: String?, e: java.lang.Exception?) {}
+        // Set up a listener for events on the channel
+        val eventListener = SubscriptionEventListener { event ->
 
-        })
+            PusherEventBus.postPusherEvent(event.eventName, event.data)
+        }
 
-        val channel = pusher.subscribe(channelName, object : ChannelEventListener {
-            override fun onEvent(event: PusherEvent?) {}
-            override fun onSubscriptionSucceeded(channelName: String?) {}
-        }, eventName)
+        // Bind the listener to the channel's events
+        channel.bind("server.created", eventListener)
 
-        channel.bind(eventName) { event ->
-            val jsonObject = JSONObject(event.data)
-            //kuInfoLog("Pusher", "event == : $jsonObject")
-            val message = jsonObject.getString("message")
-            /*
-            val other = jsonObject.getString("other")
-            val canDeclineOrder = jsonObject.getBoolean("can_decline_order")
-            val messageId = jsonObject.getInt("message_id")
-            val userId = jsonObject.getInt("user_id")
-            val messageType = jsonObject.getInt("type")
-            val createdAt = jsonObject.getString("created_at")
-            val orderProgress = jsonObject.getString("order_progress")
-            val closeChat = jsonObject.getBoolean("close_chat")
-            val disableSendCost = jsonObject.getBoolean("disable_send_cost")
-            val numberImage = jsonObject.getInt("number_image")
-            var costModel : ResponseCost?= null*/
+        // Register the listener with the Pusher event bus
+        PusherEventBus.registerListener(this)
+
+        // Connect to Pusher
+        pusher.connect()
+//        setPusher()
+        /////////////////////////////////////
+        myshared = getSharedPreferences("idpref", 0)
+        var messid = myshared?.getInt("messid", 0).toString()
+        Log.d("44444444444", messid.toString())
 
 
-            insertLocalMessage(MessageX(
-                content = message
-               ))
+        binding.staremp.setOnClickListener() {
+            if (messid != "") {
+                myshared = getSharedPreferences("idpref", 0)
+                var messid = myshared?.getInt("messid", 0)
+                Log.d("44444444444", messid.toString())
+                val httpClient = OkHttpClient.Builder()
+
+                httpClient.addInterceptor(Interceptor { chain ->
+                    val request: Request =
+                        chain.request().newBuilder()
+                            .addHeader("Accept", "application/json")
+                            .addHeader("Authorization", "Bearer $mytoken")
+                            .build()
+                    chain.proceed(request)
+                })
+                val retrofit = Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build()
+
+                sendmessstar = retrofit.create(poststarmessageapi::class.java)
+                val call = sendmessstar.send(mytoken, messid)
+                call.enqueue(
+                    object : Callback<poststarmessage> {
+                        override fun onResponse(
+                            call: Call<poststarmessage>,
+                            response: Response<poststarmessage>,
+                        ) {
+
+
+                            if (response.isSuccessful) {
+                                var messs = response.body()?.message
+                                Toast.makeText(
+                                    applicationContext,
+                                    "$messs$messid",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                val f = response.code().toString()
+                                Log.d("wwwwwwwwwwww", f)
+                                val x = response.body()!!
+
+                            } else {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Please select message",
+                                    Toast.LENGTH_SHORT,
+                                )
+                                    .show()
+                            }
+
+                        }
+
+                        override fun onFailure(call: Call<poststarmessage>, t: Throwable) {
+                            Toast.makeText(
+                                applicationContext,
+                                "Error cause failur is:$t",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+
+                        }
+
+
+                    },
+                )
+                val sharedPreferences = getSharedPreferences("idpref", 0)
+                val editor = sharedPreferences.edit()
+                editor.remove("messid")
+                editor.apply()
+                Log.d("55555555", mytoken.toString())
+                //Log.d("vvvvvvvvvvv",messid.toString())
+                starfil.visibility = View.VISIBLE
+                starfil.postDelayed({
+                    starfil.visibility = View.GONE
+                }, 3000)
+
+
+            } else {
+
+                Toast.makeText(
+                    applicationContext,
+                    "selectmessage pleas",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+
+            }
+
 
         }
+
+        search()
     }
 
-    private fun insertLocalMessage(modelLocal: MessageX) {
-        messadapter.addDataItem(modelLocal)
-        // scroll the RecyclerView to the last added element
+
+    fun search() {
+
+        binding.searchviewst.clearFocus()
 
 
+        binding.searchviewst.addTextChangedListener(object :
+            TextWatcher {
 
+            override fun afterTextChanged(s: Editable) {
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                // filter on customer list
+                Log.d("TAG5", "My letter is ${s}")
+                Log.d("SEARCH", "Length is ${s.length}")
+
+                var array = ArrayList<MessageX>()
+                if (messageArrarRespons.isNotEmpty()) {
+                    for (a in messageArrarRespons) {
+                        if ((a.content != null) && (a.content!!.lowercase()
+                                .contains(s.toString().lowercase()))
+                        ) {
+                            array.add(a)
+                        }
+                    }
+                    messadapter.differ.submitList(array)
+                    messadapter.notifyDataSetChanged()
+                    if (s.isEmpty() || s.isBlank()) {
+                        messadapter.differ.submitList(messageArrarRespons)
+                        messadapter.notifyDataSetChanged()
+                    }
+                }
+
+            }
+        })
+
+
+    }
+
+
+    override fun onPusherEventReceived(eventName: String, eventData: String) {
+        Log.d("tag", "my event name is ${eventName}")
+        Log.d("tag", "my event data is ${eventData}")
+        lifecycleScope.launch {
+            if (eventData != "" || eventData != null) {
+                val gson = Gson()
+
+                var messageresponse: ResponsePusher =
+                    gson.fromJson(eventData, ResponsePusher::class.java)
+                Log.d("tag", "my event messageresponse is ${messageresponse}")
+                messageArrarRespons.add(
+                    MessageX(
+                        content = messageresponse.message.content,
+                        created_at = messageresponse.message.createdAt,
+                        id = messageresponse.message.id,
+                        file = "",
+                        user_id = messageresponse.message.userId,
+                        user_name = ""
+                    )
+                )
+
+                if (messageArrarRespons.size == 0) {
+                    messadapter.notifyDataSetChanged()
+                } else {
+                    messadapter.notifyItemRangeInserted(
+                        messageArrarRespons.size,
+                        messageArrarRespons.size
+                    )
+                    chatsrecyclerview.smoothScrollToPosition(messageArrarRespons.size - 1)
+                }
+                messadapter.differ.submitList(messageArrarRespons)
+                // messadapter = BubbleAdapter(baseContext, )
+
+            }
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Disconnect from Pusher and unregister the listener
+        pusher.disconnect()
+        PusherEventBus.unregisterListener(this)
     }
 
 
 }
+
+
+
 
 

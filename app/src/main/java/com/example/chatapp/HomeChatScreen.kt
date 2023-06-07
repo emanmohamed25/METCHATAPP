@@ -3,6 +3,8 @@ package com.example.chatapp
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -12,12 +14,14 @@ import android.widget.SearchView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.databinding.ActivityHomeChatScreenBinding
 import com.example.chatapp.databinding.ActivityHomepageBinding
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.BASE_URL
 import com.example.chatapp.student.ChatAdapter
+import com.example.chatapp.student.student_chat_receive.MessageX
 import com.google.gson.Gson
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
@@ -44,7 +48,6 @@ class HomeChatScreen : AppCompatActivity() {
     private lateinit var x: RelativeLayout
     private val pusherAppKey = "PUSHER_APP_KEY"
     private val pusherAppCluster = "PUSHER_APP_CLUSTER"
-    lateinit var chatsrecyclerview: RecyclerView
     lateinit var list: ArrayList<Chat>
     lateinit var myadapter: ChatAdapter
     private lateinit var chatsapi: ChatsAPI
@@ -58,6 +61,11 @@ class HomeChatScreen : AppCompatActivity() {
 
         binding = ActivityHomeChatScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.staricon.setOnClickListener(){
+            val intent = Intent(this, Starred_message_activity::class.java)
+            startActivity(intent)
+
+        }
         binding.profilephoto.setOnClickListener() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
@@ -73,10 +81,9 @@ class HomeChatScreen : AppCompatActivity() {
         setupusher()
         list = ArrayList()
 
-        myadapter = ChatAdapter(applicationContext, mutableListOf());
-        chatsrecyclerview = findViewById<RecyclerView>(R.id.recyclerview)
-        //chatsrecyclerview.layoutManager = LinearLayoutManager(this)
-        chatsrecyclerview.adapter = myadapter
+        myadapter = ChatAdapter(applicationContext, mutableListOf())
+        initRecyclerView()
+
         ///////////////////////////////////////
         myshared = getSharedPreferences("myshared", 0)
         var mytoken = myshared?.getString("studenttoken", "").toString()
@@ -89,9 +96,22 @@ class HomeChatScreen : AppCompatActivity() {
         //    this.setSupportActionBar(x)
 //        Log.d("qqqqqqqqq", "out:"+datalist.toString())
 
-        searchView = findViewById(R.id.searchvieww)
+        //searchView = findViewById(R.id.searchvieww)
+        binding.imageClear.setOnClickListener {
+            binding.searchvieww.text.clear()
+            binding.searchvieww.clearFocus()
+            myadapter.differ.submitList(searchlist)
+            myadapter.notifyDataSetChanged()
+            binding.imageClear.isVisible=false
+        }
 
+    }
 
+    private fun initRecyclerView() {
+        binding.recyclerview.apply {
+            adapter=myadapter
+           layoutManager = LinearLayoutManager(this@HomeChatScreen)
+        }
     }
 
     fun getChat(mytoken: String) {
@@ -128,12 +148,9 @@ class HomeChatScreen : AppCompatActivity() {
                             .show()
                         var data = response.body()!!
                         datalist = data.chats as ArrayList<Chat>
-                        searchlist.addAll(datalist)
-                        myadapter = ChatAdapter(baseContext, datalist)
-                        chatsrecyclerview.adapter = myadapter
-                        chatsrecyclerview.layoutManager = LinearLayoutManager(this@HomeChatScreen)
-
-
+                        searchlist.addAll(data.chats)
+                        myadapter.differ.submitList(datalist)
+                        myadapter.notifyDataSetChanged()
                         search()
                         Log.d("qqqqqqqqq", datalist.toString())
 
@@ -166,42 +183,88 @@ class HomeChatScreen : AppCompatActivity() {
 
     fun search() {
 
-        searchView.clearFocus()
 
 
+        binding.searchvieww.clearFocus()
 
 
-        (object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                searchView.clearFocus()
-                Log.d("qqqqqqqqq", "onQueryTextSubmit :" + datalist.toString())
+        binding.searchvieww.addTextChangedListener(object :
+            TextWatcher {
 
-                return true
+            override fun afterTextChanged(s: Editable) {
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                searchlist.clear()
-                val searchtext = newText!!.toLowerCase(Locale.getDefault())
-                if (searchtext.isEmpty()) {
-                    datalist.forEach {
-                        if (it.name.lowercase(Locale.getDefault()).contains(searchtext)) {
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
 
-                            searchlist.add(it)
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                // filter on customer list
+                Log.d("TAG5", "My letter is ${s}")
+                Log.d("SEARCH", "Length is ${s.length}")
+
+                var array = ArrayList<Chat>()
+                if (datalist.isNotEmpty()) {
+                    for (a in datalist) {
+                        if (a.last_message.user_name.lowercase().contains(s.toString().lowercase()))
+
+                         {
+                            array.add(a)
                         }
                     }
-                    recyclerview.adapter!!.notifyDataSetChanged()
-
-
-                } else {
-                    searchlist.clear()
-                    searchlist.addAll(datalist)
-                    recyclerview.adapter!!.notifyDataSetChanged()
-
+                    myadapter.differ.submitList(array)
+                    myadapter.notifyDataSetChanged()
+                    if (s.isEmpty() || s.isBlank()) {
+                        myadapter.differ.submitList(datalist)
+                        myadapter.notifyDataSetChanged()
+                    }
                 }
-                return false
-                TODO("Not yet implemented")
+
             }
         })
+
+
+//        searchView.clearFocus()
+
+
+
+
+//        (object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                searchView.clearFocus()
+//                Log.d("qqqqqqqqq", "onQueryTextSubmit :" + datalist.toString())
+//
+//                return true
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                searchlist.clear()
+//                val searchtext = newText!!.toLowerCase(Locale.getDefault())
+//                if (searchtext.isEmpty()) {
+//                    datalist.forEach {
+//                        if (it.name.lowercase(Locale.getDefault()).contains(searchtext)) {
+//
+//                            searchlist.add(it)
+//                        }
+//                    }
+//                    recyclerview.adapter!!.notifyDataSetChanged()
+//
+//
+//                } else {
+//                    searchlist.clear()
+//                    searchlist.addAll(datalist)
+//                    recyclerview.adapter!!.notifyDataSetChanged()
+//
+//                }
+//                return false
+//                TODO("Not yet implemented")
+//            }
+//        })
 
     }
 

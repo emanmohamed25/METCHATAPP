@@ -10,24 +10,43 @@ import android.view.ViewGroup
 import android.widget.Filterable
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.Chat
 import com.example.chatapp.R
+import com.example.chatapp.student.student_chat_receive.MessageX
 import com.example.chatapp.student.student_chat_receive.StudentChatActivity
 
 class ChatAdapter(
     private val contex: Context,
     private val chatItems: List<Chat>
 ) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
+    private val callBack = object : DiffUtil.ItemCallback<Chat>() {
+        override fun areItemsTheSame(
+            oldItem: Chat,
+            newItem: Chat
+        ): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(
+            oldItem: Chat,
+            newItem: Chat
+        ): Boolean {
+            return oldItem == newItem
+        }
+    }
+    var differ = AsyncListDiffer(this, callBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(LayoutInflater.from(contex).inflate(R.layout.chatrow, parent, false))
 
-    override fun getItemCount(): Int = chatItems.size
+    override fun getItemCount(): Int = differ.currentList.size
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data  = chatItems[position]
+        val data  = differ.currentList[position]
         var x =data.last_message.user_name.toString()
         val sharedPref = holder.itemView.context.getSharedPreferences(
             "MyPrefs",
@@ -66,7 +85,7 @@ class ChatAdapter(
            //holder.unseen.text="0"
             holder.goldcirc.setVisibility(View.GONE);
             val intent = Intent(holder.itemView.context, StudentChatActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("chatid",id)
             holder.itemView.context.startActivity(intent)
 

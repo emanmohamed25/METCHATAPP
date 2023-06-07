@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "10196203406",
+    "project_id": "fcmpushnotification-31d9f",
+    "storage_bucket": "fcmpushnotification-31d9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10196203406:android:148a4cb6745a6c0ceb56df",
+        "android_client_info": {
+          "package_name": "com.example.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10196203406-e4f9gqjno797ej816vus9afo41b0pa06.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTbJ6MKDJM8LYl0Im82S4SM0WHH0PdgrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10196203406-e4f9gqjno797ej816vus9afo41b0pa06.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

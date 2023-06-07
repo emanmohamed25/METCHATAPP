@@ -30,7 +30,7 @@
         <ImageView
 
 
-            android:id="@+id/star_icon"
+            android:id="@+id/staricon"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
@@ -47,16 +47,7 @@
             android:src="@drawable/userphoto1" />
 
         <!-- Search icon -->
-        <SearchView
-            android:id="@+id/search_icon"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="55dp"
-            android:layout_toLeftOf="@+id/settings_text"
-            android:background="@drawable/searchicon"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search Here ..." />
+
 
         <!-- Settings text -->
         <TextView
@@ -73,28 +64,42 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rrrr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/actionbar"
         android:layout_marginTop="12dp">
 
-        <SearchView
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+        <EditText
+            android:padding="8dp"
             android:id="@+id/searchvieww"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/searchrectangle"
-            android:focusable="false"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search Here..."
-            android:queryBackground="@android:color/transparent"
-            android:closeIcon="@drawable/clear"
-            ></SearchView>
+            android:hint="Search Here..."
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
+        <ImageView
+           android:visibility="invisible"
+            android:id="@+id/imageClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/clear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView

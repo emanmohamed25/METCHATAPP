@@ -38,5 +38,15 @@ class SettingScreen : AppCompatActivity() {
         myshared=getSharedPreferences("myshared",0)
         var name=myshared?.getString("name","")
         binding.namestudent.text=name
+        binding.logoutbutton.setOnClickListener(){
+            myshared = getSharedPreferences("myshared", 0)
+            var editor: SharedPreferences.Editor = myshared!!.edit()
+            editor.remove("studenttoken")
+            editor.apply();
+            val intent = Intent(this@SettingScreen, splash::class.java)
+            startActivity(intent)
+            finish()
+
+        }
     }
 }
