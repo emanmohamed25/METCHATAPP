@@ -4,21 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".student.student_chat_receive.StudentChatActivity">
+ >
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fakee">
         <RelativeLayout
-
-            android:id="@+id/re1"
+            android:id="@+id/restar"
 
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/navyy"
             android:visibility="invisible">
-            <SearchView
 
+            <ImageView
+
+
+                android:id="@+id/back_buttonstarr"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/backbutton" />
+
+            <ImageView
+                android:id="@+id/STARED"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/staricon"
+                android:text="Settings"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+        <RelativeLayout
+
+            android:id="@+id/resv"
+
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/navyy"
+            android:visibility="invisible">
+            <EditText
+
+                android:drawablePadding="8dp"
+                android:hint="Search Here ..."
+                android:drawableLeft="@drawable/ic_baseline_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/searchviewst"
@@ -26,7 +60,7 @@
                 android:layout_marginRight="120dp"
                 android:closeIcon="@null"
                 android:iconifiedByDefault="false"
-                android:queryHint="Search Here ..." ></SearchView>
+                />
 
             <ImageView
                 android:id="@+id/close"
@@ -40,7 +74,7 @@
 
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/re2"
+            android:id="@+id/redefault"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@color/navyy"
@@ -67,8 +101,8 @@
 
             <ImageView
                 android:id="@+id/searchicon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
@@ -76,9 +110,31 @@
                 android:text="Settings"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
+            <ImageView
+
+                android:id="@+id/staremp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="100dp"
+                android:src="@drawable/starborder"
+                 />
+            <ImageView
+
+                android:id="@+id/starfil"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="100dp"
+                android:src="@drawable/starfil"
+                android:visibility="invisible"
+                />
 
 
         </RelativeLayout>
+
 
     </RelativeLayout>
 

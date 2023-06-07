@@ -17,4 +17,6 @@
     <color name="selectshadowcolor">#80AEBD</color>
     <color name="gray">#949494</color>
     <color name="whiteee">#EEEEEE</color>
+    <color name="selected">#7FAFBE</color>
+
 </resources>
