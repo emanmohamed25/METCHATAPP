@@ -50,5 +50,5 @@
         android:name="com.example.chatapp.doctor.newchat.admin.createnewchate.ui.StuffFragment"
         android:label="fragment_stuff"
         tools:layout="@layout/fragment_stuff"/>
-    <include app:graph="@navigation/main_navigation" /><action android:id="@+id/action_global_departmentFragment" app:destination="@id/departmentFragment"/>
+   <action android:id="@+id/action_global_departmentFragment" app:destination="@id/departmentFragment"/>
 </navigation>

@@ -1,5 +1,6 @@
 package com.example.chatapp.doctor.newchat.admin.main.ui
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -9,14 +10,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.chatapp.HomepageActivity
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentHomeBinding
+import com.example.chatapp.doctor.newchat.admin.CreateNewChatActivity
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.HomeAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Chat
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsehomechats.ListChatsResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
+import com.example.chatapp.splash
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,10 +46,23 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
         //button for create new chat
         binding.btnCreateNewChat.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(HomeFragmentDirections.actionHomeFragmentToCreateNewChatFragment2())
+
+            startActivity(Intent(context,CreateNewChatActivity::class.java))
+//            view.findNavController()
+//
+//                        .navigate(HomeFragmentDirections.actionHomeFragmentToCreateNewChatFragment2())
+//            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewMessageNavigation())
         }
 
+//        binding.profilephoto.setOnClickListener{
+//            //myshared = getSharedPreferences(Constants.MY_SHARED, 0)
+//            var editor: SharedPreferences.Editor = myshared!!.edit()
+//            editor.remove("admintoken")
+//            editor.apply();
+//            startActivity(Intent(context, HomepageActivity::class.java)
+//            )
+//            requireActivity().finish()
+//        }
         binding.tvSettings.setOnClickListener{view:View->
             view.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSittingFragment())
 

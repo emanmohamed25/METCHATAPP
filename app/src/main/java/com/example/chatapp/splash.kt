@@ -61,23 +61,23 @@ class splash : AppCompatActivity() {
             }, SPLASH_TIME_OUT)
 
         }
-        else if(!adtoken.isNullOrEmpty()){
-
-            Toast.makeText(this@splash,
-                adtoken.toString(),
-                Toast.LENGTH_SHORT)
-                .show()
-            supportActionBar?.hide()
-            Handler().postDelayed({
-                // This method will be executed once the timer is over
-                // Start your main activity
-                startActivity(Intent(this, NewChatActivity::class.java))
-
-                // close this activity
-                finish()
-
-            },SPLASH_TIME_OUT)
-        }
+//        else if(!adtoken.isNullOrEmpty()){
+//
+//            Toast.makeText(this@splash,
+//                adtoken.toString(),
+//                Toast.LENGTH_SHORT)
+//                .show()
+//            supportActionBar?.hide()
+//            Handler().postDelayed({
+//                // This method will be executed once the timer is over
+//                // Start your main activity
+//                startActivity(Intent(this, NewChatActivity::class.java))
+//
+//                // close this activity
+//                finish()
+//
+//            },SPLASH_TIME_OUT)
+//        }
         else{
 
             supportActionBar?.hide()

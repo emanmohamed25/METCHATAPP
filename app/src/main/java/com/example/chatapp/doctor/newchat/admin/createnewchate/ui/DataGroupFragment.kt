@@ -1,6 +1,7 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDataGroupBinding
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.GroupStudentAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DataGroupRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.ListStudentRequest
@@ -64,15 +66,7 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
             "departmentId : $departmentId\n levelId : $levelId",
             Toast.LENGTH_LONG
         ).show()
-// backButton
-        binding.ivBack.setOnClickListener{view:View->
-            val manager = requireActivity().supportFragmentManager
-            manager.popBackStack()
 
-        }
-//        var departmentId =2
-//        var levelId =2
-//
         val listStudentRequest = ListStudentRequest(departmentId.toString(), levelId.toString())
         getStudent(listStudentRequest)
 
@@ -122,6 +116,8 @@ class DataGroupFragment : Fragment(), GroupStudentAdapter.OnItemClickListener {
                         }
 
                     })
+                startActivity(Intent(context,NewChatActivity::class.java))
+                requireActivity().finish()
             }
             Log.e("response", "dataGroupRequest : $dataGroupRequest")
         }

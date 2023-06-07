@@ -1,6 +1,7 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentStuffBinding
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.StuffAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Stuff
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.StuffRequest
@@ -55,12 +57,7 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
         myshared = requireActivity().getSharedPreferences(Constants.MY_SHARED, 0)
         var adtoken = myshared?.getString("admintoken", "")
         getStuff()
-//backButton
-        binding.ivBack.setOnClickListener { view: View ->
-            val manager = activity!!.supportFragmentManager
-            manager.popBackStack()
 
-        }
 
         binding.btnSend.setOnClickListener {
             if (binding.etGroupName.text.toString().isNullOrEmpty()
@@ -93,7 +90,8 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
                                 )
                                     .show()
                                 Log.e("department response", "onResponse : ${data?.status}")
-                            }
+
+                                }
                         }
 
                         override fun onFailure(call: Call<CreateGroupStuffResponse>, t: Throwable) {
@@ -103,7 +101,8 @@ class StuffFragment : Fragment(), StuffAdapter.OnItemClickListener {
                         }
 
                     })
-
+                startActivity(Intent(context,NewChatActivity::class.java))
+                requireActivity().finish()
             }
         }
         binding.btnAllCheck.setOnClickListener {

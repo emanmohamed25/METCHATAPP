@@ -1,6 +1,7 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentAll2Binding
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.AllStudentsAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DataGroupRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Students
@@ -59,11 +61,6 @@ class AllFragment : Fragment(), AllStudentsAdapter.OnItemClickListener {
         var adtoken = myshared?.getString("admintoken", "")
         getStudent()
 //backBotton
-        binding.ivBack.setOnClickListener{view:View->
-            val manager = activity!!.supportFragmentManager
-            manager.popBackStack()
-
-        }
         binding.btnSend.setOnClickListener {
             if (binding.etGroupName.text.toString().isNullOrEmpty()
                 || binding.etEnterMessage.text.toString().isNullOrEmpty()
@@ -94,6 +91,7 @@ class AllFragment : Fragment(), AllStudentsAdapter.OnItemClickListener {
                                 .show()
                             Log.e("department response", "onResponse : ${response.body()?.message}")
 
+
                         }
 
                         override fun onFailure(call: Call<SingleStudentResponse>, t: Throwable) {
@@ -104,6 +102,8 @@ class AllFragment : Fragment(), AllStudentsAdapter.OnItemClickListener {
                         }
 
                     })
+                startActivity(Intent(context,NewChatActivity::class.java))
+                requireActivity().finish()
             } else {
                 dataGroupRequest = DataGroupRequest(
                     binding.etGroupName.text.toString(),
@@ -140,7 +140,8 @@ class AllFragment : Fragment(), AllStudentsAdapter.OnItemClickListener {
                             }
                         }
                     )
-
+                startActivity(Intent(context,NewChatActivity::class.java))
+                requireActivity().finish()
             }
         }
         binding.btnAllCheck.setOnClickListener {

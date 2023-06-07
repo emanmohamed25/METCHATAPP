@@ -22,20 +22,6 @@ class NewChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityNewChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        val navController=Navigation.findNavController(this,R.id.fragmentContainerViewNewChat)
-//
-//        NavigationUI.setupWithNavController(binding.bottomNavigationView,navController)
-//binding.ivBack.setOnClickListener{
-//   val myshared:SharedPreferences = getSharedPreferences(Constants.MY_SHARED, 0)
-//    var editor: SharedPreferences.Editor = myshared!!.edit()
-//    editor.putString("admintoken","")
-//    editor.commit()
-//startActivity(Intent(this@NewChatActivity,LoginScreenActivity::class.java))
-//}
-//        val navHostFragment =
-//            supportFragmentManager.findFragmentById(R.id.main_navigation) as NavHostFragment
-//        val navController = navHostFragment.navController
-//        appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
+
     }
 }

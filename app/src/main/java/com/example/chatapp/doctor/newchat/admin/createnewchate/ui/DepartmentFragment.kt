@@ -15,10 +15,10 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.SectionsAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
@@ -27,7 +27,6 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithlevel.SendMsgWithLevel
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.sendwithsection.SendMsgWithSection
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsedepartment.spinner.DepartmentSpinnerResponse
-import com.example.chatapp.doctor.newchat.admin.main.ui.CreateNewChatFragmentDirections
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.REQUEST_CODE_PICKER
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
@@ -96,11 +95,11 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 //        }
 
         // BackButton
-        binding.ivBack.setOnClickListener {
-            val manager = activity!!.supportFragmentManager
-            manager.popBackStack()
-
-        }
+//        binding.ivBack.setOnClickListener {
+////            val manager = activity!!.supportFragmentManager
+////            manager.popBackStack()
+//findNavController().navigateUp()
+//        }
 //Button check all section
         binding.btnAllCheck.setOnClickListener {
             if (allSectionIsCheck) {
@@ -175,8 +174,8 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                                         "message send to : ${data?.sections?.get(i)?.name}\n"
                                     )
                                 }
-                                val manager = activity!!.supportFragmentManager
-                                manager.popBackStack()
+//                                val manager = activity!!.supportFragmentManager
+//                                manager.popBackStack()
                             }
                         }
 
@@ -186,6 +185,8 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                             Log.e("chat response", "onFailure : $t")
                         }
                     })
+                startActivity(Intent(context, NewChatActivity::class.java))
+                requireActivity().finish()
             } else if (departmentRequest.section_id.isNullOrEmpty()) {
                 RetrofitClientAdmin.api.sendDepartmentMessageLevel(
                     "Bearer $adtoken", departmentRequest
@@ -203,9 +204,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                             )
                                 .show()
                             Log.e("chat response", "message send to : ${data?.yearLevel?.name}")
-
                         }
-
                     }
 
                     override fun onFailure(call: Call<SendMsgWithLevel>, t: Throwable) {
@@ -215,6 +214,8 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                     }
 
                 })
+                startActivity(Intent(context, NewChatActivity::class.java))
+                requireActivity().finish()
             }
         }
 
