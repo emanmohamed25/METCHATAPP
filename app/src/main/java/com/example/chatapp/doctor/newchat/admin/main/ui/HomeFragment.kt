@@ -48,21 +48,11 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         binding.btnCreateNewChat.setOnClickListener { view: View ->
 
             startActivity(Intent(context,CreateNewChatActivity::class.java))
-//            view.findNavController()
-//
-//                        .navigate(HomeFragmentDirections.actionHomeFragmentToCreateNewChatFragment2())
-//            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNewMessageNavigation())
         }
 
-//        binding.profilephoto.setOnClickListener{
-//            //myshared = getSharedPreferences(Constants.MY_SHARED, 0)
-//            var editor: SharedPreferences.Editor = myshared!!.edit()
-//            editor.remove("admintoken")
-//            editor.apply();
-//            startActivity(Intent(context, HomepageActivity::class.java)
-//            )
-//            requireActivity().finish()
-//        }
+        binding.profilephoto.setOnClickListener{
+
+        }
         binding.tvSettings.setOnClickListener{view:View->
             view.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSittingFragment())
 

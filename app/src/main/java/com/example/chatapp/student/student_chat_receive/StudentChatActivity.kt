@@ -37,8 +37,8 @@ import kotlin.math.log
 //
 //    //private var BubbleContentarray: MutableList<bubble_chat_data> = mutableListOf()
 //    var myshared: SharedPreferences? = null
-
-
+//
+//
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //
 //        super.onCreate(savedInstanceState)
@@ -144,55 +144,55 @@ import kotlin.math.log
 //
 //
 //    }
-
-    private fun setPusher() {
-        val channelName = "new-message"
-        val eventName = "server.created"
-
-        val options = PusherOptions().apply {
-            isUseTLS = true
-            setCluster("eu")
-        }
-
-        val pusher = Pusher("ccdf3591e58ad169e24d", options)
-
-        // connect to Pusher
-        pusher.connect(object : ConnectionEventListener {
-            override fun onConnectionStateChange(change: ConnectionStateChange?) {}
-
-            override fun onError(message: String?, code: String?, e: java.lang.Exception?) {}
-
-        })
-
-        val channel = pusher.subscribe(channelName, object : ChannelEventListener {
-            override fun onEvent(event: PusherEvent?) {}
-            override fun onSubscriptionSucceeded(channelName: String?) {}
-        }, eventName)
-
-        channel.bind(eventName) { event ->
-            val jsonObject = JSONObject(event.data)
-            //kuInfoLog("Pusher", "event == : $jsonObject")
-            val message = jsonObject.getString("message")
-            /*
-            val other = jsonObject.getString("other")
-            val canDeclineOrder = jsonObject.getBoolean("can_decline_order")
-            val messageId = jsonObject.getInt("message_id")
-            val userId = jsonObject.getInt("user_id")
-            val messageType = jsonObject.getInt("type")
-            val createdAt = jsonObject.getString("created_at")
-            val orderProgress = jsonObject.getString("order_progress")
-            val closeChat = jsonObject.getBoolean("close_chat")
-            val disableSendCost = jsonObject.getBoolean("disable_send_cost")
-            val numberImage = jsonObject.getInt("number_image")
-            var costModel : ResponseCost?= null*/
-
-
-//            insertLocalMessage(MessageX(
-//                content = message
-//               ))
-
-        }
-    }
+//
+//    private fun setPusher() {
+//        val channelName = "new-message"
+//        val eventName = "server.created"
+//
+//        val options = PusherOptions().apply {
+//            isUseTLS = true
+//            setCluster("eu")
+//        }
+//
+//        val pusher = Pusher("ccdf3591e58ad169e24d", options)
+//
+//        // connect to Pusher
+//        pusher.connect(object : ConnectionEventListener {
+//            override fun onConnectionStateChange(change: ConnectionStateChange?) {}
+//
+//            override fun onError(message: String?, code: String?, e: java.lang.Exception?) {}
+//
+//        })
+//
+//        val channel = pusher.subscribe(channelName, object : ChannelEventListener {
+//            override fun onEvent(event: PusherEvent?) {}
+//            override fun onSubscriptionSucceeded(channelName: String?) {}
+//        }, eventName)
+//
+//        channel.bind(eventName) { event ->
+//            val jsonObject = JSONObject(event.data)
+//            //kuInfoLog("Pusher", "event == : $jsonObject")
+//            val message = jsonObject.getString("message")
+//            /*
+//            val other = jsonObject.getString("other")
+//            val canDeclineOrder = jsonObject.getBoolean("can_decline_order")
+//            val messageId = jsonObject.getInt("message_id")
+//            val userId = jsonObject.getInt("user_id")
+//            val messageType = jsonObject.getInt("type")
+//            val createdAt = jsonObject.getString("created_at")
+//            val orderProgress = jsonObject.getString("order_progress")
+//            val closeChat = jsonObject.getBoolean("close_chat")
+//            val disableSendCost = jsonObject.getBoolean("disable_send_cost")
+//            val numberImage = jsonObject.getInt("number_image")
+//            var costModel : ResponseCost?= null*/
+//
+//
+////            insertLocalMessage(MessageX(
+////                content = message
+////               ))
+//
+//        }
+//    }}
 
 //    private fun insertLocalMessage(modelLocal: MessageX) {
 //        messadapter.addDataItem(modelLocal)
