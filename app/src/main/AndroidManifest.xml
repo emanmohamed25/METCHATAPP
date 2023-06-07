@@ -23,7 +23,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".starred_message_screen"
+            android:name=".doctor.newchat.admin.CreateNewChatActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -35,6 +35,7 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
+
         </activity>
         <activity
             android:name=".doctor.newchat.sendmessage.ChatStudentActivity"
@@ -149,10 +150,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <meta-data  android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCl1yGPZ3mpxxxxxxxAz2R-t7zcWVzrHUL9k"/>
 
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCl1yGPZ3mpxxxxxxxAz2R-t7zcWVzrHUL9k" />
     </application>
 
 </manifest>

@@ -36,7 +36,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/avatar"></ImageView>
+            ></ImageView>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/namecontainer"

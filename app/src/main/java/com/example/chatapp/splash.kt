@@ -9,6 +9,7 @@ import android.os.Handler
 import android.text.method.TextKeyListener.clear
 import android.widget.Toast
 import com.example.chatapp.databinding.ActivitySplashBinding
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
 import com.example.chatapp.doctor.newchat.admin.util.Constants.Companion.MY_SHARED
 import com.example.chatapp.doctor.newchat.sendmessage.ChatStudentActivity
 import com.example.chatapp.doctor.newchat.sendmessage.SendMessageActivity

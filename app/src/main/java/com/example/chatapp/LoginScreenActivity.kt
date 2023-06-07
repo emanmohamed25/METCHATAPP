@@ -110,6 +110,7 @@ class LoginScreenActivity : AppCompatActivity() {
                                             NewChatActivity::class.java
                                         )
                                         startActivity(intent)
+                                        finish()
                                     }
                                 } else {
                                     Toast.makeText(

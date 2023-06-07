@@ -1,7 +1,6 @@
 package com.example.chatapp.doctor.newchat.admin.createnewchate.ui
 
-import android.app.Activity
-import android.content.ContentResolver
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -15,11 +14,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.core.content.contentValuesOf
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentDepartment2Binding
+import com.example.chatapp.doctor.newchat.admin.NewChatActivity
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.SectionsAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.DepartmentRequest
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Sections
@@ -66,6 +65,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
 
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,7 +78,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                 loading.isDismiss()
             }
 
-        }, 2500)
+        }, 2000)
         binding = FragmentDepartment2Binding.inflate(inflater, container, false)
 //get token
         myshared = requireActivity().getSharedPreferences(MY_SHARED, 0)
@@ -90,10 +90,16 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
         var positionD: Int? = null
         var positionL: Int? = null
 //Button select file
-        binding.btnCamera.setOnClickListener {
-            onImageChosser()
-        }
+//        binding.btnCamera.setOnClickListener {
+//            onImageChosser()
+//        }
 
+        // BackButton
+//        binding.ivBack.setOnClickListener {
+////            val manager = activity!!.supportFragmentManager
+////            manager.popBackStack()
+//findNavController().navigateUp()
+//        }
 //Button check all section
         binding.btnAllCheck.setOnClickListener {
             if (allSectionIsCheck) {
@@ -168,6 +174,8 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                                         "message send to : ${data?.sections?.get(i)?.name}\n"
                                     )
                                 }
+//                                val manager = activity!!.supportFragmentManager
+//                                manager.popBackStack()
                             }
                         }
 
@@ -177,6 +185,8 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                             Log.e("chat response", "onFailure : $t")
                         }
                     })
+                startActivity(Intent(context, NewChatActivity::class.java))
+                requireActivity().finish()
             } else if (departmentRequest.section_id.isNullOrEmpty()) {
                 RetrofitClientAdmin.api.sendDepartmentMessageLevel(
                     "Bearer $adtoken", departmentRequest
@@ -194,9 +204,7 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                             )
                                 .show()
                             Log.e("chat response", "message send to : ${data?.yearLevel?.name}")
-
                         }
-
                     }
 
                     override fun onFailure(call: Call<SendMsgWithLevel>, t: Throwable) {
@@ -206,10 +214,14 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
                     }
 
                 })
+                startActivity(Intent(context, NewChatActivity::class.java))
+                requireActivity().finish()
             }
         }
+
         return binding.root
     }
+
 
     fun onImageChosser() {
         Intent(Intent.ACTION_PICK).also {
@@ -217,21 +229,6 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             val mimeType = arrayOf("image/jpeg", "image/png")
             it.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
             startActivityForResult(it, REQUEST_CODE_PICKER)
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_CODE_PICKER -> {
-
-                    selectedImageURI = data?.data
-                    binding.ivImageMessage.setImageURI(selectedImageURI)
-                    binding.ivImageMessage.drawableHotspotChanged(80F, 80F)
-
-                }
-            }
         }
     }
 
@@ -458,9 +455,6 @@ class DepartmentFragment : Fragment(), SectionsAdapter.OnItemClickListener {
             binding.rvSections.layoutManager = LinearLayoutManager(requireActivity())
 
         }
-//val contentResolver=ContentResolver(/* context = */ context?)
-//        contentResolver.openFileDescriptor(selectedImageURI!!,"r",null)
-
     }
 
     override fun onItemClick(position: Int) {
