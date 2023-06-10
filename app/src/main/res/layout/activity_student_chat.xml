@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
- >
+    android:layout_height="match_parent">
+
     <RelativeLayout
+        android:id="@+id/fakee"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/fakee">
+        android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/restar"
 
@@ -40,6 +39,7 @@
                 android:textSize="18sp" />
 
         </RelativeLayout>
+
         <RelativeLayout
 
             android:id="@+id/resv"
@@ -48,19 +48,19 @@
             android:layout_height="56dp"
             android:background="@color/navyy"
             android:visibility="invisible">
+
             <EditText
 
-                android:drawablePadding="8dp"
-                android:hint="Search Here ..."
-                android:drawableLeft="@drawable/ic_baseline_search"
+                android:id="@+id/searchviewst"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/searchviewst"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="120dp"
                 android:closeIcon="@null"
-                android:iconifiedByDefault="false"
-                />
+                android:drawableLeft="@drawable/ic_baseline_search"
+                android:drawablePadding="8dp"
+                android:hint="Search Here ..."
+                android:iconifiedByDefault="false" />
 
             <ImageView
                 android:id="@+id/close"
@@ -70,9 +70,10 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:textSize="18sp" />
-<!--            android:src="@drawable/clear"-->
+            <!--            android:src="@drawable/clear"-->
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/redefault"
             android:layout_width="match_parent"
@@ -110,6 +111,7 @@
                 android:text="Settings"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
+
             <ImageView
 
                 android:id="@+id/staremp"
@@ -118,8 +120,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="100dp"
-                android:src="@drawable/starborder"
-                 />
+                android:src="@drawable/starborder" />
+
             <ImageView
 
                 android:id="@+id/starfil"
@@ -129,8 +131,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="100dp"
                 android:src="@drawable/starfil"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
 
         </RelativeLayout>
@@ -138,19 +139,19 @@
 
     </RelativeLayout>
 
-<RelativeLayout
-    android:id="@+id/rr"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/fakee"
-    android:layout_above="@+id/bottomactionbar">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewbubble"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        ></androidx.recyclerview.widget.RecyclerView>
+    <RelativeLayout
+        android:id="@+id/rr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomactionbar"
+        android:layout_below="@+id/fakee">
 
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewbubble"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
+    </RelativeLayout>
 
     <RelativeLayout
 
@@ -167,11 +168,10 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="18dp"
-            android:fontFamily="@font/inter_bold"
             android:lineHeight="24px"
             android:text="You can't send messages ."
             android:textColor="@color/whiteee"
-            android:textSize="24dp"></TextView>
+            android:textSize="24dp"/>
 
     </RelativeLayout>
 

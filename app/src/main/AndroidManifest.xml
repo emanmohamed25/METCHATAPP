@@ -29,6 +29,13 @@
 <!--                android:name="android.app.lib_name"-->
 <!--                android:value="" />-->
 <!--        </activity>-->
+        <activity android:name=".doctor.newchat.admin.CreateNewChatActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+        </activity>
         <activity
             android:name=".doctor.newchat.admin.NewChatActivity"
             android:exported="false">

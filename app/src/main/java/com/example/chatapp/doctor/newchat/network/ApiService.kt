@@ -17,6 +17,7 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.response.response
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsegroup.list.student.ListStudentResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsehomechats.ListChatsResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responselistmessage.ListMessageResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsesendmessage.SendMessageResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsestuff.GetStuffResponse
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsestuff.createchatresponse.CreateGroupStuffResponse
 import com.example.chatapp.doctor.newchat.sendmessage.DataClass
@@ -98,4 +99,11 @@ interface ApiService {
         @Header("Authorization") authHeader: String,
         @Query("channel_id") channel_id: Int
     ): Call<ListMessageResponse>
+
+    @POST("send-message")
+    fun sendMessageInChannel(
+        @Header("Authorization") authHeader: String,
+        @Query("channel_id") channel_id: Int,
+        @Query("message") message:String
+    ):Call<SendMessageResponse>
 }

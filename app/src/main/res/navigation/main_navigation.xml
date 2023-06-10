@@ -17,11 +17,11 @@
             android:id="@+id/action_homeFragment_to_viewChatFragment"
             app:destination="@id/viewChatFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_sittingFragment"
-            app:destination="@id/sittingFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_new_message_navigation"
             app:destination="@id/new_message_navigation" />
+        <action
+            android:id="@+id/action_homeFragment_to_adminPrifileFragment"
+            app:destination="@id/adminPrifileFragment" />
     </fragment>
     <fragment
         android:id="@+id/createNewChatFragment2"
@@ -50,14 +50,14 @@
             android:name="channel_name"
             app:argType="string" />
     </fragment>
+    <include app:graph="@navigation/new_message_navigation" />
     <fragment
-        android:id="@+id/sittingFragment"
-        android:name="com.example.chatapp.doctor.newchat.admin.main.ui.SittingFragment"
-        android:label="fragment_sitting"
-        tools:layout="@layout/fragment_sitting" >
+        android:id="@+id/adminPrifileFragment"
+        android:name="com.example.chatapp.doctor.newchat.admin.main.ui.AdminPrifileFragment"
+        android:label="fragment_admin_prifile"
+        tools:layout="@layout/fragment_admin_prifile" >
         <action
-            android:id="@+id/action_sittingFragment_to_homeFragment"
+            android:id="@+id/action_adminPrifileFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
-    <include app:graph="@navigation/new_message_navigation" />
 </navigation>

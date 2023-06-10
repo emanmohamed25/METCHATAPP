@@ -290,7 +290,6 @@ class StudentChatActivity : AppCompatActivity(), PusherEventListener {
 
         binding.searchviewst.clearFocus()
 
-
         binding.searchviewst.addTextChangedListener(object :
             TextWatcher {
 

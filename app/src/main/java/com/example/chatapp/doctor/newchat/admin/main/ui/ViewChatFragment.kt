@@ -16,6 +16,7 @@ import com.example.chatapp.databinding.FragmentViewChatBinding
 import com.example.chatapp.doctor.newchat.admin.createnewchate.adapter.ListMessagesAdapter
 import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Message
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responselistmessage.ListMessageResponse
+import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsesendmessage.SendMessageResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
 import retrofit2.Call
@@ -42,13 +43,58 @@ class ViewChatFragment : Fragment(), ListMessagesAdapter.OnItemClickListener {
         var channel_id = arg.channelId
         var channelName = arg.channelName
         getMessage(channel_id, adminToken.toString())
-        binding.tvTitle.text=channelName.toString()
+        binding.tvTitle.text = channelName.toString()
 
-        binding.ivBack.setOnClickListener{view:View->
-            view.findNavController().navigate(ViewChatFragmentDirections.actionViewChatFragmentToHomeFragment())
+        binding.ivBack.setOnClickListener { view: View ->
+            view.findNavController()
+                .navigate(ViewChatFragmentDirections.actionViewChatFragmentToHomeFragment())
 
         }
+
+        binding.btnSend.setOnClickListener {
+            var message = binding.etEnterMessage.text.toString()
+
+            if (message.isNullOrEmpty()) {
+                Toast.makeText(context, "please enter message !!", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                RetrofitClientAdmin.api.sendMessageInChannel(
+                    "Bearer $adminToken",
+                    channel_id.toInt(),
+                    message
+                ).enqueue(object :Callback<SendMessageResponse>{
+                    override fun onResponse(
+                        call: Call<SendMessageResponse>,
+                        response: Response<SendMessageResponse>
+                    ) {
+                        if (response.isSuccessful){
+
+                            val _responseMessage=response.body()?.data?.message
+                            val contentMessage=_responseMessage?.content.toString()
+                            val timeMessaege=_responseMessage?.createdAt.toString()
+                            addNewMessage(contentMessage,timeMessaege)
+                            Toast.makeText(context, "${response.body()?.status}", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SendMessageResponse>, t: Throwable) {
+                        Toast.makeText(context, "onFailure: $t", Toast.LENGTH_SHORT)
+                            .show()
+                        Log.e("chat response", "onFailure : $t")
+                    }
+
+                })
+            }
+        }
         return binding.root
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun addNewMessage(content:String, time:String){
+        val message:Message=Message(content,time)
+        listMessages.add(message)
+        adapter.notifyItemInserted(listMessages.size - 1)
+
     }
 
     fun getMessage(id: Int, token: String) {

@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:fontFamily="@font/inter_bold"
             android:lineHeight="19.36px"
             android:text="Chats"
             android:textColor="@color/gold"

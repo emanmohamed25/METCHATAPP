@@ -22,7 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class Login_Screen : AppCompatActivity() {
     private lateinit var apiService: ApiService
     var admintoken: String = ""
-    //var BASE_URL = "http://172.20.10.11/chatapp/public/api/"
     var myshared: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +47,8 @@ class Login_Screen : AppCompatActivity() {
 
                 val email = user_email.text.toString()
                 val password = user_password.text.toString()
-                /*var email = "test@example.com"
-                var password = "123123"*/
+
                 apiService = retrofit.create(ApiService::class.java)
-                // var loginRequestAdmin = LoginRequestAdmin(email, password)
-
-
                 if (KindUser.equals("admin")) {
                     Toast.makeText(this@Login_Screen, KindUser.toString(), Toast.LENGTH_LONG).show()
                     val call = apiService.loginAdmin(email, password)
@@ -94,8 +89,10 @@ class Login_Screen : AppCompatActivity() {
                                 .show()
                         }
                     })
-                } else if (KindUser.equals("student")) {
-                    //  var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
+                }
+
+
+                else if (KindUser.equals("student")) {
                     var callStudent = apiService.loginstudent(LoginRequestStudent(email, password))
                     callStudent.enqueue(object : Callback<ResponseStudent> {
                         override fun onResponse(
@@ -103,7 +100,6 @@ class Login_Screen : AppCompatActivity() {
                             response: Response<ResponseStudent>,
                         ) {
                             if (response.isSuccessful) {
-
                                 var authmess:String=response.body()?.message.toString()
                                 if (authmess=="Login successfully"){
                                     Toast.makeText(this@Login_Screen,
@@ -135,30 +131,14 @@ class Login_Screen : AppCompatActivity() {
                                         "wrong id or password",
                                         Toast.LENGTH_SHORT)
                                         .show()
-
-
-
                                 }
-/*
-                                val status = response.body()?.status.toString()
-                                val messageE = response.body()?.message.toString()
-                                val username = response.body()?.data?.user?.username.toString()
-*/
-
-
-                                // Toast.makeText(this@Login_Screen,
-                                //   "status:$status\n" +
-                                //         "message:$message\n" + "username:$username\n",
-                                //Toast.LENGTH_LONG).show()
                             } else {
                                 Toast.makeText(this@Login_Screen,
                                     response.body()?.message.toString(),
                                     Toast.LENGTH_SHORT)
                                     .show()
                             }
-
                         }
-
                         override fun onFailure(call: Call<ResponseStudent>, t: Throwable) {
                             Toast.makeText(applicationContext, "Error is: $t", Toast.LENGTH_SHORT)
                                 .show()
@@ -170,80 +150,22 @@ class Login_Screen : AppCompatActivity() {
         } catch (e: Exception) {
             Log.e("e", e.toString())
         }
-
-        /* if (text.equals("admin")) {
-             val loginRequestad = LoginRequestAdmin(id, password)
-             apiService.loginAdmin(loginRequestad)
-                 .enqueue(object : Callback<LoginResponseAdmin> {
-                     override fun onResponse(
-                         call: Call<LoginResponseAdmin>,
-                         response: Response<LoginResponseAdmin>,
-                     ) {
-                         if (response.isSuccessful) {
-                             val token = response.body()?.token
-                             saveTokenToSharedPreferences(token)
-                             startHomeChatScreen()
-                             finish()
-                         } else {
-                             Toast.makeText(applicationContext,
-                                 "Login failed",
-                                 Toast.LENGTH_SHORT)
-                                 .show()
-                         }
-                     }
-
-                     override fun onFailure(call: Call<LoginResponseAdmin>, t: Throwable) {
-                         Toast.makeText(applicationContext, "Login failed", Toast.LENGTH_SHORT)
-                             .show()
-                     }
-                 })
-         } *//*else if (text.equals("student")) {
-                val loginRequestst = LoginRequestStudent(id, password)
-                apiService.loginstudent(loginRequestst).enqueue(object :
-                    Callback<LoginResponseStudent> {
-                    override fun onResponse(
-                        call: Call<LoginResponseStudent>,
-                        response: Response<LoginResponseStudent>,
-                    ) {
-                        if (response.isSuccessful) {
-                            val token = response.body()?.token
-                            saveTokenToSharedPreferences(token)
-                            startHomeChatScreen()
-                        } else {
-                            Toast.makeText(applicationContext,
-                                "Login failed",
-                                Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-
-                    override fun onFailure(
-                        call: Call<LoginResponseStudent>,
-                        t: Throwable,
-                    ) {
-                        Toast.makeText(applicationContext,
-                            "Login failed",
-                            Toast.LENGTH_SHORT).show()
-                    }
-                })
-            }*/
-
     }
 
-    override fun startActivity(intent: Intent?) {
-        super.startActivity(intent)
-    }
+//    override fun startActivity(intent: Intent?) {
+//        super.startActivity(intent)
+//    }
 
-    private fun saveTokenToSharedPreferences(token: String?) {
-        val sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-        editor.putString("token", token)
-        editor.apply()
-    }
+//    private fun saveTokenToSharedPreferences(token: String?) {
+//        val sharedPreferences = getSharedPreferences("MySharedPreferences", Context.MODE_PRIVATE)
+//        val editor = sharedPreferences.edit()
+//        editor.putString("token", token)
+//        editor.apply()
+//    }
 
-    private fun startHomeChatScreen() {
-        val intent = Intent(this, HomeChatScreen::class.java)
-        startActivity(intent)
-        finish()
-    }
+//    private fun startHomeChatScreen() {
+//        val intent = Intent(this, HomeChatScreen::class.java)
+//        startActivity(intent)
+//        finish()
+//    }
 }

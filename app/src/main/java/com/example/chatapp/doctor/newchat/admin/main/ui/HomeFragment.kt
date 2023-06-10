@@ -3,6 +3,8 @@ package com.example.chatapp.doctor.newchat.admin.main.ui
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.chatapp.HomepageActivity
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentHomeBinding
 import com.example.chatapp.doctor.newchat.admin.CreateNewChatActivity
@@ -21,7 +21,6 @@ import com.example.chatapp.doctor.newchat.admin.createnewchate.data.Chat
 import com.example.chatapp.doctor.newchat.admin.createnewchate.response.responsehomechats.ListChatsResponse
 import com.example.chatapp.doctor.newchat.admin.util.Constants
 import com.example.chatapp.doctor.newchat.network.RetrofitClientAdmin
-import com.example.chatapp.splash
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,14 +46,12 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
         //button for create new chat
         binding.btnCreateNewChat.setOnClickListener { view: View ->
 
-            startActivity(Intent(context,CreateNewChatActivity::class.java))
+            startActivity(Intent(context, CreateNewChatActivity::class.java))
         }
 
-        binding.profilephoto.setOnClickListener{
-
-        }
-        binding.tvSettings.setOnClickListener{view:View->
-            view.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSittingFragment())
+        binding.profilephoto.setOnClickListener { view: View ->
+            view.findNavController()
+                .navigate(HomeFragmentDirections.actionHomeFragmentToAdminPrifileFragment())
 
         }
 
@@ -126,4 +123,53 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
                 )
             )
     }
+
+    fun search() {
+
+
+
+      //  binding.searchvieww.clearFocus()
+
+
+//        binding.searchvieww.addTextChangedListener(object :
+//            TextWatcher {
+//
+//            override fun afterTextChanged(s: Editable) {
+//            }
+//
+//            override fun beforeTextChanged(
+//                s: CharSequence, start: Int,
+//                count: Int, after: Int
+//            ) {
+//            }
+//
+//            override fun onTextChanged(
+//                s: CharSequence, start: Int,
+//                before: Int, count: Int
+//            ) {
+//                // filter on customer list
+//                Log.d("TAG5", "My letter is ${s}")
+//                Log.d("SEARCH", "Length is ${s.length}")
+//
+//                var array = ArrayList<com.example.chatapp.Chat>()
+//                if (datalist.isNotEmpty()) {
+//                    for (a in datalist) {
+//                        if (a.last_message.user_name.lowercase().contains(s.toString().lowercase()))
+//
+//                        {
+//                            array.add(a)
+//                        }
+//                    }
+//                    myadapter.differ.submitList(array)
+//                    myadapter.notifyDataSetChanged()
+//                    if (s.isEmpty() || s.isBlank()) {
+//                        myadapter.differ.submitList(datalist)
+//                        myadapter.notifyDataSetChanged()
+//                    }
+//                }
+//
+//            }
+//        })
+    }
+
 }

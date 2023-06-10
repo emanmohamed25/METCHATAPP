@@ -62,7 +62,6 @@ class LoginScreenActivity : AppCompatActivity() {
 
                 val email = binding.edId.text.toString().trim()
                 val password = binding.edPassword.text.toString().trim()
-                //  RetrofitClientAdmin.
 
                 if (KindUser.equals("admin")) {
                     if (email.isEmpty()
@@ -81,7 +80,6 @@ class LoginScreenActivity : AppCompatActivity() {
                         ).show()
 
                         val call = apiService.loginAdmin(email, password)
-                        Log.e("e", "bbbbbbbbbbbbbbbbbbbbb")
                         call.enqueue(object : Callback<ResponseAdmin> {
                             override fun onResponse(
                                 call: Call<ResponseAdmin>,
@@ -89,12 +87,20 @@ class LoginScreenActivity : AppCompatActivity() {
                             ) {
                                 print(response.body())
                                 if (response.isSuccessful) {
-
                                     token = response.body()?.data?.access_token.toString()
                                     admintoken = response.body()?.data?.access_token.toString()
                                     myshared = getSharedPreferences(MY_SHARED, 0)
                                     var editor: SharedPreferences.Editor = myshared!!.edit()
                                     editor.putString("admintoken", admintoken)
+                                    editor.putString(
+                                        "adminName",
+                                        response.body()?.data?.user?.name.toString()
+                                    )
+                                    editor.putString(
+                                        "adminEmail",
+                                        response.body()?.data?.user?.email.toString()
+                                    )
+                                    editor.apply()
                                     editor.commit()
 
                                     Toast.makeText(
@@ -123,7 +129,11 @@ class LoginScreenActivity : AppCompatActivity() {
                             }
 
                             override fun onFailure(call: Call<ResponseAdmin>, t: Throwable) {
-                                Toast.makeText(applicationContext, "Error!!!!!!!!: $t", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Error!!!!!!!!: $t",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             }
                         })
@@ -277,7 +287,7 @@ class LoginScreenActivity : AppCompatActivity() {
 
     //    @JvmName("getToken1")
     @JvmName("getToken1")
-    public fun getToken(): String {
+    fun getToken(): String {
         return token
     }
 
