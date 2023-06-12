@@ -46,16 +46,16 @@
                 android:layout_marginBottom="6dp"
                 android:src="@drawable/userphoto1" />
 
-            <SearchView
-                android:id="@+id/search_icon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="20dp"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/searchicon"
-                android:iconifiedByDefault="false"
-                android:queryHint="Search Here ..." />
+<!--            <SearchView-->
+<!--                android:id="@+id/search_icon"-->
+<!--                android:layout_width="16dp"-->
+<!--                android:layout_height="16dp"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:background="@drawable/searchicon"-->
+<!--                android:iconifiedByDefault="false"-->
+<!--                android:queryHint="Search Here ..." />-->
 
 <!--            <TextView-->
 <!--                android:id="@+id/tvSettings"-->
